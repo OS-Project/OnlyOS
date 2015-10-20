@@ -1,0 +1,73 @@
+# Adapted by Thibault PIANA & Alan Gardin
+# First modification : 20/10/2015
+# Last modification : 20/10/2015
+
+# Copyright (C) 2010 Texas Instruments Incorporated - http://www.ti.com/ 
+
+ROOT=../../
+
+# Device definition (EVM not necessary)
+#
+DEVICE=am335x
+
+#
+# Include makefile definitions. Includes compilation, linker and archiving
+# options.
+#
+include ${ROOT}/makedefs
+
+#
+# Source files for given target
+#
+SOURCE=${DAL_SRC}/dmtimer.c	 \
+       ${DAL_SRC}/uart_irda_cir.c   \
+       ${DAL_SRC}/ecap.c	    \
+       ${DAL_SRC}/ehrpwm.c	  \
+       ${DAL_SRC}/mcspi.c	   \
+       ${DAL_SRC}/mcasp.c	   \
+       ${DAL_SRC}/mdio.c	    \
+       ${DAL_SRC}/phy.c	     \
+       ${DAL_SRC}/cpsw.c	    \
+       ${DAL_SRC}/hsi2c.c	   \
+       ${DAL_SRC}/gpio_v2.c	 \
+       ${DAL_SRC}/watchdog.c	\
+       ${DAL_SRC}/edma.c	    \
+       ${DAL_SRC}/rtc.c	     \
+       ${DAL_SRC}/raster.c	  \
+       ${DAL_SRC}/gpmc.c	    \
+       ${DAL_SRC}/elm.c	     \
+       ${DAL_SRC}/tsc_adc.c	 \
+       ${DAL_SRC}/hs_mmcsd.c	\
+       ${DAL_SRC}/mailbox.c	 \
+       ${DAL_SRC}/usb.c	     \
+       ${DAL_SRC}/cppi41dma.c       \
+       ${DAL_SRC}/dcan.c	    \
+       ${DAL_SRC}/usbphyGS70.c	
+
+# Rules for  building the source files
+#
+all: debug release
+
+debug:
+	mkdir -p Debug
+	$(CC) $(CFLAGS) -g $(SOURCE)
+	$(AR) $(ARFLAGS) Debug/libdal.a *.o*
+	@mv *.o* Debug/
+	@mkdir -p ${DAL_BIN}/Debug
+	@cp Debug/libdal.a ${DAL_BIN}/Debug/libdal.a
+
+release:
+	mkdir -p Release
+	$(CC) $(CFLAGS) -g -O2 $(SOURCE)
+	$(AR) $(ARFLAGS) Release/libdal.a *.o*
+	@mv *.o* Release/
+	@mkdir -p ${DAL_BIN}/Release
+	@cp Release/libdal.a ${DAL_BIN}/Release/libdal.a
+
+#
+# Rules for cleaning
+#
+clean:
+	@rm -rf Debug Release ${DAL_BIN}/Debug ${DAL_BIN}/Release
+
+
