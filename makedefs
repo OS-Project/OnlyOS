@@ -1,6 +1,6 @@
 # Adapted by Thibault PIANA & Alan Gardin
 # First modification : 20/10/2015
-# Last modification : 20/10/2015
+# Last modification : 22/10/2015
 
 # Copyright (C) 2010 Texas Instruments Incorporated - http://www.ti.com/ 
 #
@@ -40,8 +40,8 @@ DAL_SRC=${ROOT}/dal/src
 #
 # Include paths
 #
-IPATH=-I${ROOT}/include/hal/am335x/include \
-      -I${ROOT}/dal/am335x/include/hw \
+IPATH=-I${ROOT}/include/hal/am335x/ \
+      -I${ROOT}/include/hal/am335x/hw \
       -I"${LIB_PATH}/include"
 
 #
