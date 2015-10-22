@@ -40,7 +40,7 @@ DAL_SRC=${ROOT}/dal/src
 #
 # Include paths
 #
-IPATH=-I${ROOT}/dal/am335x/include \
+IPATH=-I${ROOT}/include/hal/am335x/include \
       -I${ROOT}/dal/am335x/include/hw \
       -I"${LIB_PATH}/include"
 

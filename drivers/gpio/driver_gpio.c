@@ -4,13 +4,11 @@
 
 #include "driver_gpio.h"
 
-/**
- * Ressources for beaglebone
- */
 #include "soc_AM335x.h"
-#include "beaglebone.h"
 #include "gpio_v2.h"
-#include "utils_errno.h"
+
+
+#include "errno.h"
 
 void GPIO_setPin(unsigned int gpio_base, unsigned int pin, unsigned int state)
 {
@@ -29,6 +27,14 @@ void GPIO_setPin(unsigned int gpio_base, unsigned int pin, unsigned int state)
     }
 }
 
+unsigned int* GPIO_getPin(unsigned int gpio_base, unsigned int pin)
+{
+    unsigned int base_adress = GPIO_getBaseAdress(gpio_base);
+    pin_mode = GPIODirModeGet(base_adress, pin);
+    pin_state = GPIOPinRead(base_adress, pin);
+
+    return {pin_mode, pin_state};
+}
 void GPIO_enable(unsigned int gpio_base)
 {
     unsigned int base_adress = GPIO_getBaseAdress(gpio_base);
@@ -54,7 +60,8 @@ unsigned int GPIO_getBaseAdress(unsigned int gpio_base)
         case 3:
             unsigned int base_adress = SOC_GPIO_3_REGS;
         default:
-            error("GPIO invalide pour la beaglebone");
+            /* Error */
+            break;
     }
     return gpio_base_adress;
 }
