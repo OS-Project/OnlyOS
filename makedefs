@@ -24,17 +24,17 @@ CYGPATH=cypath
 #
 # Target directories to be built
 #
-DAL_BLD=${ROOT}/build/${TARGET}/${COMPILER}/${DEVICE}/dal
+HAL_BLD=${ROOT}/build/${TARGET}/${COMPILER}/${DEVICE}/HAL
 
 #
 # Pre/recompiled library paths
 #
-DAL_BIN=${ROOT}/bin/${TARGET}/${COMPILER}/${DEVICE}/dal
+HAL_BIN=${ROOT}/bin/${TARGET}/${COMPILER}/${DEVICE}/HAL
 
 #
 # Source code paths
 #
-DAL_SRC=${ROOT}/dal/src
+HAL_SRC=${ROOT}/HAL/src
 
 
 #
@@ -49,7 +49,7 @@ IPATH=-I${ROOT}/include/hal/am335x/ \
 #
 LPATH=-L"${LIB_C}" \
       -L"${LIB_GCC}" \
-      -L${DAL_BIN}/${TARGET_MODE} \
+      -L${HAL_BIN}/${TARGET_MODE} \
 
 #
 # C compilation options
