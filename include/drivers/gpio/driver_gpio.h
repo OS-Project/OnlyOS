@@ -21,20 +21,21 @@ extern "C" {
 /**
  * GPIO_setPin can change state and level of a pin
  */
-void GPIO_setPin(unsigned int base_gpio, unsigned int pin, unsigned int state);
+void GPIO_setPin(unsigned int gpio_base, unsigned int gpio_pin, unsigned int state);
 
 /**
  * Return an array with actual state of pin
  * [level, state]
  */
-void GPIO_getPin(unsigned int pin);
+unsigned int GPIO_getPinState(unsigned int gpio_base, unsigned int gpio_pin);
 
 /**
  * Enable GPIO
  */
-void GPIO_enable();
-void GPIO_disable();
-void GPIO_reset();
+void GPIO_enable(unsigned int gpio_base);
+void GPIO_disable(unsigned int gpio_base);
+void GPIO_reset(unsigned int gpio_base);
+unsigned int GPIO_getBaseAdress(unsigned int gpio_base);
 
 #ifdef __cplusplus
 }

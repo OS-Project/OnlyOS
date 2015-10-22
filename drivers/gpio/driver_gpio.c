@@ -10,9 +10,9 @@
 
 #include "errno.h"
 
-void GPIO_setPin(unsigned int gpio_base, unsigned int pin, unsigned int state)
+void GPIO_setPin(unsigned int gpio_base, unsigned int gpio_pin, unsigned int state)
 {
-    unsigned int gpio_base_adress = GPIO_getBaseAdress(base_gpio);
+    unsigned int gpio_base_adress = GPIO_getBaseAdress(gpio_base);
 
     switch(state)
     {
@@ -27,13 +27,12 @@ void GPIO_setPin(unsigned int gpio_base, unsigned int pin, unsigned int state)
     }
 }
 
-unsigned int* GPIO_getPin(unsigned int gpio_base, unsigned int pin)
+unsigned int GPIO_getPinState(unsigned int gpio_base, unsigned int gpio_pin)
 {
     unsigned int base_adress = GPIO_getBaseAdress(gpio_base);
-    pin_mode = GPIODirModeGet(base_adress, pin);
-    pin_state = GPIOPinRead(base_adress, pin);
+    unsigned int pin_state = GPIOPinRead(base_adress, gpio_pin);
 
-    return {pin_mode, pin_state};
+    return pin_state;
 }
 void GPIO_enable(unsigned int gpio_base)
 {
@@ -49,16 +48,17 @@ void GPIO_reset(unsigned int gpio_base)
 
 unsigned int GPIO_getBaseAdress(unsigned int gpio_base)
 {
+    unsigned int gpio_base_adress;
     switch(gpio_base)
     {
         case 0:
-            unsigned int base_adress = SOC_GPIO_0_REGS;
+            gpio_base_adress = SOC_GPIO_0_REGS;
         case 1:
-            unsigned int base_adress = SOC_GPIO_1_REGS;
+            gpio_base_adress = SOC_GPIO_1_REGS;
         case 2:
-            unsigned int base_adress = SOC_GPIO_2_REGS;
+            gpio_base_adress = SOC_GPIO_2_REGS;
         case 3:
-            unsigned int base_adress = SOC_GPIO_3_REGS;
+            gpio_base_adress = SOC_GPIO_3_REGS;
         default:
             /* Error */
             break;

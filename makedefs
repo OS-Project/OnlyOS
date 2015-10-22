@@ -34,14 +34,15 @@ HAL_BIN=${ROOT}/bin/${TARGET}/${COMPILER}/${DEVICE}/HAL
 #
 # Source code paths
 #
-HAL_SRC=${ROOT}/HAL/src
-
+HAL_SRC=${ROOT}/hal/am335x/
+DRIVER_SRC=${ROOT}/drivers/
 
 #
 # Include paths
 #
 IPATH=-I${ROOT}/include/hal/am335x/ \
       -I${ROOT}/include/hal/am335x/hw \
+      -I${ROOT}/include/drivers/gpio/ \
       -I"${LIB_PATH}/include"
 
 #

@@ -1,24 +1,13 @@
 # Adapted by Thibault PIANA & Alan Gardin
 # First modification : 20/10/2015
-# Last modification : 20/10/2015
-
-# Copyright (C) 2010 Texas Instruments Incorporated - http://www.ti.com/ 
+# Last modification : 22/10/2015
 
 ROOT=../
+FILE_NAME = lib_hal.a
 
-# Device definition (EVM not necessary)
-#
 DEVICE=am335x
-
-#
-# Include makefile definitions. Includes compilation, linker and archiving
-# options.
-#
 include ${ROOT}/makedefs
 
-#
-# Source files for given target
-#
 SOURCE=${HAL_SRC}/dmtimer.c	 \
        ${HAL_SRC}/uart_irda_cir.c   \
        ${HAL_SRC}/ecap.c	    \
@@ -39,34 +28,29 @@ SOURCE=${HAL_SRC}/dmtimer.c	 \
        ${HAL_SRC}/tsc_adc.c	 \
        ${HAL_SRC}/hs_mmcsd.c	\
        ${HAL_SRC}/mailbox.c	 \
-       ${HAL_SRC}/usb.c	     \
-       ${HAL_SRC}/cppi41dma.c       \
-       ${HAL_SRC}/dcan.c	    \
-       ${HAL_SRC}/usbphyGS70.c	
+#       ${HAL_SRC}/usb.c	     \
+#       ${HAL_SRC}/cppi41dma.c       \
+       ${HAL_SRC}/dcan.c
+#       ${HAL_SRC}/usbphyGS70.c
 
-# Rules for  building the source files
-#
 all: debug release
 
 debug:
 	mkdir -p Debug
 	$(CC) $(CFLAGS) -g $(SOURCE)
-	$(AR) $(ARFLAGS) Debug/libHAL.a *.o*
+	$(AR) $(ARFLAGS) Debug/${FILE_NAME} *.o*
 	@mv *.o* Debug/
 	@mkdir -p ${HAL_BIN}/Debug
-	@cp Debug/libHAL.a ${HAL_BIN}/Debug/libhal.a
+	@cp Debug/${FILE_NAME} ${HAL_BIN}/Debug/${FILE_NAME}
 
 release:
 	mkdir -p Release
 	$(CC) $(CFLAGS) -g -O2 $(SOURCE)
-	$(AR) $(ARFLAGS) Release/libhal.a *.o*
+	$(AR) $(ARFLAGS) Release/${FILE_NAME} *.o*
 	@mv *.o* Release/
 	@mkdir -p ${HAL_BIN}/Release
-	@cp Release/libhal.a ${HAL_BIN}/Release/libhal.a
+	@cp Release/${FILE_NAME} ${HAL_BIN}/Release/${FILE_NAME}
 
-#
-# Rules for cleaning
-#
 clean:
 	@rm -rf Debug Release ${HAL_BIN}/Debug ${HAL_BIN}/Release
 
