@@ -18,16 +18,16 @@ debug:
 	$(CC) $(CFLAGS) -g $(SOURCE)
 	$(AR) $(ARFLAGS) Debug/${FILE_NAME} *.o*
 	@mv *.o* Debug/
-	@mkdir -p ${DRIVER_BIN}/Debug
-	@cp Debug/${FILE_NAME} ${DRIVER_BIN}/Debug/${FILE_NAME}
+	@mkdir -p ${ROOT}/bin/Debug/drivers
+	@cp Debug/${FILE_NAME} ${DRIVER_DEBUG_BIN}/${FILE_NAME}
 
 release:
 	mkdir -p Release
 	$(CC) $(CFLAGS) -g -O2 $(SOURCE)
 	$(AR) $(ARFLAGS) Release/${FILE_NAME} *.o*
 	@mv *.o* Release/
-	@mkdir -p ${DRIVER_BIN}/Release
-	@cp Release/${FILE_NAME} ${DRIVER_BIN}/Release/${FILE_NAME}
+	@mkdir -p ${ROOT}/bin/Release/drivers
+	@cp Release/${FILE_NAME} ${DRIVER_RELEASE_BIN}/${FILE_NAME}
 
 clean:
 	@rm -rf Debug Release ${DRIVER_BIN}/Debug ${DRIVER_BIN}/Release

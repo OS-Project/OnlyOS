@@ -52,10 +52,8 @@ ifdef EVM
     EVM_D=-D${EVM}
 endif
 
-#CFLAGS=-mcpu=cortex-a8
-#CFLAGS+=-c ${${TARGET_MODE}_FLAG} -mlong-calls -fdata-sections -funsigned-char -ffunction-sections -Wall ${IPATH} -Dgcc ${DEVICE_D} ${EVM_D} -D SUPPORT_UNALIGNED -D ${BOOT}
-
-CFLAGS = -c -mlong-calls -fdata-sections -funsigned-char -ffunction-sections -Wall ${IPATH} -Dgcc ${DEVICE_D} ${EVM_D} -D SUPPORT_UNALIGNED -D ${BOOT}
+CFLAGS=-mcpu=cortex-a8
+CFLAGS+=-c ${${TARGET_MODE}_FLAG} -mlong-calls -fdata-sections -funsigned-char -ffunction-sections -Wall ${IPATH} -Dgcc ${DEVICE_D} ${EVM_D} -D SUPPORT_UNALIGNED -D ${BOOT}
 
 # Defining the cross compiler tool prefix
 ifndef PREFIX
@@ -76,7 +74,5 @@ LDFLAGS=-e Entry -u Entry -u __aeabi_uidiv -u __aeabi_idiv --gc-sections
 
 # Binary options
 BINFLAGS=-O binary
-
-# arm-none-eabi-gcc -c -g -mcpu=cortex-a8 -mlong-calls -fdata-sections -funsigned-char -ffunction-sections -Wall -Dgcc -Dam335x -D SUPPORT_UNALIGNED -D MMCSD -g main.c
                           
 

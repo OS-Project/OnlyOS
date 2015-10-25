@@ -6,6 +6,8 @@ ROOT=../
 FILE_NAME = lib_hal.a
 
 DEVICE=am335x
+EVM=beaglebone
+
 include ${ROOT}/makedefs
 
 SOURCE=${HAL_SRC}/dmtimer.c	 \

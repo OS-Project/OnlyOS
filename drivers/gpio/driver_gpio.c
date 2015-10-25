@@ -40,6 +40,12 @@ void GPIO_enable(unsigned int gpio_base)
     GPIOModuleEnable(base_adress);
 }
 
+void GPIO_disable(unsigned int gpio_base)
+{
+    unsigned int base_adress = GPIO_getBaseAdress(gpio_base);
+    GPIOModuleDisable(base_adress);
+}
+
 void GPIO_reset(unsigned int gpio_base)
 {
     unsigned int base_adress = GPIO_getBaseAdress(gpio_base);
