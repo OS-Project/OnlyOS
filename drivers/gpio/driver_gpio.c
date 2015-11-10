@@ -1,14 +1,11 @@
 //
-// Created by thibault on 20/10/15.
+// Created by Thibault PIANA on 20/10/15.
 //
 
-#include "driver_gpio.h"
+#include "drivers/driver_gpio.h"
 
 #include "soc_AM335x.h"
-#include "gpio_v2.h"
-
-
-#include "errno.h"
+#include "arch/hal/gpio/gpio_v2.h"
 
 void GPIO_setPin(unsigned int gpio_base, unsigned int gpio_pin, unsigned int state)
 {
