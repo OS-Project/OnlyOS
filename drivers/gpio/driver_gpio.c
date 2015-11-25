@@ -3,9 +3,9 @@
 //
 
 #include "drivers/driver_gpio.h"
-
-#include "soc_AM335x.h"
 #include "arch/hal/gpio/gpio_v2.h"
+#include "soc_AM335x.h"
+
 
 void GPIO_setPin(unsigned int gpio_base, unsigned int gpio_pin, unsigned int state)
 {
@@ -22,6 +22,17 @@ void GPIO_setPin(unsigned int gpio_base, unsigned int gpio_pin, unsigned int sta
         case GPIO_PIN_STATE_LOW:
             GPIOPinWrite(gpio_base_adress, gpio_pin, GPIO_PIN_HIGH);
     }
+}
+
+
+void GPIO_setPinMode(unsigned int state)
+{
+
+}
+
+void GPIO_setPinLevel()
+{
+
 }
 
 unsigned int GPIO_getPinState(unsigned int gpio_base, unsigned int gpio_pin)

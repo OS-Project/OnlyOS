@@ -7,6 +7,7 @@
 
 #include "kernel.h"
 #include "files_references.h"
+
 // Drivers inclusion
 #include DRIVER_TIMER_PATH
 #include DRIVER_RTC_PATH
