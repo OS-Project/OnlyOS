@@ -12,15 +12,14 @@
 #include DRIVER_TIMER_PATH
 #include DRIVER_RTC_PATH
 
-
-int kMain()
+int kmain()
 {
     init_kernel();
     kprintf("Kernel initialisation done\n");
     return 0;
 }
 
-void kInit()
+void kinit()
 {
     init_driver();
     kprintf("Driver initialisation done\n");
@@ -35,25 +34,30 @@ void kInit()
  *
  * Initialise drivers
  */
-void kInit_driver()
+void kinit_driver()
 {
-    dInit_timer();
-    dInit_rtc(_COMPILATION_TIME, _COMPILATION_DATE);
-    dInit_uart();
+    dmain();
+    // Initialise the timer
+    dinit_timer();
+
+    dinit_filesystem();
+    dinit_rtc(_COMPILATION_TIME, _COMPILATION_DATE);
+    dinit_uart();
+    dinit_gpio();
+    dinit_spi();
 }
 
 /**
  * Initialise devices list
  * Initialise devices
  */
-void kInit_devices()
+void kinit_devices()
 {
 
 }
 
 void kprintf(char* message)
 {
-    // Print on UART
     CONSOLE_WRITE(message);
 }
 
