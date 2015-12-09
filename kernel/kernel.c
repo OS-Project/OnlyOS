@@ -13,14 +13,14 @@
 #include DRIVER_RTC_PATH
 
 
-int kmain()
+int kMain()
 {
     init_kernel();
     kprintf("Kernel initialisation done\n");
     return 0;
 }
 
-void init_kernel()
+void kInit()
 {
     init_driver();
     kprintf("Driver initialisation done\n");
@@ -35,23 +35,25 @@ void init_kernel()
  *
  * Initialise drivers
  */
-void init_driver()
+void kInit_driver()
 {
-    init_timer();
-    init_rtc(_COMPILATION_TIME, _COMPILATION_DATE);
+    dInit_timer();
+    dInit_rtc(_COMPILATION_TIME, _COMPILATION_DATE);
+    dInit_uart();
 }
 
 /**
  * Initialise devices list
  * Initialise devices
  */
-void init_devices()
+void kInit_devices()
 {
 
 }
 
 void kprintf(char* message)
 {
-
+    // Print on UART
+    CONSOLE_WRITE(message);
 }
 
