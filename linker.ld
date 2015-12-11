@@ -3,12 +3,15 @@ ENTRY(_start)	/* Entry point of the program */
 
 MEMORY
 {
-    ROM : ORIGIN = 0x80000000, LENGTH = 0x10000
+    ROM : ORIGIN = 0x80000000, LENGTH = 50M
+    RAM : ORIGIN = ORIGIN(ROM) + LENGTH(ROM), LENGTH = 112M
+    HEAP : ORIGIN = ORIGIN(RAM) + LENGTH(RAM), LENGTH = 250M
+    STACK : ORIGIN = , LENGTH = 100M
 }
 
 SECTIONS
 {
-	/* Start address depends on u-boot */
+	/* Star from the begining of the RAM */
 	. = 0x80000000;
 	.text :
 	{
@@ -18,31 +21,28 @@ SECTIONS
 		__text_end = .;
 	} > ROM
 
-
-	/*
-	__rodata_start = .;
 	.rodata :
 	{
-        	*(.rodata)
-	}
-	__rodata_end = .;
+	    __rodata_start = .;
+        *(.rodata)
+        __rodata_end = .;
+	} > ROM
 
-
-	__data_start = .;
 	.data :
 	{
+	    __data_start = .;
 		*(.data)
-	}
+        __data_end = .;
+	} > RAM
 
-	__data_end = .;
-
-
-	__bss_start = .;
 	.bss :
 	{
+	    __bss_start = .;
 		bss = .;
 		*(.bss)
-	}
-	__bss_end = .;
-    */
+		__bss_end = .;
+	} > RAM
+
+	__heap_start = ORIGIN(HEAP);
+	__heap_end = ORIGIN(HEAP) + LENGTH(HEAP) - 1;
 }

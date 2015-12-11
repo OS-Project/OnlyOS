@@ -1,6 +1,7 @@
 CC=arm-linux-gnueabihf
 
 all:
+    mkdir bin
 	$(CC)-gcc -Wall -c -mcpu=cortex-a8 -nostdlib -nostartfiles -ffreestanding  src/main.c
 	$(CC)-gcc -Wall -c -mcpu=cortex-a8 -nostdlib -nostartfiles -ffreestanding  src/uart.c
 	mv *.o obj/
