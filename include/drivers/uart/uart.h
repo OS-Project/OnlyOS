@@ -9,9 +9,18 @@
 
     #include "hw_uart.h"
 
-    #define UART0_BASE  0x44E09000
+    #define UART0_BASE          (0x44E09000)
+    #define CONF_UART0_RXD      (0x44E10970)
+    #define CONF_UART0_TXD      (0x44E10974)
 
-    void uart_init();
+    #define CM_WKUP_CLKSTCTRL       (0x44E00400)
+    #define CM_WKUP_UART0_CLKCTRL   (0x44E004B4)
+    #define CM_PER_L4HS_CLKSTCTRL   (0x44E0011C)
+
+    #define GPIO1_SETDATAOUT        (0x4804C194)
+    #define GPIO1_CLEARDATAOUT      (0x4804C190)
+
+    void uart_init(unsigned int baseAdd);
     void uart_write_byte(char c);
     char uart_read_byte();
 
