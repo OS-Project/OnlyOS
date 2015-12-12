@@ -14,17 +14,20 @@
 
 int kmain()
 {
-    init_kernel();
+    kinit();
     kprintf("Kernel initialisation done\n");
     return 0;
 }
 
 void kinit()
 {
-    init_driver();
+    kinit_driver();
     kprintf("Driver initialisation done\n");
-    init_devices();
+    kinit_devices();
     kprintf("Devices initialisation done\n");
+
+
+    kinit_screen();
 }
 
 /**
@@ -61,3 +64,14 @@ void kprintf(char* message)
     CONSOLE_WRITE(message);
 }
 
+void kinit_screen()
+{
+    kprintf("_______ __    _ ___    __   __ _______ _______");
+    kprintf("|       |  |  | |   |  |  | |  |       |       |");
+    kprintf("|   _   |   |_| |   |  |  |_|  |   _   |  _____|");
+    kprintf("|  | |  |       |   |  |       |  | |  | |_____");
+    kprintf("|  |_|  |  _    |   |__|_     _|  |_|  |_____  |");
+    kprintf("|       | | |   |       ||   | |       |_____| |");
+    kprintf("|_______|_|  |__|_______||___| |_______|_______|");
+
+}
