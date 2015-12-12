@@ -25,7 +25,7 @@ LPATH=-L"${LIB_C}" \
 
 ### Flags
 CCLAGS = -Wall ${IPATH} -nostdlib -nostartfiles -ffreestanding -Dam335x -march=armv7-a -mtune=cortex-a8 -mcpu=cortex-a8
-LDFLAGS = -nostdlib -nostartfiles -e Entry -u Entry -u __aeabi_uidiv -u __aeabi_idiv --gc-sections
+LDFLAGS = -e Entry -u Entry -u __aeabi_uidiv -u __aeabi_idiv --gc-sections
 
 # Defining the cross compiler tool prefix
 ifndef PREFIX

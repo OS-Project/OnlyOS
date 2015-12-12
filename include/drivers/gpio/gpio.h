@@ -21,6 +21,8 @@ extern "C" {
      * GPIO_setPin can change state and level of a pin
      */
     void GPIO_setPin(unsigned int gpio_base, unsigned int gpio_pin, unsigned int state);
+    void GPIO_setPinMode(unsigned int state);
+    void GPIO_setPinLevel();
 
     /**
      * Return an array with actual state of pin

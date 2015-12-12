@@ -16,7 +16,7 @@ all: ${OBJ}
 	make clean
 
 %.o: %.c
-	$(CC) -o $@ -c $< $(CCLAGS)
+	@$(CC) -o $@ -c $< $(CCLAGS)
 
 
 clean:
