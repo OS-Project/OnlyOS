@@ -2,7 +2,7 @@
 # Creation : 12/12/2015
 
 ROOT=../..
-FILE_NAME = lib.a
+FILE_NAME = libdGPIO.a
 
 include ${ROOT}/makedefs
 
@@ -13,11 +13,11 @@ OBJ= $(SRC:.c=.o)
 
 all: ${OBJ}
 	$(LD) -T ${ROOT}/linker.ld ${OBJ} -o ${FILE_NAME} ${LDFLAGS}
-	make clean
+	@make clean
 
 %.o: %.c
 	@$(CC) -o $@ -c $< $(CCLAGS)
 
 
 clean:
-	rm -rf ${OBJ}
+	@rm -rf ${OBJ}

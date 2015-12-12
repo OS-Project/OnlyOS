@@ -1,13 +1,10 @@
 //
-// Created by thibault on 12/12/15.
+// Created by Thibault PIANA on 12/12/15.
 //
 
 #include "drivers/gpio/gpio.h"
+
 void delay(int d);
-void delay(int d)
-{
-    while(d) {}
-}
 
 int main()
 {
@@ -22,4 +19,9 @@ int main()
     }
     while(1) {}
     return 0;
+}
+
+void delay(int d)
+{
+    while(d) {}
 }

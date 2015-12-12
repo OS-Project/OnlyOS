@@ -4,9 +4,9 @@ ENTRY(_start)	/* Entry point of the program */
 MEMORY
 {
     ROM : ORIGIN = 0x80000000, LENGTH = 50M
-    RAM : ORIGIN = (0x80000000 + 50M), LENGTH = 112M
+    /*RAM : ORIGIN = (0x80000000 + 50M), LENGTH = 112M
     HEAP : ORIGIN = 0x80000000 + 50M + 112M, LENGTH = 250M
-    STACK : ORIGIN = 0x9FFFFFFF, LENGTH = 100M /* End of RAM is 0xBFFF_FFFF - 512M */
+    STACK : ORIGIN = 0x9FFFFFFF, LENGTH = 100M*/ /* End of RAM is 0xBFFF_FFFF - 512M */
 }
 
 SECTIONS
@@ -20,7 +20,7 @@ SECTIONS
 		*(.text.boot)
 		__text_end = .;
 	} > ROM
-
+/*
 	.rodata :
 	{
 	    __rodata_start = .;
@@ -44,5 +44,5 @@ SECTIONS
 	} > RAM
 
 	__heap_start = ORIGIN(HEAP);
-	__heap_end = ORIGIN(HEAP) + LENGTH(HEAP) - 1;
+	__heap_end = ORIGIN(HEAP) + LENGTH(HEAP) - 1;*/
 }
