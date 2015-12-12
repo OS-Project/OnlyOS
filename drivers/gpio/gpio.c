@@ -3,7 +3,7 @@
 //
 
 #include "drivers/gpio/gpio.h"
-#include "arch/hal/gpio/gpio_v2.h"
+#include "hal/gpio/gpio_v2.h"
 #include "soc_AM335x.h"
 
 void GPIO_setPin(unsigned int gpio_base, unsigned int gpio_pin, unsigned int state)

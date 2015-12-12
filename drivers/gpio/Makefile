@@ -1,23 +1,23 @@
 # Created by Thibault PIANA
-# Creation : 22/10/2015
+# Creation : 12/12/2015
+
+ROOT=../..
+FILE_NAME = lib.a
 
 include ${ROOT}/makedefs
 
-ROOT=../../
-FILE_NAME = lib.a
-
-
-SOURCE=${DRIVER_SRC}/gpio/gpio.c	 \
-    ${ARCH_SRC}/hal/gpio/gpio_v2.c
+SRC=${DRIVER_SRC}/gpio/gpio.c	 \
+     ${HAL_SRC}/gpio/gpio_v2.c
 
 OBJ= $(SRC:.c=.o)
 
 all: ${OBJ}
-	mv *.o obj/
-	$(CC)-ld -T ${ROOT}/linker.ld $^ -o lib.a
+	$(LD) -T ${ROOT}/linker.ld ${OBJ} -o ${FILE_NAME} -nostdlib -nostartfiles
+	make clean
 
 %.o: %.c
 	$(CC) -o $@ -c $< $(CFLAGS)
+
 
 clean:
 	rm -rf ${OBJ}

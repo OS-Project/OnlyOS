@@ -7,16 +7,17 @@ LIB_GCC=${LIB_PATH}/lib/gcc/arm-none-eabi/4.3.3/
 LIB_C=${LIB_PATH}/arm-none-eabi/lib/
 
 # Source code paths
-BOOT_SRC=${ROOT}/boot/
-ARCH_SRC=${ROOT}/arch/
-DRIVER_SRC=${ROOT}/drivers/
-KERNEL_SRC=${ROOT}/kernel/
+BOOT_SRC=${ROOT}/boot
+ARCH_SRC=${ROOT}/arch
+DRIVER_SRC=${ROOT}/drivers
+KERNEL_SRC=${ROOT}/kernel
+HAL_SRC=${ARCH_SRC}/arm/hal
 
 # Include paths
-IPATH=-I${ROOT}/include/arch/arm/ \
-      -I${ROOT}/include/arch/arm/hal \
-      -I${ROOT}/include/arch/arm/hal/hw \
-      -I"${LIB_PATH}/include"
+IPATH=-I ${ROOT}/include/arch/arm \
+      -I ${ROOT}/include/arch/arm/hal \
+      -I ${ROOT}/include/arch/arm/hal/hw \
+      -I ${ROOT}/include
 
 # Library paths
 LPATH=-L"${LIB_C}" \
@@ -45,8 +46,8 @@ CFLAGS = -Wall ${IPATH} -nostdlib -nostartfiles -ffreestanding -Dam335x -march=a
 
 # Defining the cross compiler tool prefix
 ifndef PREFIX
-#    PREFIX=arm-none-eabi
-    PREFIX=arm-linux-gnueabihf
+    PREFIX=arm-none-eabi
+#    PREFIX=arm-linux-gnueabihf
 endif
 
 # Compiler, Linker and Archiver with respect to the toolchain
