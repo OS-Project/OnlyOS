@@ -2,7 +2,6 @@
 # Creation : 20/10/2015
 
 # Makefiles Definitions
-
 LIB_GCC=${LIB_PATH}/lib/gcc/arm-none-eabi/4.3.3/
 LIB_C=${LIB_PATH}/arm-none-eabi/lib/
 
@@ -24,25 +23,9 @@ LPATH=-L"${LIB_C}" \
       -L"${LIB_GCC}" \
       -L${HAL_BIN}/${TARGET_MODE} \
 
-
-# C compilation options
-Debug_FLAG=-g
-Release_FLAG=-g -O2
-
-ifdef DEVICE
-    DEVICE_D=-D${DEVICE}
-endif
-
-ifdef EVM
-    EVM_D=-D${EVM}
-endif
-
-#CFLAGS=-mcpu=cortex-a8
-#CFLAGS+=-c ${${TARGET_MODE}_FLAG} -mlong-calls -fdata-sections -funsigned-char -ffunction-sections -Wall ${IPATH} -Dgcc ${DEVICE_D} ${EVM_D} -D SUPPORT_UNALIGNED -D ${BOOT}
-#CFLAGS = -c -mlong-calls -fdata-sections -funsigned-char -ffunction-sections -Wall ${IPATH} -Dgcc ${DEVICE_D} ${EVM_D} -D SUPPORT_UNALIGNED -D ${BOOT}
-
-# Flags pour la compilation des .c en .o
-CFLAGS = -Wall ${IPATH} -nostdlib -nostartfiles -ffreestanding -Dam335x -march=armv7-a -mtune=cortex-a8 -mcpu=cortex-a8
+### Flags
+CCLAGS = -Wall ${IPATH} -nostdlib -nostartfiles -ffreestanding -Dam335x -march=armv7-a -mtune=cortex-a8 -mcpu=cortex-a8
+LDFLAGS = -nostdlib -nostartfiles -e Entry -u Entry -u __aeabi_uidiv -u __aeabi_idiv --gc-sections
 
 # Defining the cross compiler tool prefix
 ifndef PREFIX
@@ -56,11 +39,5 @@ LD=${PREFIX}-ld
 AR=${PREFIX}-ar
 BIN=$(PREFIX)-objcopy
 AS=${PREFIX}-as
-
-# Archiver options
-ARFLAGS=-c -r
-
-# Linker options
-LDFLAGS=-e Entry -u Entry -u __aeabi_uidiv -u __aeabi_idiv --gc-sections
 
 # arm-none-eabi-gcc -c -g -mcpu=cortex-a8 -mlong-calls -fdata-sections -funsigned-char -ffunction-sections -Wall -Dgcc -Dam335x -D SUPPORT_UNALIGNED -D MMCSD -g main.c

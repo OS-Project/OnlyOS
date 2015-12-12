@@ -12,11 +12,11 @@ SRC=${DRIVER_SRC}/gpio/gpio.c	 \
 OBJ= $(SRC:.c=.o)
 
 all: ${OBJ}
-	$(LD) -T ${ROOT}/linker.ld ${OBJ} -o ${FILE_NAME} -nostdlib -nostartfiles
+	$(LD) -T ${ROOT}/linker.ld ${OBJ} -o ${FILE_NAME} ${LDFLAGS}
 	make clean
 
 %.o: %.c
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) -o $@ -c $< $(CCLAGS)
 
 
 clean:
