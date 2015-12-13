@@ -1,5 +1,9 @@
-#ifndef UART_H
-#define UART_H
+#ifdef __cplusplus
+    extern "C" {
+#endif
+
+#ifndef DRIVER_UART_H
+#define DRIVER_UART_H
     #define HW_GET_REG_WORD(addr) (*(volatile unsigned int *) (addr))
     #define HW_GET_REG_BYTE(addr) (*(volatile unsigned char *) (addr))
     #define HW_SET_REG_WORD(addr, val) (*(volatile unsigned int *) (addr) = (unsigned int) (val))
@@ -20,10 +24,13 @@
     #define GPIO1_SETDATAOUT        (0x4804C194)
     #define GPIO1_CLEARDATAOUT      (0x4804C190)
 
-    void uart_init();
-    void uart_write_byte(char c);
-    void uart_write_str(char* str, int length);
-    void uart_newline();
-    char uart_read_byte();
+    void UART_init();
+    void UART_writeByte(char c);
+    void UART_writeStr(char* str, int length);
+    void UART_newline();
+    char UART_readByte();
 
+ #ifdef __cplusplus
+ }
+ #endif
 #endif
