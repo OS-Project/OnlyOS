@@ -1,5 +1,5 @@
-.section ".text.idt"
-idt:
+.section ".text.exception_vectors"
+exception_vectors:
 	b _start // Reset Handler
 	b . // Undefined instruction
 	b . // SWI Handler (Software interrupt)
@@ -9,8 +9,8 @@ idt:
 	b . // IRQ
 	b . // FIQ
 
-.section ".text.boot"
 
+.section ".text.boot"
 .global _start
 .arm	// Arm mode
 
