@@ -1,6 +1,6 @@
 #include "uart.h"
 
-void UART_init(unsigned int baseAdd)
+void uart_init()
 {
     // UART mux config
     HW_SET_REG_WORD(CONF_UART0_RXD, (0x1<<4)|(0x1<<5));
@@ -40,7 +40,7 @@ void UART_init(unsigned int baseAdd)
 }
 
 
-void UART_writeByte(char c)
+void uart_write_byte(char c)
 {
     // Switch to access mode using LCR
 
@@ -54,8 +54,23 @@ void UART_writeByte(char c)
     // Restore LCR
 }
 
+ void uart_write_str(char* str, int length)
+ {
+    int i = 0;
+    while (i<length)
+    {
+        uart_write_byte(str[i]);
+        i++;
+    }
+ }
 
-char UART_readByte()
+ void uart_newline()
+ {
+    uart_write_byte('\r');
+    uart_write_byte('\n');
+ }
+
+char uart_read_byte()
 {
     // Switch to access mode using LCR
 
