@@ -1,9 +1,17 @@
 # Adapted by Thibault PIANA & Alan Gardin
 # Creation : 20/10/2015
+# Defining the cross compiler tool prefix
+ifndef PREFIX
+    PREFIX=arm-none-eabi
+#    PREFIX=arm-linux-gnueabihf
+endif
 
-# Makefiles Definitions
-LIB_GCC=${LIB_PATH}/lib/gcc/arm-none-eabi/4.3.3/
-LIB_C=${LIB_PATH}/arm-none-eabi/lib/
+# Compiler, Linker and Archiver with respect to the toolchain
+CC=${PREFIX}-gcc
+LD=${PREFIX}-ld
+AR=${PREFIX}-ar
+AS=${PREFIX}-as
+BIN=$(PREFIX)-objcopy
 
 # Source code paths
 BOOT_SRC=${ROOT}/boot
@@ -24,20 +32,13 @@ LPATH=-L"${LIB_C}" \
       -L${HAL_BIN}/${TARGET_MODE} \
 
 ### Flags
-CCLAGS = -Wall ${IPATH} -nostdlib -nostartfiles -ffreestanding -Dam335x -march=armv7-a -mtune=cortex-a8 -mcpu=cortex-a8 -g
-#LDFLAGS = -e Entry -u Entry -u __aeabi_uidiv -u __aeabi_idiv --gc-sections
+CCFLAGS = -Wall ${IPATH} -nostdlib -nostartfiles -ffreestanding -Dam335x -mcpu=cortex-a8 -g #-march=armv7-a -mtune=cortex-a8
+ASFLAGS = --warn -mcpu=cortex-a8
+LDFLAGS =
 
-# Defining the cross compiler tool prefix
-ifndef PREFIX
-    PREFIX=arm-none-eabi
-#    PREFIX=arm-linux-gnueabihf
-endif
+# Unified commands
+%.o: %.c
+	@$(CC) $(CCFLAGS) -c $< -o $@
 
-# Compiler, Linker and Archiver with respect to the toolchain
-CC=${PREFIX}-gcc
-LD=${PREFIX}-ld
-AR=${PREFIX}-ar
-BIN=$(PREFIX)-objcopy
-AS=${PREFIX}-as
-
-# arm-none-eabi-gcc -c -g -mcpu=cortex-a8 -mlong-calls -fdata-sections -funsigned-char -ffunction-sections -Wall -Dgcc -Dam335x -D SUPPORT_UNALIGNED -D MMCSD -g main.c
+%.o: %.s
+	@$(CC) $(ASFLAGS) $< -o $@
