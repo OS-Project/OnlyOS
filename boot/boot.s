@@ -13,24 +13,30 @@ idt:
 
 .global _start
 .arm	// Arm mode
+
+
 _start:
 
-	// Set up the stack: last available ram address (grows downward): 0xBFFF_FFFF (datasheet p179) so 0xC000_0000 (first push is downward)
-	mov	sp, #0xA0000000
-	/*
-	// Clear .bss
-        ldr	r0, =__bss_start
-        ldr	r1, =__bss_end
+    // Set up the stack: last available ram address: 0xBFFF_FFFF (datasheet p179), minus 512MB.
+    stack_init:
+        mov	sp, #0xA0000000
+
+	bss_init:
+        ldr	r0, =_sbss
+        ldr	r1, =_ebss
+        cmp r0,r1
+
+        beq call_main
         mov	r4, #0
 
-	zero:
-        	strb	r4, [r0], #1 // Write zero and increment _bss_start address
-        	cmp	r0, r1
-        	bne	zero
-	*/
+        write_zero:
+                strb r4, [r0]
+                add r0,r0,#1
+                cmp	r0, r1
+                bne	write_zero
 
-	b	main
+    call_main:
+        b	main
 
-	// If returns from C, loop here forever
 halt:
 	b	halt
