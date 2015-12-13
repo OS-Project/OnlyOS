@@ -1,17 +1,18 @@
 # OnlyOS
 The operating system
 
-# UART driver
-Uart driver for the BeagleBone Black
-
+# Filesystem driver
 Todo
 -----
-- [ ] uart_init()
+- [ ] File system (must code diskio.c)
+
+# UART driver
+Todo
+-----
+- [ ] uart_init(): causes crashes
 - [x] uart_write_byte()
 - [x] uart_read_byte()
-- [ ] Makefile.
 - [ ] C++ support.
-- [ ] File system (must code diskio.c)
 
 Questions
 ---------
@@ -21,5 +22,8 @@ Questions
 - uart_read_byte(): alternate version for signed values?
 
 
-
-fichier tempo en C
+# Others
+Questions
+---------
+- fichier tempo en C
+- C init
