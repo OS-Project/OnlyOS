@@ -1,10 +1,9 @@
 # Adapted by Thibault PIANA & Alan Gardin
 # Creation : 20/10/2015
 # Defining the cross compiler tool prefix
-ifndef PREFIX
-    PREFIX=arm-none-eabi
-#    PREFIX=arm-linux-gnueabihf
-endif
+
+PREFIX=arm-none-eabi
+#PREFIX=arm-linux-gnueabihf
 
 # Compiler, Linker and Archiver with respect to the toolchain
 CC=${PREFIX}-gcc
@@ -38,7 +37,9 @@ LDFLAGS =
 
 # Unified commands
 %.o: %.c
+	@echo "Compilation de $<"
 	@$(CC) $(CCFLAGS) -c $< -o $@
 
 %.o: %.s
-	@$(CC) $(ASFLAGS) $< -o $@
+	@echo "Assemblage de $<"
+	@$(AS) $(ASFLAGS) $< -o $@

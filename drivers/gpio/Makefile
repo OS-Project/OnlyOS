@@ -12,11 +12,9 @@ SRC=${DRIVER_SRC}/gpio/gpio.c	 \
 OBJ= $(SRC:.c=.o)
 
 all: ${OBJ}
-	$(LD) -T ${ROOT}/drivers/linker.ld ${OBJ} -o ${FILE_NAME} ${LDFLAGS}
-	@make clean
-
-%.o: %.c
-	@$(CC) -o $@ -c $< $(CCLAGS)
+	@echo "Creation de la librairie ${FILE_NAME}"
+	@$(LD) ${OBJ} -o ${FILE_NAME} ${LDFLAGS}
 
 clean:
 	@rm -rf ${OBJ}
+	@rm -rf ${FILE_NAME}
