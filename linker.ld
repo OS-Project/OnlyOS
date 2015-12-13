@@ -16,7 +16,7 @@ SECTIONS
 	.text :
 	{
         __text_start = .;
-		*(.text.idt)
+		*(.text.exception_vectors)
 		*(.text.boot)
 		__text_end = .;
 	} > ROM
