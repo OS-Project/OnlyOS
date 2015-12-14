@@ -22,8 +22,8 @@ _start:
         mov	sp, #0xA0000000
 
 	bss_init:
-        ldr	r0, =_sbss
-        ldr	r1, =_ebss
+        ldr	r0, = __bss_start
+        ldr	r1, = __bss_end
         cmp r0,r1
 
         beq call_main
