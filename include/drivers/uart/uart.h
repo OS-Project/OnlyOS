@@ -11,7 +11,7 @@
     #define HW_OR_REG_WORD(addr, val) (*(volatile unsigned int *) (addr) = HW_GET_REG_WORD(addr) | ((unsigned int) (val)))
     #define HW_OR_REG_BYTE(addr, val) (*(volatile unsigned char *) (addr) = HW_GET_REG_BYTE(addr) | ((unsigned char) (val)))
 
-    #include "hw_uart.h"
+    #include "hw_uart_irda_cir.h"
 
     #define UART0_BASE          (0x44E09000)
     #define CONF_UART0_RXD      (0x44E10970)
