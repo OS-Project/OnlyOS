@@ -1,13 +1,13 @@
 .section ".text.exception_vectors"
 exception_vectors:
-	b _start // Reset Handler
-	b . // Undefined instruction
-	b . // SWI Handler (Software interrupt)
-	b . // Prefetch Abort
-	b . // Data Abort
-	b . // Reserved
-	b . // IRQ
-	b . // FIQ
+    b _start // Reset Handler
+    b . // Undefined instruction
+    b . // SWI Handler (Software interrupt)
+    b . // Prefetch Abort
+    b . // Data Abort
+    b . // Reserved
+    b . // IRQ
+    b . // FIQ
 
 
 .section ".text.boot"
@@ -20,9 +20,9 @@ _start:
     stack_init:
         mov	sp, #0xA0000000
 
-	bss_init:
-        ldr	r0, = __bss_start
-        ldr	r1, = __bss_end
+    bss_init:
+        ldr	r0, =_sbss
+        ldr	r1, =_ebss
         cmp r0,r1
 
         beq call_main
@@ -38,4 +38,4 @@ _start:
         b	main
 
 halt:
-	b	halt
+    b	halt

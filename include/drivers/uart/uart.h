@@ -1,9 +1,9 @@
 #ifdef __cplusplus
-    extern "C" {
+extern "C" {
 #endif
 
 #ifndef DRIVER_UART_H
-#define DRIVER_UART_H
+    #define DRIVER_UART_H
     #define HW_GET_REG_WORD(addr) (*(volatile unsigned int *) (addr))
     #define HW_GET_REG_BYTE(addr) (*(volatile unsigned char *) (addr))
     #define HW_SET_REG_WORD(addr, val) (*(volatile unsigned int *) (addr) = (unsigned int) (val))
@@ -30,7 +30,7 @@
     void UART_newline();
     char UART_readByte();
 
- #ifdef __cplusplus
- }
- #endif
+#ifdef __cplusplus
+}
+#endif
 #endif

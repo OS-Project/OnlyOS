@@ -3,41 +3,39 @@ ENTRY(_start)	/* Entry point of the program */
 
 MEMORY
 {
-    ROM : ORIGIN = 0x80000000, LENGTH = 50M
+    ROM : ORIGIN = 0x80000000, LENGTH = 0x10000
 }
-/* End of RAM is 0xBFFF_FFFF - 512M */
 
 SECTIONS
 {
-	/* Star from the begining of the RAM */
+	/* Start address depends on u-boot */
 	. = 0x80000000;
 	.text :
 	{
-        __text_start = .;
+        _stext = .;
 		*(.text.exception_vectors)
 		*(.text.boot)
-		__text_end = .;
+		_etext = .;
 	} > ROM
 
 	.rodata :
 	{
-	    __rodata_start = .;
+        _srodata = .;
         *(.rodata)
-        __rodata_end = .;
+        _erodata = .;
 	} > ROM
 
 	.data :
 	{
-	    __data_start = .;
+        _sdata = .;
 		*(.data)
-        __data_end = .;
+		_edata = .;
 	} > ROM
 
 	.bss :
 	{
-	    __bss_start = .;
-		bss = .;
+        _sbss = .;
 		*(.bss)
-		__bss_end = .;
+		_ebss = .;
 	} > ROM
 }

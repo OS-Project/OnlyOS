@@ -16,7 +16,7 @@ void UART_init()
 
     // Software reset
     HW_OR_REG_WORD(UART0_BASE + UART_SYSC, UART_SYSC_SOFTRESET); // Enable software reset bit
-    while ((HW_GET_REG_WORD(UART0_BASE + UART_SYSS) & UART_SYSS_RESETDONE) == 0); // Wait until the end of the reset operation
+    while (HW_GET_REG_WORD(UART0_BASE + UART_SYSS) & UART_SYSS_RESETDONE == 0); // Wait until the end of the reset operation
 
     // Disable idle mode
     HW_OR_REG_WORD(UART0_BASE + UART_SYSC, UART_SYSC_IDLEMODE_NOIDLE << UART_SYSC_IDLEMODE_SHIFT);
@@ -45,7 +45,7 @@ void UART_writeByte(char c)
     // Switch to access mode using LCR
 
     // Wait until ongoing transmission is over. UART_LSR_TX_SR_E not needed?
-    while ((HW_GET_REG_WORD(UART0_BASE + UART_LSR) & (UART_LSR_TX_FIFO_E | UART_LSR_TX_SR_E)) != 0);
+    while (HW_GET_REG_WORD(UART0_BASE + UART_LSR) & (UART_LSR_TX_FIFO_E | UART_LSR_TX_SR_E) != 0);
 
     // while ((HW_GET_REG_WORD(UART0_BASE + UART_MDR1) & 32) == 0)
 
@@ -54,28 +54,28 @@ void UART_writeByte(char c)
     // Restore LCR
 }
 
- void UART_writeStr(char* str, int length)
- {
+void UART_writeStr(char* str, int length)
+{
     int i = 0;
     while (i<length)
     {
         UART_writeByte(str[i]);
         i++;
     }
- }
+}
 
- void UART_newline()
- {
+void UART_newline()
+{
     UART_writeByte('\r');
     UART_writeByte('\n');
- }
+}
 
 char UART_readByte()
 {
     // Switch to access mode using LCR
 
     // Waits indefinitely until a byte arrives in the RX FIFO(or RHR).
-    while (((HW_GET_REG_WORD(UART0_BASE + UART_LSR) & UART_LSR_RX_FIFO_E)) == 0);
+    while((HW_GET_REG_WORD(UART0_BASE + UART_LSR) & UART_LSR_RX_FIFO_E) == 0);
 
 
     return ((char) HW_GET_REG_BYTE(UART0_BASE + UART_RHR));

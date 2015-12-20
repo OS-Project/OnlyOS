@@ -31,7 +31,8 @@ LPATH=-L"${LIB_C}" \
       -L${HAL_BIN}/${TARGET_MODE} \
 
 ### Flags
-CCFLAGS = -Wall ${IPATH} -nostdlib -nostartfiles -ffreestanding -Dam335x -mcpu=cortex-a8 -g #-march=armv7-a -mtune=cortex-a8
+CCFLAGS = -Wall ${IPATH} -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-a8
+#-Dam335x -g -march=armv7-a -mtune=cortex-a8
 ASFLAGS = --warn -mcpu=cortex-a8
 LDFLAGS =
 
