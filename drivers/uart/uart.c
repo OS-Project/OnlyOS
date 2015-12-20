@@ -64,6 +64,7 @@ void UART_writeStr(char* str, int length)
     }
 }
 
+
 void UART_newline()
 {
     UART_writeByte('\r');
@@ -81,4 +82,22 @@ char UART_readByte()
     return ((char) HW_GET_REG_BYTE(UART0_BASE + UART_RHR));
 
     // Restore LCR (after accessing the value in the register)
+}
+
+
+void UART_writeLn(const char *str)
+{
+    UART_writeStr(str, UART_strlen(str));
+    UART_newline();
+}
+void UART_write(const char *str)
+{
+    UART_writeStr(str, UART_strlen(str));
+}
+
+unsigned int UART_strlen(const char *str)
+{
+    const char *s;
+    for (s = str; *s; ++s);
+    return(s - str);
 }

@@ -30,6 +30,9 @@ extern "C" {
     void UART_newline();
     char UART_readByte();
 
+    void UART_write(const char *str);
+    void UART_writeLn(const char *str);
+    unsigned int UART_strlen(const char *str);
 #ifdef __cplusplus
 }
 #endif

@@ -1,19 +1,27 @@
-CC=arm-linux-gnueabihf
+# Created by Thibault PIANA
+# Creation : 12/12/2015
 
-all:
-    mkdir bin
-	$(CC)-gcc -Wall -c -mcpu=cortex-a8 -nostdlib -nostartfiles -ffreestanding  src/main.c
-	$(CC)-gcc -Wall -c -mcpu=cortex-a8 -nostdlib -nostartfiles -ffreestanding  src/uart.c
-	mv *.o obj/
-	$(CC)-as --warn -mcpu=cortex-a8 src/boot.s -o obj/boot.o
-	$(CC)-ld -T linker.ld obj/boot.o obj/main.o obj/uart.o -o boot.elf
-	$(CC)-objdump -D boot.elf > boot.list
-	$(CC)-objcopy boot.elf -O srec boot.srec
-	$(CC)-nm boot.elf -n > boot.sections
-	$(CC)-objcopy boot.elf -O binary boot.bin
+ROOT=../../..
+FILE_NAME = uart_test
+include ${ROOT}/makedefs
+
+SRC=${DRIVER_SRC}/tests/uart/uart.c ${DRIVER_SRC}/uart/uart.c
+OBJ=$(SRC:.c=.o) ${BOOT_SRC}/boot.o
+
+all: ${OBJ}
+	@echo "Linkage des sources"
+	$(LD) -T ${ROOT}/linker.ld ${LDFLAGS} ${OBJ} -o ${FILE_NAME}.elf
+	$(PREFIX)-objdump -D ${FILE_NAME}.elf > ${FILE_NAME}.list
+	$(PREFIX)-objcopy ${FILE_NAME}.elf -O srec ${FILE_NAME}.srec
+	$(PREFIX)-nm ${FILE_NAME}.elf -n > ${FILE_NAME}.sections
+	$(PREFIX)-objcopy ${FILE_NAME}.elf -O binary ${FILE_NAME}.bin
+
+	@make clean
+
+EXEC:
+	@echo "Compilation de la librairy UART"
+	@(cd ${DRIVER_SRC}/uart && make)
 
 clean:
-	rm -rf obj/
-	mkdir obj
-	rm boot.bin  boot.elf  boot.list  boot.srec boot.sections
-
+	@(cd ${DRIVER_SRC}/uart && make clean)
+	@rm -rf ${OBJ}
