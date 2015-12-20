@@ -2,15 +2,7 @@
 // Created by Thibault PIANA on 10/11/15.
 //
 
-#include <string.h>
-#include <inttypes.h>
-
 #include "kernel.h"
-#include "files_references.h"
-
-// Drivers inclusion
-#include DRIVER_TIMER_PATH
-#include DRIVER_RTC_PATH
 
 int kmain()
 {
@@ -21,7 +13,7 @@ int kmain()
 
 void kinit()
 {
-    kinit_driver();
+    kinit_drivers();
     kprintf("Driver initialisation done\n");
     kinit_devices();
     kprintf("Devices initialisation done\n");
@@ -37,7 +29,7 @@ void kinit()
  *
  * Initialise drivers
  */
-void kinit_driver()
+void kinit_drivers()
 {
     dmain();
     // Initialise the timer
@@ -73,5 +65,8 @@ void kinit_screen()
     kprintf("|  |_|  |  _    |   |__|_     _|  |_|  |_____  |");
     kprintf("|       | | |   |       ||   | |       |_____| |");
     kprintf("|_______|_|  |__|_______||___| |_______|_______|");
-
+    kprintf("");
+    kprintf("Developped bu Thibault PIANA & Alan GARDIN");
+    kprintf("");
+    kprintf("");
 }

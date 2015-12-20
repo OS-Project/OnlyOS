@@ -33,7 +33,8 @@ extern "C" {
     void UART_write(const char *str);
     void UART_writeLn(const char *str);
     unsigned int UART_strlen(const char *str);
+#endif
+
 #ifdef __cplusplus
 }
-#endif
 #endif
