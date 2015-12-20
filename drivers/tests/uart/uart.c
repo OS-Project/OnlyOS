@@ -6,6 +6,7 @@
 
 int main()
 {
+    UART_init();
     UART_writeStr("Je suis le vent du nord !!!!", 28);
     UART_newline();
     UART_writeStr("J'aime les pommesssss !!!", 25);

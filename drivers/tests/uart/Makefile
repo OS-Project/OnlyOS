@@ -11,7 +11,6 @@ OBJ=$(SRC:.c=.o) ${BOOT_SRC}/boot.o
 all: EXEC ${OBJ}
 	@echo "Linkage des sources"
 	$(LD) -T ${ROOT}/linker.ld -o ${FILE_NAME}.elf ${OBJ} ${LDFLAGS} -L${DRIVER_SRC}/uart/ -ldUART
-
 	$(PREFIX)-objdump -D ${FILE_NAME}.elf > ${FILE_NAME}.list
 	$(PREFIX)-objcopy ${FILE_NAME}.elf -O srec ${FILE_NAME}.srec
 	$(PREFIX)-nm ${FILE_NAME}.elf -n > ${FILE_NAME}.sections
