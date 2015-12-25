@@ -12,14 +12,11 @@ extern "C" {
     #include DRIVER_UART_PATH
 
     // Kernel macro
-    CONSOLE_WRITE(message) UART_write(0, message)
+    CONSOLE_WRITE(message) UART_writeLn(message);
 
     // Compilation informations
     char* _COMPILATION_TIME = __TIME__;
     char* _COMPILATION_DATE = __DATE__;
-
-    // Functions
-    int kmain();
 
 #endif //ONLYOS_KERNEL_H
 

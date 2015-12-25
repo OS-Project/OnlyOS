@@ -1,11 +1,12 @@
 OUTPUT_ARCH(arm)
 ENTRY(_start)	/* Entry point of the program */
 
+/*
 MEMORY
 {
     ROM : ORIGIN = 0x80000000, LENGTH = 0x10000
 }
-
+*/
 SECTIONS
 {
 	/* Start address depends on u-boot */
@@ -16,26 +17,29 @@ SECTIONS
 		*(.text.exception_vectors)
 		*(.text.boot)
 		_etext = .;
-	} > ROM
+	}
 
 	.rodata :
 	{
         _srodata = .;
         *(.rodata)
         _erodata = .;
-	} > ROM
+	}
 
 	.data :
 	{
         _sdata = .;
 		*(.data)
 		_edata = .;
-	} > ROM
+	}
 
 	.bss :
 	{
         _sbss = .;
 		*(.bss)
 		_ebss = .;
-	} > ROM
+	}
+
+	_sheap = .;
+	_eheap = . + 0x6400000; /* 100 Mo d'espace HEAP */
 }

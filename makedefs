@@ -25,11 +25,6 @@ IPATH=-I ${ROOT}/include/arch/arm \
       -I ${ROOT}/include/arch/arm/hal/hw \
       -I ${ROOT}/include
 
-# Library paths
-LPATH=-L"${LIB_C}" \
-      -L"${LIB_GCC}" \
-      -L${HAL_BIN}/${TARGET_MODE} \
-
 ### Flags
 CCFLAGS = -Wall ${IPATH} -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-a8
 #-Dam335x -g -march=armv7-a -mtune=cortex-a8
