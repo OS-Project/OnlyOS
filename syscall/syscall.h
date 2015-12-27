@@ -17,13 +17,13 @@ int          access(const char *, int);
 unsigned int alarm(unsigned int);
 int          brk(void *);
 int          chdir(const char *);
-int          chroot(const char *); (LEGACY)
+int          chroot(const char *);
 int          chown(const char *, uid_t, gid_t);
 int          close(int);
 size_t       confstr(int, char *, size_t);
 char        *crypt(const char *, const char *);
 char        *ctermid(char *);
-char        *cuserid(char *s); (LEGACY)
+char        *cuserid(char *s);
 int          dup(int);
 int          dup2(int, int);
 void         encrypt(char[64], int);
@@ -46,7 +46,7 @@ long int     fpathconf(int, int);
 int          fsync(int);
 int          ftruncate(int, off_t);
 char        *getcwd(char *, size_t);
-int          getdtablesize(void); (LEGACY)
+int          getdtablesize(void);
 gid_t        getegid(void);
 uid_t        geteuid(void);
 gid_t        getgid(void);
@@ -55,8 +55,8 @@ long         gethostid(void);
 char        *getlogin(void);
 int          getlogin_r(char *, size_t);
 int          getopt(int, char * const [], const char *);
-int          getpagesize(void); (LEGACY)
-char        *getpass(const char *); (LEGACY)
+int          getpagesize(void);
+char        *getpass(const char *);
 pid_t        getpgid(pid_t);
 pid_t        getpgrp(void);
 pid_t        getpid(void);

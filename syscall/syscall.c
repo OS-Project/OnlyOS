@@ -6,13 +6,11 @@
  * This file contain the rewrite of the POSIX interface
  */
 
-#include "sys/stat.h"
-#include "sys/types.h"
+#include <sys/stat.h>
+#include <sys/types.h>
 
 #include "drivers/uart/uart.h"
 
-#define UART_DR(baseaddr) (*(unsigned int *)(baseaddr))
-#define UART_FR(baseaddr) (*(((unsigned int *)(baseaddr))+6))
 
 int _close(int file) { return -1; }
 
@@ -52,6 +50,6 @@ caddr_t _sbrk(int incr) {
 }
 
 int _write(int file, char *ptr, int len) {
-    UART_write(ptr);
+    UART_writeStr(ptr, len);
     return len;
 }

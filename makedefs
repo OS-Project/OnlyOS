@@ -2,8 +2,8 @@
 # Creation : 20/10/2015
 # Defining the cross compiler tool prefix
 
-#PREFIX=arm-none-eabi
-PREFIX=arm-linux-gnueabihf
+PREFIX=arm-none-eabi
+#PREFIX=arm-linux-gnueabihf
 
 # Compiler, Linker and Archiver with respect to the toolchain
 CC=${PREFIX}-gcc
