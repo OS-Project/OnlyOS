@@ -8,38 +8,38 @@ MEMORY
 
 SECTIONS
 {
-	/* Start address depends on u-boot */
-	. = 0x80200000;
-	.text :
-	{
+    /* Start address depends on u-boot */
+    . = 0x80200000;
+    .text :
+    {
         _stext = .;
-		*(.text.exception_vectors)
-		*(.text.boot)
-		_etext = .;
-	} > RAM
+        *(.text.exception_vectors)
+        *(.text.boot)
+        _etext = .;
+    } > RAM
 
-	.rodata :
-	{
+    .rodata :
+    {
         _srodata = .;
         *(.rodata)
         _erodata = .;
-	} > RAM
+    } > RAM
 
-	.data :
-	{
+    .data :
+    {
         _sdata = .;
-		*(.data)
-		_edata = .;
-	} > RAM
+        *(.data)
+        _edata = .;
+    } > RAM
 
-	.bss :
-	{
+    .bss :
+    {
         _sbss = .;
-		*(.bss)
-		_ebss = .;
-	} > RAM
+        *(.bss)
+        _ebss = .;
+    } > RAM
 
-	heap_low = .;
-	. = . + 0x6400000;
-	heap_top = .; /* 100 Mo d'espace HEAP */
+    heap_low = .;
+    . = . + 0x6400000;
+    heap_top = .; /* 100 Mo d'espace HEAP */
 }
