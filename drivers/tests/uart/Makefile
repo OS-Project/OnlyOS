@@ -5,12 +5,13 @@ ROOT=../../..
 FILE_NAME = uart_test
 include ${ROOT}/makedefs
 
-SRC=${DRIVER_SRC}/tests/uart/uart.c
+SRC=${DRIVER_SRC}/tests/uart/uart.c \
+    ${SYSCALL_SRC}/syscall.c
 OBJ=$(SRC:.c=.o) ${BOOT_SRC}/boot.o
 
 all: EXEC ${OBJ}
 	@echo "Linkage des sources"
-	$(LD) -T ${ROOT}/linker.ld ${LDFLAGS} ${OBJ} -o ${FILE_NAME}.elf -L${DRIVER_SRC}/uart -ldUART
+	$(LD) -T ${LINKER_PATH} ${LDFLAGS} ${OBJ} -o ${FILE_NAME}.elf -L${DRIVER_SRC}/uart -ldUART -L${ROOT}/syscall -lc -lg -lm
 	$(PREFIX)-objdump -D ${FILE_NAME}.elf > ${FILE_NAME}.list
 	$(PREFIX)-objcopy ${FILE_NAME}.elf -O srec ${FILE_NAME}.srec
 	$(PREFIX)-nm ${FILE_NAME}.elf -n > ${FILE_NAME}.sections

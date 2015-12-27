@@ -3,13 +3,14 @@
 //
 
 #include "drivers/uart/uart.h"
-
+#include "stdio.h"
 
 int main()
 {
     char* test = "Ceci est un test";
-    UART_writeStr(test, strlen(test));
-    UART_newline();
+
+    printf("Salut les amis");
+
     while(1);
     return 0;
 }

@@ -85,19 +85,19 @@ char UART_readByte()
 }
 
 
-void UART_writeLn(const char *str)
+void UART_writeLn(char *str)
 {
     UART_writeStr(str, UART_strlen(str));
     UART_newline();
 }
-void UART_write(const char *str)
+void UART_write(char *str)
 {
     UART_writeStr(str, UART_strlen(str));
 }
 
-unsigned int UART_strlen(const char *str)
+unsigned int UART_strlen(char *str)
 {
-    const char *s;
+    char *s;
     for (s = str; *s; ++s);
     return(s - str);
 }

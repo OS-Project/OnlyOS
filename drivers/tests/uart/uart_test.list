@@ -1,0 +1,365 @@
+
+uart_test.elf:     format de fichier elf32-littlearm
+
+
+Déassemblage de la section .text :
+
+80000000 <_stext>:
+80000000:	ea000006 	b	80000020 <_start>
+80000004:	eafffffe 	b	80000004 <_stext+0x4>
+80000008:	eafffffe 	b	80000008 <_stext+0x8>
+8000000c:	eafffffe 	b	8000000c <_stext+0xc>
+80000010:	eafffffe 	b	80000010 <_stext+0x10>
+80000014:	eafffffe 	b	80000014 <_stext+0x14>
+80000018:	eafffffe 	b	80000018 <_stext+0x18>
+8000001c:	eafffffe 	b	8000001c <_stext+0x1c>
+
+80000020 <_start>:
+80000020:	e3a0d20a 	mov	sp, #-1610612736	; 0xa0000000
+
+80000024 <bss_init>:
+80000024:	e59f0024 	ldr	r0, [pc, #36]	; 80000050 <halt+0x4>
+80000028:	e59f1024 	ldr	r1, [pc, #36]	; 80000054 <halt+0x8>
+8000002c:	e1500001 	cmp	r0, r1
+80000030:	0a000004 	beq	80000048 <call_main>
+80000034:	e3a04000 	mov	r4, #0
+
+80000038 <write_zero>:
+80000038:	e5c04000 	strb	r4, [r0]
+8000003c:	e2800001 	add	r0, r0, #1
+80000040:	e1500001 	cmp	r0, r1
+80000044:	1afffffb 	bne	80000038 <write_zero>
+
+80000048 <call_main>:
+80000048:	ea0000b4 	b	80000320 <__main_from_arm>
+
+8000004c <halt>:
+8000004c:	eafffffe 	b	8000004c <halt>
+80000050:	8000033c 	andhi	r0, r0, ip, lsr r3
+80000054:	8000033c 	andhi	r0, r0, ip, lsr r3
+
+80000058 <main>:
+80000058:	b580      	push	{r7, lr}
+8000005a:	b082      	sub	sp, #8
+8000005c:	af00      	add	r7, sp, #0
+8000005e:	f240 3328 	movw	r3, #808	; 0x328
+80000062:	f2c8 0300 	movt	r3, #32768	; 0x8000
+80000066:	607b      	str	r3, [r7, #4]
+80000068:	6878      	ldr	r0, [r7, #4]
+8000006a:	f000 f91f 	bl	800002ac <UART_writeLn>
+8000006e:	f000 f8fb 	bl	80000268 <UART_newline>
+80000072:	e7fe      	b.n	80000072 <main+0x1a>
+
+80000074 <UART_init>:
+80000074:	b480      	push	{r7}
+80000076:	af00      	add	r7, sp, #0
+80000078:	f44f 6317 	mov.w	r3, #2416	; 0x970
+8000007c:	f2c4 43e1 	movt	r3, #17633	; 0x44e1
+80000080:	2230      	movs	r2, #48	; 0x30
+80000082:	601a      	str	r2, [r3, #0]
+80000084:	f640 1374 	movw	r3, #2420	; 0x974
+80000088:	f2c4 43e1 	movt	r3, #17633	; 0x44e1
+8000008c:	2200      	movs	r2, #0
+8000008e:	601a      	str	r2, [r3, #0]
+80000090:	f44f 6380 	mov.w	r3, #1024	; 0x400
+80000094:	f2c4 43e0 	movt	r3, #17632	; 0x44e0
+80000098:	f44f 6280 	mov.w	r2, #1024	; 0x400
+8000009c:	f2c4 42e0 	movt	r2, #17632	; 0x44e0
+800000a0:	6812      	ldr	r2, [r2, #0]
+800000a2:	f022 0203 	bic.w	r2, r2, #3
+800000a6:	f042 0202 	orr.w	r2, r2, #2
+800000aa:	601a      	str	r2, [r3, #0]
+800000ac:	f44f 738e 	mov.w	r3, #284	; 0x11c
+800000b0:	f2c4 43e0 	movt	r3, #17632	; 0x44e0
+800000b4:	f44f 728e 	mov.w	r2, #284	; 0x11c
+800000b8:	f2c4 42e0 	movt	r2, #17632	; 0x44e0
+800000bc:	6812      	ldr	r2, [r2, #0]
+800000be:	f022 0203 	bic.w	r2, r2, #3
+800000c2:	f042 0202 	orr.w	r2, r2, #2
+800000c6:	601a      	str	r2, [r3, #0]
+800000c8:	f240 43b4 	movw	r3, #1204	; 0x4b4
+800000cc:	f2c4 43e0 	movt	r3, #17632	; 0x44e0
+800000d0:	f240 42b4 	movw	r2, #1204	; 0x4b4
+800000d4:	f2c4 42e0 	movt	r2, #17632	; 0x44e0
+800000d8:	6812      	ldr	r2, [r2, #0]
+800000da:	f022 0203 	bic.w	r2, r2, #3
+800000de:	f042 0202 	orr.w	r2, r2, #2
+800000e2:	601a      	str	r2, [r3, #0]
+800000e4:	f24c 1394 	movw	r3, #49556	; 0xc194
+800000e8:	f6c4 0304 	movt	r3, #18436	; 0x4804
+800000ec:	f44f 0260 	mov.w	r2, #14680064	; 0xe00000
+800000f0:	601a      	str	r2, [r3, #0]
+800000f2:	f24c 1390 	movw	r3, #49552	; 0xc190
+800000f6:	f6c4 0304 	movt	r3, #18436	; 0x4804
+800000fa:	f04f 7280 	mov.w	r2, #16777216	; 0x1000000
+800000fe:	601a      	str	r2, [r3, #0]
+80000100:	f249 0354 	movw	r3, #36948	; 0x9054
+80000104:	f2c4 43e0 	movt	r3, #17632	; 0x44e0
+80000108:	f249 0254 	movw	r2, #36948	; 0x9054
+8000010c:	f2c4 42e0 	movt	r2, #17632	; 0x44e0
+80000110:	6812      	ldr	r2, [r2, #0]
+80000112:	f042 0202 	orr.w	r2, r2, #2
+80000116:	601a      	str	r2, [r3, #0]
+80000118:	bf00      	nop
+8000011a:	f249 0358 	movw	r3, #36952	; 0x9058
+8000011e:	f2c4 43e0 	movt	r3, #17632	; 0x44e0
+80000122:	681b      	ldr	r3, [r3, #0]
+80000124:	f249 0354 	movw	r3, #36948	; 0x9054
+80000128:	f2c4 43e0 	movt	r3, #17632	; 0x44e0
+8000012c:	f249 0254 	movw	r2, #36948	; 0x9054
+80000130:	f2c4 42e0 	movt	r2, #17632	; 0x44e0
+80000134:	6812      	ldr	r2, [r2, #0]
+80000136:	f042 0208 	orr.w	r2, r2, #8
+8000013a:	601a      	str	r2, [r3, #0]
+8000013c:	bf00      	nop
+8000013e:	f249 0314 	movw	r3, #36884	; 0x9014
+80000142:	f2c4 43e0 	movt	r3, #17632	; 0x44e0
+80000146:	681b      	ldr	r3, [r3, #0]
+80000148:	f003 0340 	and.w	r3, r3, #64	; 0x40
+8000014c:	2b00      	cmp	r3, #0
+8000014e:	d0f6      	beq.n	8000013e <UART_init+0xca>
+80000150:	f249 0304 	movw	r3, #36868	; 0x9004
+80000154:	f2c4 43e0 	movt	r3, #17632	; 0x44e0
+80000158:	2200      	movs	r2, #0
+8000015a:	601a      	str	r2, [r3, #0]
+8000015c:	f249 0320 	movw	r3, #36896	; 0x9020
+80000160:	f2c4 43e0 	movt	r3, #17632	; 0x44e0
+80000164:	2207      	movs	r2, #7
+80000166:	601a      	str	r2, [r3, #0]
+80000168:	f249 030c 	movw	r3, #36876	; 0x900c
+8000016c:	f2c4 43e0 	movt	r3, #17632	; 0x44e0
+80000170:	f06f 027c 	mvn.w	r2, #124	; 0x7c
+80000174:	601a      	str	r2, [r3, #0]
+80000176:	f44f 4310 	mov.w	r3, #36864	; 0x9000
+8000017a:	f2c4 43e0 	movt	r3, #17632	; 0x44e0
+8000017e:	2200      	movs	r2, #0
+80000180:	601a      	str	r2, [r3, #0]
+80000182:	f249 0304 	movw	r3, #36868	; 0x9004
+80000186:	f2c4 43e0 	movt	r3, #17632	; 0x44e0
+8000018a:	2200      	movs	r2, #0
+8000018c:	601a      	str	r2, [r3, #0]
+8000018e:	f249 030c 	movw	r3, #36876	; 0x900c
+80000192:	f2c4 43e0 	movt	r3, #17632	; 0x44e0
+80000196:	2203      	movs	r2, #3
+80000198:	601a      	str	r2, [r3, #0]
+8000019a:	f249 0310 	movw	r3, #36880	; 0x9010
+8000019e:	f2c4 43e0 	movt	r3, #17632	; 0x44e0
+800001a2:	2203      	movs	r2, #3
+800001a4:	601a      	str	r2, [r3, #0]
+800001a6:	f249 0308 	movw	r3, #36872	; 0x9008
+800001aa:	f2c4 43e0 	movt	r3, #17632	; 0x44e0
+800001ae:	2207      	movs	r2, #7
+800001b0:	601a      	str	r2, [r3, #0]
+800001b2:	f249 030c 	movw	r3, #36876	; 0x900c
+800001b6:	f2c4 43e0 	movt	r3, #17632	; 0x44e0
+800001ba:	f06f 027c 	mvn.w	r2, #124	; 0x7c
+800001be:	601a      	str	r2, [r3, #0]
+800001c0:	f44f 4310 	mov.w	r3, #36864	; 0x9000
+800001c4:	f2c4 43e0 	movt	r3, #17632	; 0x44e0
+800001c8:	221a      	movs	r2, #26
+800001ca:	601a      	str	r2, [r3, #0]
+800001cc:	f249 0304 	movw	r3, #36868	; 0x9004
+800001d0:	f2c4 43e0 	movt	r3, #17632	; 0x44e0
+800001d4:	2200      	movs	r2, #0
+800001d6:	601a      	str	r2, [r3, #0]
+800001d8:	f249 030c 	movw	r3, #36876	; 0x900c
+800001dc:	f2c4 43e0 	movt	r3, #17632	; 0x44e0
+800001e0:	2203      	movs	r2, #3
+800001e2:	601a      	str	r2, [r3, #0]
+800001e4:	f249 0320 	movw	r3, #36896	; 0x9020
+800001e8:	f2c4 43e0 	movt	r3, #17632	; 0x44e0
+800001ec:	2200      	movs	r2, #0
+800001ee:	601a      	str	r2, [r3, #0]
+800001f0:	bf00      	nop
+800001f2:	46bd      	mov	sp, r7
+800001f4:	f85d 7b04 	ldr.w	r7, [sp], #4
+800001f8:	4770      	bx	lr
+800001fa:	bf00      	nop
+
+800001fc <UART_writeByte>:
+800001fc:	b480      	push	{r7}
+800001fe:	b083      	sub	sp, #12
+80000200:	af00      	add	r7, sp, #0
+80000202:	4603      	mov	r3, r0
+80000204:	71fb      	strb	r3, [r7, #7]
+80000206:	bf00      	nop
+80000208:	f249 0314 	movw	r3, #36884	; 0x9014
+8000020c:	f2c4 43e0 	movt	r3, #17632	; 0x44e0
+80000210:	681b      	ldr	r3, [r3, #0]
+80000212:	f003 0301 	and.w	r3, r3, #1
+80000216:	2b00      	cmp	r3, #0
+80000218:	d1f6      	bne.n	80000208 <UART_writeByte+0xc>
+8000021a:	f44f 4310 	mov.w	r3, #36864	; 0x9000
+8000021e:	f2c4 43e0 	movt	r3, #17632	; 0x44e0
+80000222:	79fa      	ldrb	r2, [r7, #7]
+80000224:	601a      	str	r2, [r3, #0]
+80000226:	bf00      	nop
+80000228:	370c      	adds	r7, #12
+8000022a:	46bd      	mov	sp, r7
+8000022c:	f85d 7b04 	ldr.w	r7, [sp], #4
+80000230:	4770      	bx	lr
+80000232:	bf00      	nop
+
+80000234 <UART_writeStr>:
+80000234:	b580      	push	{r7, lr}
+80000236:	b084      	sub	sp, #16
+80000238:	af00      	add	r7, sp, #0
+8000023a:	6078      	str	r0, [r7, #4]
+8000023c:	6039      	str	r1, [r7, #0]
+8000023e:	2300      	movs	r3, #0
+80000240:	60fb      	str	r3, [r7, #12]
+80000242:	e009      	b.n	80000258 <UART_writeStr+0x24>
+80000244:	68fb      	ldr	r3, [r7, #12]
+80000246:	687a      	ldr	r2, [r7, #4]
+80000248:	4413      	add	r3, r2
+8000024a:	781b      	ldrb	r3, [r3, #0]
+8000024c:	4618      	mov	r0, r3
+8000024e:	f7ff ffd5 	bl	800001fc <UART_writeByte>
+80000252:	68fb      	ldr	r3, [r7, #12]
+80000254:	3301      	adds	r3, #1
+80000256:	60fb      	str	r3, [r7, #12]
+80000258:	68fa      	ldr	r2, [r7, #12]
+8000025a:	683b      	ldr	r3, [r7, #0]
+8000025c:	429a      	cmp	r2, r3
+8000025e:	dbf1      	blt.n	80000244 <UART_writeStr+0x10>
+80000260:	bf00      	nop
+80000262:	3710      	adds	r7, #16
+80000264:	46bd      	mov	sp, r7
+80000266:	bd80      	pop	{r7, pc}
+
+80000268 <UART_newline>:
+80000268:	b580      	push	{r7, lr}
+8000026a:	af00      	add	r7, sp, #0
+8000026c:	200d      	movs	r0, #13
+8000026e:	f7ff ffc5 	bl	800001fc <UART_writeByte>
+80000272:	200a      	movs	r0, #10
+80000274:	f7ff ffc2 	bl	800001fc <UART_writeByte>
+80000278:	bf00      	nop
+8000027a:	bd80      	pop	{r7, pc}
+
+8000027c <UART_readByte>:
+8000027c:	b480      	push	{r7}
+8000027e:	af00      	add	r7, sp, #0
+80000280:	bf00      	nop
+80000282:	f249 0314 	movw	r3, #36884	; 0x9014
+80000286:	f2c4 43e0 	movt	r3, #17632	; 0x44e0
+8000028a:	681b      	ldr	r3, [r3, #0]
+8000028c:	f003 0301 	and.w	r3, r3, #1
+80000290:	2b00      	cmp	r3, #0
+80000292:	d0f6      	beq.n	80000282 <UART_readByte+0x6>
+80000294:	f44f 4310 	mov.w	r3, #36864	; 0x9000
+80000298:	f2c4 43e0 	movt	r3, #17632	; 0x44e0
+8000029c:	781b      	ldrb	r3, [r3, #0]
+8000029e:	b2db      	uxtb	r3, r3
+800002a0:	4618      	mov	r0, r3
+800002a2:	46bd      	mov	sp, r7
+800002a4:	f85d 7b04 	ldr.w	r7, [sp], #4
+800002a8:	4770      	bx	lr
+800002aa:	bf00      	nop
+
+800002ac <UART_writeLn>:
+800002ac:	b580      	push	{r7, lr}
+800002ae:	b082      	sub	sp, #8
+800002b0:	af00      	add	r7, sp, #0
+800002b2:	6078      	str	r0, [r7, #4]
+800002b4:	6878      	ldr	r0, [r7, #4]
+800002b6:	f000 f81b 	bl	800002f0 <UART_strlen>
+800002ba:	4603      	mov	r3, r0
+800002bc:	4619      	mov	r1, r3
+800002be:	6878      	ldr	r0, [r7, #4]
+800002c0:	f7ff ffb8 	bl	80000234 <UART_writeStr>
+800002c4:	f7ff ffd0 	bl	80000268 <UART_newline>
+800002c8:	bf00      	nop
+800002ca:	3708      	adds	r7, #8
+800002cc:	46bd      	mov	sp, r7
+800002ce:	bd80      	pop	{r7, pc}
+
+800002d0 <UART_write>:
+800002d0:	b580      	push	{r7, lr}
+800002d2:	b082      	sub	sp, #8
+800002d4:	af00      	add	r7, sp, #0
+800002d6:	6078      	str	r0, [r7, #4]
+800002d8:	6878      	ldr	r0, [r7, #4]
+800002da:	f000 f809 	bl	800002f0 <UART_strlen>
+800002de:	4603      	mov	r3, r0
+800002e0:	4619      	mov	r1, r3
+800002e2:	6878      	ldr	r0, [r7, #4]
+800002e4:	f7ff ffa6 	bl	80000234 <UART_writeStr>
+800002e8:	bf00      	nop
+800002ea:	3708      	adds	r7, #8
+800002ec:	46bd      	mov	sp, r7
+800002ee:	bd80      	pop	{r7, pc}
+
+800002f0 <UART_strlen>:
+800002f0:	b480      	push	{r7}
+800002f2:	b085      	sub	sp, #20
+800002f4:	af00      	add	r7, sp, #0
+800002f6:	6078      	str	r0, [r7, #4]
+800002f8:	687b      	ldr	r3, [r7, #4]
+800002fa:	60fb      	str	r3, [r7, #12]
+800002fc:	e002      	b.n	80000304 <UART_strlen+0x14>
+800002fe:	68fb      	ldr	r3, [r7, #12]
+80000300:	3301      	adds	r3, #1
+80000302:	60fb      	str	r3, [r7, #12]
+80000304:	68fb      	ldr	r3, [r7, #12]
+80000306:	781b      	ldrb	r3, [r3, #0]
+80000308:	2b00      	cmp	r3, #0
+8000030a:	d1f8      	bne.n	800002fe <UART_strlen+0xe>
+8000030c:	68fa      	ldr	r2, [r7, #12]
+8000030e:	687b      	ldr	r3, [r7, #4]
+80000310:	1ad3      	subs	r3, r2, r3
+80000312:	4618      	mov	r0, r3
+80000314:	3714      	adds	r7, #20
+80000316:	46bd      	mov	sp, r7
+80000318:	f85d 7b04 	ldr.w	r7, [sp], #4
+8000031c:	4770      	bx	lr
+8000031e:	bf00      	nop
+
+80000320 <__main_from_arm>:
+80000320:	e51ff004 	ldr	pc, [pc, #-4]	; 80000324 <__main_from_arm+0x4>
+80000324:	80000059 	andhi	r0, r0, r9, asr r0
+
+Déassemblage de la section .rodata :
+
+80000328 <_srodata>:
+80000328:	69636543 	stmdbvs	r3!, {r0, r1, r6, r8, sl, sp, lr}^
+8000032c:	74736520 	ldrbtvc	r6, [r3], #-1312	; 0xfffffae0
+80000330:	206e7520 	rsbcs	r7, lr, r0, lsr #10
+80000334:	74736574 	ldrbtvc	r6, [r3], #-1396	; 0xfffffa8c
+80000338:	00000000 	andeq	r0, r0, r0
+
+Déassemblage de la section .comment :
+
+00000000 <.comment>:
+   0:	3a434347 	bcc	10d0d24 <_stext-0x7ef2f2dc>
+   4:	62552820 	subsvs	r2, r5, #32, 16	; 0x200000
+   8:	75746e75 	ldrbvc	r6, [r4, #-3701]!	; 0xfffff18b
+   c:	322e3520 	eorcc	r3, lr, #32, 10	; 0x8000000
+  10:	322d312e 	eorcc	r3, sp, #-2147483637	; 0x8000000b
+  14:	75627532 	strbvc	r7, [r2, #-1330]!	; 0xffffface
+  18:	3175746e 	cmncc	r5, lr, ror #8
+  1c:	2e352029 	cdpcs	0, 3, cr2, cr5, cr9, {1}
+  20:	20312e32 	eorscs	r2, r1, r2, lsr lr
+  24:	35313032 	ldrcc	r3, [r1, #-50]!	; 0xffffffce
+  28:	30313031 	eorscc	r3, r1, r1, lsr r0
+	...
+
+Déassemblage de la section .ARM.attributes :
+
+00000000 <.ARM.attributes>:
+   0:	00003841 	andeq	r3, r0, r1, asr #16
+   4:	61656100 	cmnvs	r5, r0, lsl #2
+   8:	01006962 	tsteq	r0, r2, ror #18
+   c:	0000002e 	andeq	r0, r0, lr, lsr #32
+  10:	726f4305 	rsbvc	r4, pc, #335544320	; 0x14000000
+  14:	2d786574 	cfldr64cs	mvdx6, [r8, #-464]!	; 0xfffffe30
+  18:	06003841 	streq	r3, [r0], -r1, asr #16
+  1c:	0841070a 	stmdaeq	r1, {r1, r3, r8, r9, sl}^
+  20:	0a020901 	beq	8242c <_stext-0x7ff7dbd4>
+  24:	14041204 	strne	r1, [r4], #-516	; 0xfffffdfc
+  28:	17011501 	strne	r1, [r1, -r1, lsl #10]
+  2c:	1a011803 	bne	46040 <_stext-0x7ffb9fc0>
+  30:	1e011c02 	cdpne	12, 0, cr1, cr1, cr2, {0}
+  34:	44012206 	strmi	r2, [r1], #-518	; 0xfffffdfa
+  38:	Adresse 0x0000000000000038 hors limites.
+
