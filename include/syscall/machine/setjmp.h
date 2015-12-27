@@ -1,7 +1,7 @@
 
 _BEGIN_STD_C
 
-#if defined(__or1k__) || defined(__or1knd__)
+#ifdef __or1k__
 #define _JBLEN 31 /* 32 GPRs - r0 */
 #define _JBTYPE unsigned long
 #endif
@@ -61,17 +61,10 @@ _BEGIN_STD_C
 #endif
 
 #ifdef __nds32__
-/* 17 words for GPRs,
-   1 word for $fpcfg.freg and 30 words for FPUs
-   Reserved 2 words for aligement-adjustment. When storeing double-precision
-   floating-point register into memory, the address has to be
-   double-word-aligned.
-   Check libc/machine/nds32/setjmp.S for more information.  */
-#if __NDS32_EXT_FPU_SP__ || __NDS32_EXT_FPU_DP__
-#define	_JBLEN 50
-#else
+/* Only 17 words are currently needed.
+   Preserve one word slot if we need to expand.
+   Check newlib/libc/machine/nds32/setjmp.S for more information.  */
 #define _JBLEN 18
-#endif
 #endif
 
 #if defined(__Z8001__) || defined(__Z8002__)
