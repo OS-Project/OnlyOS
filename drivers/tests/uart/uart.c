@@ -3,14 +3,13 @@
 //
 
 #include "drivers/uart/uart.h"
-#include <stdlib.h>
+#include <stdio.h>
 
 int main()
 {
-    int i;
-    UART_writeLn("Ceci est un test de la fonction malloc");
-    UART_writeLn("On va ajouter plusieurs espaces mémoires a la suite pour voir ce que ça fait");
+    UART_writeStr("Ceci est un test de la fonction malloc\n", 39);
 
+    printf("Salut les copains");
     while(1);
     return 0;
 }
