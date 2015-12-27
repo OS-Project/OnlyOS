@@ -40,6 +40,8 @@ SECTIONS
 		_ebss = .;
 	}
 
-	_sheap = .;
-	_eheap = . + 0x6400000; /* 100 Mo d'espace HEAP */
+	heap_low = .;
+	. = . + 0x6400000;
+	heap_top = .; /* 100 Mo d'espace HEAP */
+
 }
