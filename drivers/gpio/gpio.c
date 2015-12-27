@@ -23,17 +23,6 @@ void GPIO_setPin(unsigned int gpio_base, unsigned int gpio_pin, unsigned int sta
     }
 }
 
-
-void GPIO_setPinMode(unsigned int state)
-{
-
-}
-
-void GPIO_setPinLevel()
-{
-
-}
-
 unsigned int GPIO_getPinState(unsigned int gpio_base, unsigned int gpio_pin)
 {
     unsigned int base_adress = GPIO_getBaseAdress(gpio_base);

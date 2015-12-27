@@ -8,27 +8,25 @@ extern "C" {
 
 #ifndef DRIVER_GPIO_H
 #define DRIVER_GPIO_H
-
-    /* Values used to configure the direction of GPIO pins. */
-    #define GPIO_PIN_MODE_INPUT    (0x0010)
-    #define GPIO_PIN_MODE_OUTPUT   (0x0011)
-
-    /* Values helping to decide the value on a GPIO pin. */
-    #define GPIO_PIN_STATE_LOW     (0x0000)
-    #define GPIO_PIN_STATE_HIGH    (0x0001)
+    typedef enum GPIO_PIN GPIO_PIN;
+    enum GPIO_PIN
+    {
+        GPIO_PIN_MODE_INPUT,
+        GPIO_PIN_MODE_OUTPUT,
+        GPIO_PIN_STATE_LOW,
+        GPIO_PIN_STATE_HIGH
+    };
 
     /**
      * GPIO_setPin can change state and level of a pin
      */
-    void GPIO_setPin(unsigned int gpio_base, unsigned int gpio_pin, unsigned int state);
-    void GPIO_setPinMode(unsigned int state);
-    void GPIO_setPinLevel();
+    void GPIO_setPin(unsigned int gpio_base, unsigned int gpio_pin, GPIO_PIN state);
 
     /**
      * Return an array with actual state of pin
      * [level, state]
      */
-    unsigned int GPIO_getPinState(unsigned int gpio_base, unsigned int gpio_pin);
+    unsigned int GPIO_getPinState(unsigned int gpio_base, GPIO_PIN gpio_pin);
 
     /**
      * Enable GPIO
