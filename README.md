@@ -10,8 +10,6 @@ Todo
 Todo
 -----
 - [ ] uart_init(): causes crashes
-- [x] uart_write_byte()
-- [x] uart_read_byte()
 - [ ] C++ support.
 
 Questions
@@ -27,6 +25,7 @@ Questions
 ---------
 - fichier tempo en C
 - C init
+- Linker script: start at 0x80200000?
 
 How to compile newlib ?
 ---------

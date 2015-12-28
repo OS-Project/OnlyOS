@@ -13,7 +13,7 @@ SECTIONS
     .text :
     {
         _stext = .;
-        *(.text.exception_vectors)
+        *(.text.interrupt_vector_table)
         *(.text.boot)
         _etext = .;
     } > RAM
