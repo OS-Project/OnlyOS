@@ -25,8 +25,8 @@ extern "C" {
     #define GPIO1_CLEARDATAOUT      (0x4804C190)
 
     void UART_init();
-    void UART_writeByte(char c);
-    void UART_writeStr(char* str, int length);
+    void UART_writeByte(const char data);
+    unsigned int UART_writeStr(const char *pcBuf, unsigned int len);
     void UART_newline();
     char UART_readByte();
 

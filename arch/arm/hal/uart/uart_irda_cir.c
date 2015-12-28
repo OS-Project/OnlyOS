@@ -41,7 +41,7 @@
 *
 */
 
-#include "uart_irda_cir.h"
+#include "hal/uart/uart_irda_cir.h"
 #include "hw_types.h"
 
 /*****************************************************************************

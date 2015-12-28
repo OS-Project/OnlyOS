@@ -1,4 +1,8 @@
+
+
 #include "drivers/uart/uart.h"
+#include "hal/uart/uart_irda_cir.h"
+#include "soc_AM335x.h"
 
 void UART_init()
 {
@@ -39,7 +43,12 @@ void UART_init()
     HW_SET_REG_WORD(UART0_BASE + 32, 0);
 }
 
+void UART_writeByte(const char data)
+{
+    UARTCharPut(SOC_UART_0_REGS, data);
+}
 
+/*
 void UART_writeByte(char c)
 {
     // Switch to access mode using LCR
@@ -53,7 +62,31 @@ void UART_writeByte(char c)
 
     // Restore LCR
 }
+*/
 
+unsigned int UART_writeStr(const char *pcBuf, unsigned int len)
+{
+    unsigned int uIdx;
+
+    /* Send the characters */
+    for(uIdx = 0; uIdx < len; uIdx++)
+    {
+        /* If the character to the UART is \n, then add a \r before it so that
+         * \n is translated to \n\r in the output. */
+        if(pcBuf[uIdx] == '\n')
+        {
+            UART_writeByte('\r');
+        }
+
+        /* Send the character to the UART output. */
+        UART_writeByte(pcBuf[uIdx]);
+    }
+
+    /* Return the number of characters written. */
+    return(uIdx);
+}
+
+/*
 void UART_writeStr(char* str, int length)
 {
     int i = 0;
@@ -63,7 +96,7 @@ void UART_writeStr(char* str, int length)
         i++;
     }
 }
-
+*/
 
 void UART_newline()
 {
@@ -91,6 +124,7 @@ void UART_writeLn(char *str)
     UART_newline();
 }
 
+
 void UART_write(char *str)
 {
     UART_writeStr(str, UART_strlen(str));
@@ -102,3 +136,10 @@ unsigned int UART_strlen(char *str)
     for (s = str; *s; ++s);
     return(s - str);
 }
+
+
+
+
+
+
+

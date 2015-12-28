@@ -54,6 +54,6 @@ caddr_t _sbrk(int incr) {
 }
 
 int _write(int file, char *ptr, int len) {
-    UART_writeStr(ptr, len);
-    return len;
+    unsigned int str_len = UART_writeStr(ptr, len);
+    return str_len;
 }

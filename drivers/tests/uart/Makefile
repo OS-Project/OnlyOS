@@ -7,6 +7,7 @@ include ${ROOT}/makedefs
 
 SRC=${DRIVER_SRC}/tests/uart/uart.c \
     ${DRIVER_SRC}/uart/uart.c \
+    ${HAL_SRC}/uart/uart_irda_cir.c \
     ${SYSCALL_SRC}/syscall.c
 OBJ=$(SRC:.c=.o) ${BOOT_SRC}/boot.o
 
