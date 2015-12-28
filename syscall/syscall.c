@@ -8,6 +8,7 @@
 
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <stddef.h>
 
 #include "drivers/uart/uart.h"
 
@@ -30,13 +31,16 @@ int _read(int file, char *ptr, int len) {
     return i;
 }
 
-char *heap_end = 0;
+/* Gestion de la mémoire */
+
+char *heap_end = NULL;
+
 caddr_t _sbrk(int incr) {
     extern char heap_low; /* Defined by the linker */
     extern char heap_top; /* Defined by the linker */
     char *prev_heap_end;
 
-    if (heap_end == 0)
+    if (heap_end == 0 || heap_end < &heap_low)
         heap_end = &heap_low;
 
     prev_heap_end = heap_end;

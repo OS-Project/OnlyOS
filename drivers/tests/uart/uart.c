@@ -9,9 +9,20 @@
 extern char heap_end; /* Defined in syscall.c */
 int main()
 {
-    unsigned long i = 122;
-    unsigned long * p = &i;
-    printf("%lu", (unsigned long)p);
+    int i = 122;
+    int j = 33;
+
+    printf("Emplacement mémoire de i : %p \r\n", &i);
+    printf("Emplacement mémoire de j : %p \r\n", &j);
+
+    for(i = 0; i < 100; i++)
+        printf("Ceci est la ligne %d \r\n", i);
+
+    printf("\r\n");
+
+    for(i = 0; i < 100; i++)
+        printf("On recommence, ici c'est la ligne %d \r\n", i);
+
     /*
     char c;
     char *ptr = NULL;

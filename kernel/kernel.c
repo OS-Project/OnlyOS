@@ -65,7 +65,7 @@ void kinit_screen()
     kprintf("|  |_|  |  _    |   |__|_     _|  |_|  |_____  |");
     kprintf("|       | | |   |       ||   | |       |_____| |");
     kprintf("|_______|_|  |__|_______||___| |_______|_______|");
-    kprintf("");
+    kprintf("\n\n");
     kprintf("Developped by Thibault PIANA & Alan GARDIN");
     kprintf("");
     kprintf("");
