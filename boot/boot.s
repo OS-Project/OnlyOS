@@ -1,5 +1,5 @@
-.section ".text.exception_vectors"
-exception_vectors:
+.section ".text.interrupt_vector_table"
+interrupt_vector_table:
     b _start // Reset Handler
     b . // Undefined instruction
     b . // SWI Handler (Software interrupt)
