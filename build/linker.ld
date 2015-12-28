@@ -39,7 +39,8 @@ SECTIONS
         _ebss = .;
     } > RAM
 
+    /* HEAP memory */
     heap_low = .;
-    . = . + 0x6400000;
-    heap_top = .; /* 100 Mo d'espace HEAP */
+    . = . + 0x6400000; /* 100 Mo d'espace HEAP */
+    heap_top = .;
 }

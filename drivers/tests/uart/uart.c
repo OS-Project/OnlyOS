@@ -6,43 +6,24 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-extern char heap_end; /* Defined in syscall.c */
+extern char *heap_end; /* Defined in syscall.c */
 int main()
 {
-    int i = 122;
-    int j = 33;
+    int i;
+    printf("This is a malloc test : \n");
+    int *test = NULL;
 
-    printf("Emplacement mémoire de i : %p \r\n", &i);
-    printf("Emplacement mémoire de j : %p \r\n", &j);
+    printf("Sizeof allocations : %d\n", sizeof(int) * 5000);
+    printf("Test adress :%X\n", (unsigned int) test);
 
-    for(i = 0; i < 100; i++)
-        printf("Ceci est la ligne %d \r\n", i);
-
-    printf("\r\n");
-
-    for(i = 0; i < 100; i++)
-        printf("On recommence, ici c'est la ligne %d \r\n", i);
-
-    /*
-    char c;
-    char *ptr = NULL;
-    size_t alloc_size = 1;
-    do {
-        c =getchar();
-        printf("%d: %c\n", c, c);
-
-        ptr = realloc(ptr, alloc_size);
-        if(ptr == NULL) {
-            puts("Out of memory!\nProgram halting.");
-            for(;;);
-        } else {
-            printf("new alloc of %d bytes at address 0x%X\n", alloc_size, (unsigned int)ptr);
-            alloc_size <<= 1;
-            printf("Heap end = 0x%X\n", (unsigned int)heap_end);
-        }
+    for(i = 0; i < 1000; i++) {
+        printf("### %d\n",i);
+        printf("HEAP_END BEFORE : %X\n", (unsigned int) heap_end);
+        test = malloc(sizeof(int) * 5000);
+        printf("HEAP_END AFTER : %X\n", (unsigned int) heap_end);
+        printf("Test adress : %X\n", (unsigned int) test);
     }
 
-    */
     while (1);
     return 0;
 }

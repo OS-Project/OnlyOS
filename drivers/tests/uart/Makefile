@@ -18,6 +18,7 @@ all: ${OBJ}
 	$(PREFIX)-objcopy ${FILE_NAME}.elf -O srec ${FILE_NAME}.srec
 	$(PREFIX)-nm ${FILE_NAME}.elf -n > ${FILE_NAME}.sections
 	$(PREFIX)-objcopy ${FILE_NAME}.elf -O binary ${FILE_NAME}.bin
+	mv ${FILE_NAME}.bin boot.bin
 
 	@make clean
 
