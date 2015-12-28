@@ -43,7 +43,7 @@
 
 #include "soc_AM335x.h"
 #include "hw_types.h"
-#include "hs_mmcsd.h"
+#include "hal/mmcsd/hs_mmcsd.h"
 #include "hw_hs_mmcsd.h"
 
 /*******************************************************************************

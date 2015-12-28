@@ -7,6 +7,7 @@ PREFIX=arm-none-eabi
 
 # Compiler, Linker and Archiver with respect to the toolchain
 CC=${PREFIX}-gcc
+CPP=${PREFIX}-g++
 LD=${PREFIX}-ld
 AR=${PREFIX}-ar
 AS=${PREFIX}-as
@@ -40,6 +41,10 @@ LDFLAGS =
 %.o: %.c
 	@echo "Compilation de $<"
 	@$(CC) $(CCFLAGS) -c $< -o $@
+
+%.o: %.cpp
+	@echo "Compilation de $<"
+	@$(CPP) $(CCFLAGS) -c $< -o $@
 
 %.o: %.s
 	@echo "Assemblage de $<"

@@ -1,5 +1,4 @@
 
-
 #include "drivers/uart/uart.h"
 #include "hal/uart/uart_irda_cir.h"
 #include "soc_AM335x.h"
