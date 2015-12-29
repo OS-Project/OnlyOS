@@ -36,15 +36,16 @@ int _open(const char *name, int flags, int mode) {
 
 /* I/O management */
 int _read(int file, char *ptr, int len) {
-    return UART_read(ptr, len);
+    int data_len = UART_read(ptr, len);
+    return data_len;
 }
 
 int _write(int file, char *ptr, int len) {
-    return UART_write(ptr, len);
+    int data_len = UART_write(ptr, len);
+    return data_len;
 }
 
 /* Memory management */
-
 char *heap_end = NULL;
 caddr_t _sbrk(int incr) {
     extern char heap_low; /* Defined by the linker */

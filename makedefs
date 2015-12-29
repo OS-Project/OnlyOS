@@ -5,7 +5,7 @@
 PREFIX=arm-none-eabi
 #PREFIX=arm-linux-gnueabihf
 
-STD_LIB_FORMAT = NANO
+STD_LIB_FORMAT = STANDARD
 
 # Compiler, Linker and Archiver with respect to the toolchain
 CC=${PREFIX}-gcc
@@ -34,7 +34,7 @@ IPATH=-I ${ROOT}/include/arch/arm \
       -I ${ROOT}/include/syscalls/c++
 
 # Flags
-CCFLAGS = -Wall ${IPATH} -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-a8 -Os
+CCFLAGS = -Wall ${IPATH} -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-a8
 #-Dam335x -g -march=armv7-a -mtune=cortex-a8
 ASFLAGS = --warn -mcpu=cortex-a8
 LDFLAGS =

@@ -3,26 +3,18 @@
 //
 
 #include "drivers/uart/uart.h"
-#include <stdlib.h>
 #include <stdio.h>
 
-extern char *heap_end; /* Defined in syscall.c */
 int main()
 {
-    int i;
-    printf("This is a malloc test : \n");
-    int *test = NULL;
+    int age = 0;
+    UART_writeStr("This is an UART test\n");
+    printf("This is a printf test\n\n");
 
-    printf("Sizeof allocations : %d\n", sizeof(int) * 5000);
-    printf("Test adress :%X\n", (unsigned int) test);
+    printf("Ok, printf is done, please how old are you ? ");
+    scanf("%d", &age);
 
-    for(i = 0; i < 1000; i++) {
-        printf("### %d\n",i);
-        printf("HEAP_END BEFORE : %X\n", (unsigned int) heap_end);
-        test = malloc(sizeof(int) * 5000);
-        printf("HEAP_END AFTER : %X\n", (unsigned int) heap_end);
-        printf("Test adress : %X\n", (unsigned int) test);
-    }
+    printf("\nOh, I see, your age is %d", age);
 
     while (1);
     return 0;

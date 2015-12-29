@@ -13,7 +13,7 @@ extern "C" {
     #include DRIVER_TIMER_PATH
 
     // Kernel macro
-    CONSOLE_WRITE(message) UART_writeLn(message);
+    CONSOLE_WRITE(message) UART_writeStr(message);
 
     typedef struct SYSTEM SYSTEM;
     struct SYSTEM {
