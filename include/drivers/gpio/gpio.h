@@ -1,6 +1,6 @@
-//
-// Created by Thibault PIANA on 20/10/15.
-//
+/*
+    Created by Thibault PIANA on 20/10/15.
+*/
 
 #ifdef __cplusplus
 extern "C" {
@@ -8,7 +8,11 @@ extern "C" {
 
 #ifndef DRIVER_GPIO_H
 #define DRIVER_GPIO_H
+    #include "hal/gpio/gpio_v2.h"
+    #include "soc_AM335x.h"
+
     typedef enum GPIO_PIN GPIO_PIN;
+
     enum GPIO_PIN
     {
         GPIO_PIN_MODE_INPUT,
@@ -36,7 +40,7 @@ extern "C" {
     void GPIO_reset(unsigned int gpio_base);
     unsigned int GPIO_getBaseAdress(unsigned int gpio_base);
 
-    #ifdef __cplusplus
-    }
-    #endif
 #endif //DRIVER_GPIO_H
+#ifdef __cplusplus
+}
+#endif

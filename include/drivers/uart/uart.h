@@ -12,6 +12,8 @@ extern "C" {
     #define HW_OR_REG_BYTE(addr, val) (*(volatile unsigned char *) (addr) = HW_GET_REG_BYTE(addr) | ((unsigned char) (val)))
 
     #include "hw_uart_irda_cir.h"
+    #include "hal/uart/uart_irda_cir.h"
+    #include "soc_AM335x.h"
 
     #define UART0_BASE          (0x44E09000)
     #define CONF_UART0_RXD      (0x44E10970)
