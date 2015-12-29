@@ -2,9 +2,10 @@
 // Created by Thibault PIANA on 10/11/15.
 //
 
-#include "kernel.h"
+#include "kernel/kernel.h"
 
-char* path = "/";
+char* path_ = "/";
+SYSTEM * system_;
 
 int kmain()
 {
@@ -15,6 +16,15 @@ int kmain()
 
 void kinit()
 {
+    /* Initialisation du système */
+    system_ = kmalloc(sizeof(SYSTEM));
+
+    system_->_COMPILATION_TIME = __TIME__;
+    system_->_COMPILATION_DATE = __DATE__;
+    system_->DEFAULT_TIMER = 0;
+    system_->DEFAULT_UART = 0;
+
+    /* Initilisation des drivers */
     kinit_drivers();
     kprintf("Driver initialisation done\n");
     kinit_devices();

@@ -10,13 +10,20 @@ extern "C" {
 
     #include "files_references.h"
     #include DRIVER_UART_PATH
+    #include DRIVER_TIMER_PATH
 
     // Kernel macro
     CONSOLE_WRITE(message) UART_writeLn(message);
 
-    // Compilation informations
-    char* _COMPILATION_TIME = __TIME__;
-    char* _COMPILATION_DATE = __DATE__;
+    typedef struct SYSTEM SYSTEM;
+    struct SYSTEM {
+        // Compilation informations
+        char* _COMPILATION_TIME;
+        char* _COMPILATION_DATE;
+
+        char DEFAULT_TIMER;
+        char DEFAULT_UART;
+    };
 
 #endif //ONLYOS_KERNEL_H
 
