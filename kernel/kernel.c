@@ -4,6 +4,8 @@
 
 #include "kernel.h"
 
+char* path = "/";
+
 int kmain()
 {
     kinit();

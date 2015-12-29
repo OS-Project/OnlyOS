@@ -41,7 +41,7 @@
 */
 
 
-#include "dmtimer.h"
+#include "hal/timer/dmtimer.h"
 #include "hw_types.h"
 
 /*******************************************************************************
