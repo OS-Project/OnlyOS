@@ -9,6 +9,7 @@ extern "C" {
 #define ONLYOS_KERNEL_H
 
     #include "files_references.h"
+
     #include DRIVER_UART_PATH
     #include DRIVER_TIMER_PATH
 

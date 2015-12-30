@@ -30,8 +30,7 @@ LINKER_PATH = ${ROOT}/build/linker.ld
 IPATH=-I ${ROOT}/include/arch/arm \
       -I ${ROOT}/include/arch/arm/hal/hw \
       -I ${ROOT}/include \
-      -I ${ROOT}/include/syscalls \
-      -I ${ROOT}/include/syscalls/c++
+      -I ${ROOT}/include/syscalls
 
 # Flags
 CCFLAGS = -Wall ${IPATH} -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-a8
