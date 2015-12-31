@@ -2,28 +2,35 @@
 // Created by Thibault PIANA on 12/12/15.
 //
 
-#include "drivers/uart/uart.h"
 #include <stdio.h>
+#include <stdlib.h>
 
-int main()
+int main ( int argc, char** argv )
 {
-    int age = 0;
-    UART_writeStr("This is an UART test\n");
-    printf("This is a printf test\n\n");
+    int nombreMystere = 0, nombreEntre = 0;
+    const int MAX = 100, MIN = 1;
 
-    printf("Size of char : %d\n", sizeof(char));
-    printf("Size of short : %d\n", sizeof(short));
-    printf("Size of int : %d\n", sizeof(int));
-    printf("Size of unsigned int : %d\n", sizeof(unsigned int));
-    printf("Size of long : %d\n", sizeof(long));
-    printf("Size of long long : %d\n\n", sizeof(long long));
-    printf("Ok, printf is done, please how old are you ? ");
+    // Génération du nombre aléatoire
 
-    scanf("%d", &age);
+    srand(12638);
+    nombreMystere = (rand() % (MAX - MIN + 1)) + MIN;
 
-    printf("\nOh, I see, your age is %d", age);
+    /* La boucle du programme. Elle se répète tant que l'utilisateur n'a pas trouvé le nombre mystère */
+    do
+    {
+        // On demande le nombre
+        printf("Quel est le nombre ? ");
+        scanf("%d", &nombreEntre);
+        printf("\n");
+        // On compare le nombre entré avec le nombre mystère
+        if (nombreMystere > nombreEntre)
+            printf("C'est plus !\n\n");
+        else if (nombreMystere < nombreEntre)
+            printf("C'est moins !\n\n");
+        else
+            printf ("Bravo, vous avez trouve le nombre mystere !!!\n\n");
+    } while (nombreEntre != nombreMystere);
 
-    while (1);
+    while(1);
     return 0;
 }
-

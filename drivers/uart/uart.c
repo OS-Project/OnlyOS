@@ -60,20 +60,20 @@ int UART_read(char *pRxBuffer, int numBytesToRead) {
         ** Read till Carriage return (0xD - ASCII Value of Carriage return)
         ** Or till the specified number of bytes are entered
         */
-        while((0xD != ch) && (count < (numBytesToRead - 1)))
+        while((ch != 0xD) && (count < (numBytesToRead - 1)) && (ch != '\n') && (ch != '\r') && (ch != ' '))
         {
             /* Echoing the typed character back to the serial console. */
             UART_writeByte(ch);
 
-            *writePtr++  = ch;
+            *writePtr++ = ch;
             ch = UART_readByte();
             count++;
         }
 
-        *writePtr = '\0';
+        *writePtr++ = ch;
     }
 
-    return count;
+    return count + 1;
 }
 
 unsigned int UART_strlen(char *str) {
