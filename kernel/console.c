@@ -5,7 +5,7 @@
 
 extern char* path_;
 
-void pathShow():
+void pathShow()
 {
     printf("OnlyOS:%s$ ", path_);
 }

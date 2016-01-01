@@ -1,5 +1,6 @@
 /*
  * Created by Alan Gardin
+ * Modified by Thibault Piana
 */
 #include "drivers/uart/uart.h"
 

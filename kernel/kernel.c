@@ -3,8 +3,9 @@
 //
 
 #include "kernel/kernel.h"
+#include "kernel/user.h"
 
-char* path_ = "/";
+USER * user_;
 SYSTEM * system_;
 
 int kmain()
@@ -21,8 +22,14 @@ void kinit()
 
     system_->_COMPILATION_TIME = __TIME__;
     system_->_COMPILATION_DATE = __DATE__;
-    system_->DEFAULT_TIMER = 0;
-    system_->DEFAULT_UART = 0;
+    system_->SYSTEM_TIMER = 0;
+    system_->SYSTEM_UART = 0;
+
+    /* Initialisation de l'utilisateur */
+    user_ = kmalloc(sizeof(USER));
+
+    user_->current_path = "/";
+    user_->name = "root";
 
     /* Initilisation des drivers */
     kinit_drivers();
@@ -43,8 +50,8 @@ void kinit()
  */
 void kinit_drivers()
 {
+    /*
     dmain();
-    // Initialise the timer
     dinit_timer();
 
     dinit_filesystem();
@@ -52,6 +59,7 @@ void kinit_drivers()
     dinit_uart();
     dinit_gpio();
     dinit_spi();
+    */
 }
 
 /**

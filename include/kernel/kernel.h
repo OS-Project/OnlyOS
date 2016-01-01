@@ -22,8 +22,8 @@ extern "C" {
         char* _COMPILATION_TIME;
         char* _COMPILATION_DATE;
 
-        char DEFAULT_TIMER;
-        char DEFAULT_UART;
+        char SYSTEM_TIMER;
+        char SYSTEM_UART;
     };
 
 #endif //ONLYOS_KERNEL_H
