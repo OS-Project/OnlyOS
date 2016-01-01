@@ -5,7 +5,7 @@
 #include "drivers/gpio/gpio.h"
 
 void GPIO_setPin(char gpio_number, char gpio_pin, GPIO_PIN state) {
-    unsigned int gpio_base_adress = GPIO_getBaseAdress(gpio_base);
+    unsigned int gpio_base_adress = GPIO_getPhysicalAdress(gpio_base);
 
     switch(state)
     {
@@ -21,23 +21,23 @@ void GPIO_setPin(char gpio_number, char gpio_pin, GPIO_PIN state) {
 }
 
 unsigned int GPIO_getPinState(char gpio_number, char gpio_pin) {
-    unsigned int base_adress = GPIO_getBaseAdress(gpio_base);
+    unsigned int base_adress = GPIO_getPhysicalAdress(gpio_base);
     unsigned int pin_state = GPIOPinRead(base_adress, gpio_pin);
 
     return pin_state;
 }
 void GPIO_enable(char gpio_number) {
-    unsigned int base_adress = GPIO_getBaseAdress(gpio_base);
+    unsigned int base_adress = GPIO_getPhysicalAdress(gpio_base);
     GPIOModuleEnable(base_adress);
 }
 
 void GPIO_disable(char gpio_number) {
-    unsigned int base_adress = GPIO_getBaseAdress(gpio_base);
+    unsigned int base_adress = GPIO_getPhysicalAdress(gpio_base);
     GPIOModuleDisable(base_adress);
 }
 
 void GPIO_reset(char gpio_number) {
-    unsigned int base_adress = GPIO_getBaseAdress(gpio_base);
+    unsigned int base_adress = GPIO_getPhysicalAdress(gpio_base);
     GPIOModuleReset(base_adress);
 }
 

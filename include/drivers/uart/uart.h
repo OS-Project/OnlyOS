@@ -9,19 +9,17 @@ extern "C" {
     #include "soc_AM335x.h"
 
     /* Write */
-    void UART_writeByte(const char data);
-    int UART_write(const char *pcBuf, unsigned int len);
-
-    void UART_newline();
-    void UART_writeLn(char *str);
-    void UART_writeStr(char *str);
+    void UART_writeByte(const char data, char uart_number);
+    int UART_write(const char *pcBuf, int len, char uart_number);
+    int UART_writeStr(char *str, char uart_number);
 
     /* Read */
-    char UART_readByte();
-    int UART_read(char *pRxBuffer, int numBytesToRead);
+    char UART_readByte(char uart_number);
+    int UART_read(char *pRxBuffer, int numBytesToRead, char uart_number);
 
     /* Other */
-    unsigned int UART_strlen(char *str);
+    unsigned int UART_getPhysicalAdress(char uart_number);
+    int UART_strlen(char *str);
 #endif
 
 #ifdef __cplusplus

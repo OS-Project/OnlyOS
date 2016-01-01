@@ -38,7 +38,7 @@ extern "C" {
     void GPIO_enable(unsigned int gpio_base);
     void GPIO_disable(unsigned int gpio_base);
     void GPIO_reset(unsigned int gpio_base);
-    unsigned int GPIO_getBaseAdress(unsigned int gpio_base);
+    unsigned int GPIO_getPhysicalAdress(unsigned int gpio_base);
 
 #endif //DRIVER_GPIO_H
 #ifdef __cplusplus

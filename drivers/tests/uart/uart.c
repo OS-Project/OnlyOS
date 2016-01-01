@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main ( int argc, char** argv )
+int main()
 {
     int nombreMystere = 0, nombreEntre = 0;
     const int MAX = 100, MIN = 1;

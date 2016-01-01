@@ -4,11 +4,12 @@
 #include "drivers/uart/uart.h"
 
 /* Write */
-void UART_writeByte(const char data) {
-    UARTCharPut(SOC_UART_0_REGS, data);
+void UART_writeByte(const char data, char uart_number) {
+    unsigned int base_adress = UART_getPhysicalAdress(uart_number);
+    UARTCharPut(base_adress, data);
 }
 
-int UART_write(const char *pcBuf, unsigned int len) {
+int UART_write(const char *pcBuf, int len, char uart_number) {
     int uIdx;
 
     /* Send the characters */
@@ -17,44 +18,37 @@ int UART_write(const char *pcBuf, unsigned int len) {
         /* If the character to the UART is \n, then add a \r before it so that
          * \n is translated to \n\r in the output. */
         if(pcBuf[uIdx] == '\n')
-            UART_writeByte('\r');
+            UART_writeByte('\r', uart_number);
 
         /* Send the character to the UART output. */
-        UART_writeByte(pcBuf[uIdx]);
+        UART_writeByte(pcBuf[uIdx], uart_number);
     }
 
     /* Return the number of characters written. */
     return uIdx;
 }
 
-void UART_newline() {
-    UART_writeByte('\r');
-    UART_writeByte('\n');
-}
+int UART_writeStr(char *str, char uart_number) {
+    int len = UART_strlen(str);
+    UART_write(str, len, uart_number);
 
-
-void UART_writeLn(char *str) {
-    UART_writeStr(str);
-    UART_newline();
-}
-
-void UART_writeStr(char *str) {
-    UART_write(str, UART_strlen(str));
+    return len;
 }
 
 /* Read */
-char UART_readByte() {
-    return ((char)UARTCharGet(SOC_UART_0_REGS));
+char UART_readByte(char uart_number) {
+    unsigned int base_adress = UART_getPhysicalAdress(uart_number);
+    return ((char)UARTCharGet(base_adress));
 }
 
-int UART_read(char *pRxBuffer, int numBytesToRead) {
+int UART_read(char *pRxBuffer, int numBytesToRead, char uart_number) {
     int count = 0;
     char ch;
     char *writePtr = pRxBuffer;
 
     if((pRxBuffer != 0) && (numBytesToRead > 0))
     {
-        ch = UART_readByte();
+        ch = UART_readByte(uart_number);
 
         /*
         ** Read till Carriage return (0xD - ASCII Value of Carriage return)
@@ -63,10 +57,10 @@ int UART_read(char *pRxBuffer, int numBytesToRead) {
         while((count < (numBytesToRead - 1)) && (ch != 0xD) && (ch != 0xA))
         {
             /* Echoing the typed character back to the serial console. */
-            UART_writeByte(ch);
+            UART_writeByte(ch, uart_number);
 
             *writePtr++ = ch;
-            ch = UART_readByte();
+            ch = UART_readByte(uart_number);
             count++;
         }
 
@@ -76,8 +70,37 @@ int UART_read(char *pRxBuffer, int numBytesToRead) {
     return count;
 }
 
-/* Divers */
-unsigned int UART_strlen(char *str) {
+/* Other */
+unsigned int UART_getPhysicalAdress(char uart_number) {
+    unsigned int physical_adress;
+    switch (uart_number)
+    {
+        case 0:
+            physical_adress = SOC_UART_0_REGS;
+            break;
+        case 1:
+            physical_adress = SOC_UART_1_REGS;
+            break;
+        case 2:
+            physical_adress = SOC_UART_2_REGS;
+            break;
+        case 3:
+            physical_adress = SOC_UART_3_REGS;
+            break;
+        case 4:
+            physical_adress = SOC_UART_4_REGS;
+            break;
+        case 5:
+            physical_adress = SOC_UART_5_REGS;
+            break;
+        default:
+            physical_adress = 0; /* Error */
+            break;
+    }
+    return physical_adress;
+}
+
+int UART_strlen(char *str) {
     char *s;
     for (s = str; *s; ++s);
     return(s - str);

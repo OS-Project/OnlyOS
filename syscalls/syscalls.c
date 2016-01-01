@@ -12,6 +12,7 @@
 
 #include "drivers/uart/uart.h"
 
+#define UART_DEFAULT (char)0x0
 
 int _close(int file) {
     return -1;
@@ -36,12 +37,12 @@ int _open(const char *name, int flags, int mode) {
 
 /* I/O management */
 int _read(int file, char *ptr, int len) {
-    int data_len = UART_read(ptr, len);
+    int data_len = UART_read(ptr, len, UART_DEFAULT);
     return data_len;
 }
 
 int _write(int file, char *ptr, int len) {
-    int data_len = UART_write(ptr, len);
+    int data_len = UART_write(ptr, len, UART_DEFAULT);
     return data_len;
 }
 
