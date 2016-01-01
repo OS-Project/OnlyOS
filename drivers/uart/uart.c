@@ -44,15 +44,15 @@ void UART_writeStr(char *str) {
 
 /* Read */
 char UART_readByte() {
-    return ((unsigned char)UARTCharGet(SOC_UART_0_REGS));
+    return ((char)UARTCharGet(SOC_UART_0_REGS));
 }
 
 int UART_read(char *pRxBuffer, int numBytesToRead) {
-    unsigned int count = 0;
-    unsigned char ch;
+    int count = 0;
+    char ch;
     char *writePtr = pRxBuffer;
 
-    if((0 != pRxBuffer) && (numBytesToRead > 0))
+    if((pRxBuffer != 0) && (numBytesToRead > 0))
     {
         ch = UART_readByte();
 
@@ -60,7 +60,7 @@ int UART_read(char *pRxBuffer, int numBytesToRead) {
         ** Read till Carriage return (0xD - ASCII Value of Carriage return)
         ** Or till the specified number of bytes are entered
         */
-        while((ch != 0xD) && (count < (numBytesToRead - 1)) && (ch != '\n') && (ch != '\r') && (ch != ' '))
+        while((count < (numBytesToRead - 1)) && (ch != 0xD) && (ch != 0xA))
         {
             /* Echoing the typed character back to the serial console. */
             UART_writeByte(ch);
@@ -70,12 +70,13 @@ int UART_read(char *pRxBuffer, int numBytesToRead) {
             count++;
         }
 
-        *writePtr++ = ch;
+        *writePtr = '\0';
     }
 
-    return count + 1;
+    return count;
 }
 
+/* Divers */
 unsigned int UART_strlen(char *str) {
     char *s;
     for (s = str; *s; ++s);

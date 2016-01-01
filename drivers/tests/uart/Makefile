@@ -3,7 +3,7 @@
 
 ROOT=../../..
 FILE_NAME = uart_test
-include ${ROOT}/makedefs
+include ${ROOT}/build/makedefs
 
 SRC=${DRIVER_SRC}/tests/uart/uart.c \
     ${DRIVER_SRC}/uart/uart.c \
@@ -11,8 +11,8 @@ SRC=${DRIVER_SRC}/tests/uart/uart.c \
     ${SYSCALLS_SRC}/syscalls.c
 OBJ=$(SRC:.c=.o) ${BOOT_SRC}/boot.o
 
-all: ${OBJ}
-	@echo "Linkage des sources"
+all: INIT_MAKE ${OBJ}
+	@echo "### Linkage des sources"
 	$(LD) -T ${LINKER_PATH} ${LDFLAGS} ${OBJ} -o ${FILE_NAME}.elf ${INCLUDE_STD_LIB_C}
 	$(PREFIX)-objdump -D ${FILE_NAME}.elf > ${FILE_NAME}.list
 	$(PREFIX)-objcopy ${FILE_NAME}.elf -O srec ${FILE_NAME}.srec
@@ -22,10 +22,7 @@ all: ${OBJ}
 
 	@make clean
 
-EXEC:
-	@echo "Compilation de la librairy UART"
-	@(cd ${DRIVER_SRC}/uart && make)
-
 clean:
-	@(cd ${DRIVER_SRC}/uart && make clean)
 	@rm -rf ${OBJ}
+
+include ${ROOT}/build/makefuncs

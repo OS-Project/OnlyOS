@@ -1,0 +1,47 @@
+# Adapted by Thibault PIANA & Alan Gardin
+# Creation : 20/10/2015
+# Defining the cross compiler tool prefix
+
+PREFIX=arm-none-eabi
+#PREFIX=arm-linux-gnueabihf
+
+STD_LIB_FORMAT = STANDARD
+
+# Compiler, Linker and Archiver with respect to the toolchain
+CC=${PREFIX}-gcc
+CPP=${PREFIX}-g++
+LD=${PREFIX}-ld
+AR=${PREFIX}-ar
+AS=${PREFIX}-as
+BIN=$(PREFIX)-objcopy
+
+# Source code paths
+BOOT_SRC=${ROOT}/boot
+ARCH_SRC=${ROOT}/arch
+DRIVER_SRC=${ROOT}/drivers
+KERNEL_SRC=${ROOT}/kernel
+HAL_SRC=${ARCH_SRC}/arm/hal
+SYSCALLS_SRC=${ROOT}/syscalls
+
+# Files paths
+LINKER_PATH = ${ROOT}/build/linker.ld
+
+# Include paths
+IPATH=-I ${ROOT}/include/arch/arm \
+      -I ${ROOT}/include/arch/arm/hal/hw \
+      -I ${ROOT}/include \
+      -I ${ROOT}/include/syscalls
+
+# Flags
+CCFLAGS = -Wall ${IPATH} -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-a8 -Dam335x #-g -march=armv7-a -mtune=cortex-a8 -Os
+ASFLAGS = --warn -mcpu=cortex-a8
+LDFLAGS =
+
+# Includes
+ifeq (${STD_LIB_FORMAT}, STANDARD) # If we use newlib standard
+    INCLUDE_STD_LIB_C = -L${ROOT}/syscalls/standard -L${ROOT}/syscalls -lc -lg -lm -lgcc
+    INCLUDE_STD_LIB_CPP = -L${ROOT}/syscalls/standard -L${ROOT}/syscalls -lstdc++ -lsupc++ -lm -lgcc
+else # If we use newlib nano
+    INCLUDE_STD_LIB_C = -L${ROOT}/syscalls/nano -L${ROOT}/syscalls -lc_nano -lg_nano -lm -lgcc
+    INCLUDE_STD_LIB_CPP = -L${ROOT}/syscalls/nano -L${ROOT}/syscalls -lstdc++_nano -lsupc++_nano -lm -lgcc
+endif
