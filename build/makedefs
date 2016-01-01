@@ -33,7 +33,8 @@ IPATH=-I ${ROOT}/include/arch/arm \
       -I ${ROOT}/include/syscalls
 
 # Flags
-CCFLAGS = -Wall ${IPATH} -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-a8 -Dam335x #-g -march=armv7-a -mtune=cortex-a8 -Os
+CCFLAGS = -Wall ${IPATH} -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-a8
+#-g -march=armv7-a -mtune=cortex-a8 -Os -Dam335x
 ASFLAGS = --warn -mcpu=cortex-a8
 LDFLAGS =
 
