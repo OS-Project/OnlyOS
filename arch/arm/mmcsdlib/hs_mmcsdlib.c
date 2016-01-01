@@ -39,16 +39,12 @@
 *
 */
 
-
-#include "hs_mmcsd.h"
-#include "edma.h"
-#include "uartStdio.h"
-#include "mmcsd_proto.h"
-#include "string.h"
+#include "hal/mmcsd/hs_mmcsd.h"
+#include "hal/edma.h"
+#include "mmcsdlib/mmcsd_proto.h"
 #include "soc_AM335x.h"
 
-
-
+#include <string.h>
 /**
  * \brief    Check if the card is inserted and detected
  *
@@ -111,7 +107,7 @@ unsigned int HSMMCSDControllerInit(mmcsdCtrlInfo *ctrl)
     {
        HSMMCSDSupportedVoltSet(ctrl->memBase, HS_MMCSD_SUPPORT_VOLT_1P8 |HS_MMCSD_SUPPORT_VOLT_3P3);
        HSMMCSDSystemConfig(ctrl->memBase,HS_MMCSD_AUTOIDLE_ENABLE);
-       HSMMCSDBusWidthSet(ctrl->memBase, HS_MMCSD_BUS_WIDTH_4BIT ); /////////////////////////////////////////////////////////////////
+       HSMMCSDBusWidthSet(ctrl->memBase, HS_MMCSD_BUS_WIDTH_4BIT); /////////////////////////////////////////////////////////////////
        HSMMCSDBusVoltSet(ctrl->memBase, HS_MMCSD_BUS_VOLT_3P3);
     }
     else

@@ -40,11 +40,11 @@
 */
 
 
-#include "mmcsd_proto.h"
-#include "string.h"
-#include "uartStdio.h"
-#include "cache.h"
-#include "hs_mmcsd.h"
+#include "mmcsdlib/mmcsd_proto.h"
+#include "hal/armv7a/cache.h"
+#include "hal/mmcsd/hs_mmcsd.h"
+
+#include <string.h>
 
 #define DATA_RESPONSE_WIDTH       (512)
 
