@@ -8,13 +8,13 @@
 /*-----------------------------------------------------------------------*/
 
 #include "diskio.h"		/* FatFs lower layer API */
-
 #include "usbdisk.h"	/* Example: Header file of existing USB MSD control module */
 #include "sdcard.h"		/* Example: Header file of existing MMC/SDC contorl module */
 
 /* Definitions of physical drive number for each drive */
-#define MMC	0x0	/* Map MMC/SD card to physical drive 1 */
-#define USB	0x1	/* Map USB MSD to physical drive 2 */
+#define MMC	0x000	/* Map SD card to physical drive 0-0 */
+#define MMC	0x001	/* Map eMMC card to physical drive 0-1 */
+#define USB	0x100	/* Map USB MSD to physical drive 1-0 */
 
 
 /*-----------------------------------------------------------------------*/

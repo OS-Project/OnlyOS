@@ -3,6 +3,7 @@
  * Modified by Thibault Piana
 */
 #include "drivers/uart/uart.h"
+#include <stdio.h>
 
 /* Write */
 void UART_writeByte(const char data, char uart_number) {
@@ -49,27 +50,46 @@ int UART_read(char *pRxBuffer, int numBytesToRead, char uart_number) {
 
     if((pRxBuffer != 0) && (numBytesToRead > 0))
     {
+        while(count <= (numBytesToRead - 1))
+        {
+            ch = UART_readByte(uart_number);
+            *writePtr = ch;
+            writePtr++;
+            count++;
+
+            if(ch == 0xD) {
+                ch = UART_readByte(uart_number);
+                break;
+            }
+            if(ch == 0xA)
+                break;
+        }
+
+        *writePtr = '\0';
+    }
+    return count;
+
+    /*
+    if((pRxBuffer != 0) && (numBytesToRead > 0))
+    {
         ch = UART_readByte(uart_number);
 
-        /*
-        ** Read till Carriage return (0xD - ASCII Value of Carriage return)
-        ** Or till the specified number of bytes are entered
-        */
-        while((count < (numBytesToRead - 1)) && (ch != 0xD) && (ch != 0xA))
+        while((count <= (numBytesToRead - 1)) && (ch != 0xD) && (ch != 0xA))
         {
-            /* Echoing the typed character back to the serial console. */
             UART_writeByte(ch, uart_number);
 
-            *writePtr++ = ch;
+            *(writePtr++) = ch;
             ch = UART_readByte(uart_number);
+            printf("0x%x\n", ch);
             count++;
         }
 
         *writePtr = '\0';
     }
-
-    return count;
+    */
 }
+
+
 
 /* Other */
 unsigned int UART_getPhysicalAdress(char uart_number) {

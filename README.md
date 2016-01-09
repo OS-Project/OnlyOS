@@ -11,6 +11,8 @@ Todo
 -----
 - [ ] uart_init(): causes crashes
 - [ ] C++ support.
+- [ ] Mettre uart_strLen dans un fichier util
+- [ ] Séparer les fichiers du syscalls.c
 
 Questions
 ---------
@@ -35,3 +37,7 @@ sources : https://gcc.gnu.org/ml/gcc-help/2012-08/msg00190.html
 ./configure --target=arm-none-eabi --enable-interwork --enable-multilib --with-newlib --disable-nls --disable-shared --disable-threads --with-gnu-ld --with-gnu-as --disable-libssp --disable-libmudflap --disable-libgomp --with-dwarf2 -v --disable-werror --with-cpu=cortex-a8 --with-mode=thumb --enable-target-optspace --with-fpu=fpv4-sp-d16 --with-float=soft --enable-languages=c,c++ --disable-newlib-multithread
 
 with
+
+
+
+Pour kmalloc : liballoc

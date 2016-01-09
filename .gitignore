@@ -2,3 +2,11 @@
 /.idea/
 *~
 /bin
+
+Compiled files
+*.bin
+*.elf
+*.img
+*.list
+*.sections
+*.srec
