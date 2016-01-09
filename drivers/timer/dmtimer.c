@@ -16,7 +16,7 @@ void TIMER_stop(char timer_number) {
     DMTimerDisable(adress);
 }
 
-void TIMER_set(char timer_number, unsigned int counter) {
+void TIMER_set(unsigned int counter, char timer_number) {
     unsigned int adress = TIMER_getPhysicalAdress(timer_number);
     DMTimerCounterSet(adress, counter);
 }

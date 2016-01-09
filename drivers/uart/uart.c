@@ -3,7 +3,6 @@
  * Modified by Thibault Piana
 */
 #include "drivers/uart/uart.h"
-#include <stdio.h>
 
 /* Write */
 void UART_writeByte(const char data, char uart_number) {
@@ -68,28 +67,7 @@ int UART_read(char *pRxBuffer, int numBytesToRead, char uart_number) {
         *writePtr = '\0';
     }
     return count;
-
-    /*
-    if((pRxBuffer != 0) && (numBytesToRead > 0))
-    {
-        ch = UART_readByte(uart_number);
-
-        while((count <= (numBytesToRead - 1)) && (ch != 0xD) && (ch != 0xA))
-        {
-            UART_writeByte(ch, uart_number);
-
-            *(writePtr++) = ch;
-            ch = UART_readByte(uart_number);
-            printf("0x%x\n", ch);
-            count++;
-        }
-
-        *writePtr = '\0';
-    }
-    */
 }
-
-
 
 /* Other */
 unsigned int UART_getPhysicalAdress(char uart_number) {

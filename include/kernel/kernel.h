@@ -7,14 +7,12 @@ extern "C" {
 
 #ifndef ONLYOS_KERNEL_H
 #define ONLYOS_KERNEL_H
+    #include <stdbool.h>
+    #include <stdlib.h>
+    #include <stdio.h>
 
-    #include "files_references.h"
-
+    #include "kernel/config.h"
     #include DRIVER_UART_PATH
-    #include DRIVER_TIMER_PATH
-
-    // Kernel macro
-    CONSOLE_WRITE(message) UART_writeStr(message);
 
     typedef struct SYSTEM SYSTEM;
     struct SYSTEM {
@@ -22,10 +20,19 @@ extern "C" {
         char* _COMPILATION_TIME;
         char* _COMPILATION_DATE;
 
-        char SYSTEM_TIMER;
-        char SYSTEM_UART;
+        char SYSTEM_DMTIMER;
+        char SYSTEM_WDT;
+        // Bus UART for std
+        char SYSTEM_STDOUT;
+        char SYSTEM_STDERR;
+        char SYSTEM_STDIN;
     };
 
+    void kinit();
+    bool kinit_drivers();
+    void kinit_devices();
+    //void kprintf(char* message);
+    void kinit_screen();
 #endif //ONLYOS_KERNEL_H
 
 #ifdef __cplusplus

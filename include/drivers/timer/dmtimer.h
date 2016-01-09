@@ -12,7 +12,7 @@ extern "C" {
 
     void TIMER_start(char timer_number);
     void TIMER_stop(char timer_number);
-    void TIMER_set(char timer_number, unsigned int counter);
+    void TIMER_set(unsigned int counter, char timer_number);
     unsigned int TIMER_get(char timer_number);
     unsigned int TIMER_reset(char timer_number);
 

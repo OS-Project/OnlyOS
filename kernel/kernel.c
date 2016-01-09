@@ -1,29 +1,42 @@
-//
-// Created by Thibault PIANA on 10/11/15.
-//
+/*
+ * Created by Thibault PIANA on 10/11/15.
+*/
 
 #include "kernel/kernel.h"
 #include "kernel/user.h"
+#include "kernel/drivers/drivers.h"
 
-USER * user_;
+//USER * user_;
 SYSTEM * system_;
 
+#define kmalloc malloc /* Temporary */
+#define kprintf printf
 int kmain()
 {
     kinit();
     kprintf("Kernel initialisation done\n");
+    klaunch();
+
+    kprintf("\nEnd of code, system sleep, please restart\n");
+
+    while(1);
     return 0;
 }
 
 void kinit()
 {
-    /* Initialisation du système */
+    /* System initialization */
     system_ = kmalloc(sizeof(SYSTEM));
 
     system_->_COMPILATION_TIME = __TIME__;
     system_->_COMPILATION_DATE = __DATE__;
-    system_->SYSTEM_TIMER = 0;
-    system_->SYSTEM_UART = 0;
+
+    system_->SYSTEM_DMTIMER = CONFIG_SYSTEM_DMTIMER;
+    system_->SYSTEM_WDT = CONFIG_SYSTEM_WDT_STATUS;
+
+    system_->SYSTEM_STDOUT = CONFIG_SYSTEM_STDOUT;
+    system_->SYSTEM_STDERR = CONFIG_SYSTEM_STDERR;
+    system_->SYSTEM_STDIN = CONFIG_SYSTEM_STDIN;
 
     /* Initialisation de l'utilisateur */
     user_ = kmalloc(sizeof(USER));
@@ -32,10 +45,12 @@ void kinit()
     user_->name = "root";
 
     /* Initilisation des drivers */
+    kprintf("[Init] ### Start drivers initialisation\n");
     kinit_drivers();
-    kprintf("Driver initialisation done\n");
+    kprintf("[Init] ### Drivers initialisation done\n");
+    kprintf("[Init] ### Start devices initialisation\n");
     kinit_devices();
-    kprintf("Devices initialisation done\n");
+    kprintf("[Init] ### Devices initialisation done\n");
 
 
     kinit_screen();
@@ -48,45 +63,50 @@ void kinit()
  *
  * Initialise drivers
  */
-void kinit_drivers()
+bool kinit_drivers()
 {
-    /*
-    dmain();
-    dinit_timer();
+    bool status = true;
+    status &= dinit_wtd(system_);
+    if(status)
+        kprintf("[Init] Watchdog timer initialized\n");
 
-    dinit_filesystem();
-    dinit_rtc(_COMPILATION_TIME, _COMPILATION_DATE);
-    dinit_uart();
-    dinit_gpio();
-    dinit_spi();
-    */
+    status &= dinit_timer(system_);
+    if(status)
+        kprintf("[Init] DM timer initialized\n");
+
+    status &= dinit_rtc(system_);
+    if(status)
+        kprintf("[Init] RTC initialized\n");
+
+    status &= dinit_uart(system_);
+    if(status)
+        kprintf("[Init] UART initialized\n");
+
+    status &= dinit_gpio(system_);
+    if(status)
+        kprintf("[Init] GPIO initialized\n");
+
+    return status;
 }
 
 /**
  * Initialise devices list
  * Initialise devices
  */
-void kinit_devices()
+bool kinit_devices()
 {
-
-}
-
-void kprintf(char* message)
-{
-    CONSOLE_WRITE(message);
+    return true;
 }
 
 void kinit_screen()
 {
-    kprintf("_______ __    _ ___    __   __ _______ _______");
-    kprintf("|       |  |  | |   |  |  | |  |       |       |");
-    kprintf("|   _   |   |_| |   |  |  |_|  |   _   |  _____|");
-    kprintf("|  | |  |       |   |  |       |  | |  | |_____");
-    kprintf("|  |_|  |  _    |   |__|_     _|  |_|  |_____  |");
-    kprintf("|       | | |   |       ||   | |       |_____| |");
+    kprintf("_______ __    _ ___    __   __ _______ _______\n");
+    kprintf("|       |  |  | |   |  |  | |  |       |       |\n");
+    kprintf("|   _   |   |_| |   |  |  |_|  |   _   |  _____|\n");
+    kprintf("|  | |  |       |   |  |       |  | |  | |_____\n");
+    kprintf("|  |_|  |  _    |   |__|_     _|  |_|  |_____  |\n");
+    kprintf("|       | | |   |       ||   | |       |_____| |\n");
     kprintf("|_______|_|  |__|_______||___| |_______|_______|");
     kprintf("\n\n");
-    kprintf("Developped by Thibault PIANA & Alan GARDIN");
-    kprintf("");
-    kprintf("");
+    kprintf("Developped by Thibault PIANA & Alan GARDIN\n\n");
 }
