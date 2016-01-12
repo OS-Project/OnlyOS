@@ -2,8 +2,11 @@
 # Creation : 20/10/2015
 # Defining the cross compiler tool prefix
 
+# Configure
+C_MODE = debug
+
+# Configure toolchain
 PREFIX=arm-none-eabi
-#PREFIX=arm-linux-gnueabihf
 
 STD_LIB_FORMAT = STANDARD
 
@@ -22,6 +25,7 @@ DRIVER_SRC=${ROOT}/drivers
 KERNEL_SRC=${ROOT}/kernel
 HAL_SRC=${ARCH_SRC}/arm/hal
 SYSCALLS_SRC=${ROOT}/syscalls
+BIN_SRC=${ROOT}/bin
 
 # Files paths
 LINKER_PATH = ${ROOT}/build/linker.ld
@@ -31,10 +35,24 @@ IPATH=-I ${ROOT}/include/arch/arm \
       -I ${ROOT}/include/arch/arm/hal/hw \
       -I ${ROOT}/include \
       -I ${ROOT}/include/syscalls
+      -I ${ROOT}/bin/${C_MODE}
 
 # Flags
-CCFLAGS = -Wall ${IPATH} -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-a8
-#-g -march=armv7-a -mtune=cortex-a8 -Os -Dam335x
+CCFLAGS = -Wall ${IPATH} -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-a8 -march=armv7-a
+
+#|------------|--------------------------------------------|--------------|
+#| Cortex-A*  | [-mthumb] -march=armv7-a                   | armv7-ar     |
+#| (No FP)    |                                            | /thumb       |
+#|------------|--------------------------------------------|--------------|
+#| Cortex-A*  | [-mthumb] -march=armv7-a -mfloat-abi=softfp| armv7-ar     |
+#| (Soft FP)  | -mfpu=vfpv3-d16                            | /thumb       |
+#|            |                                            | /softfp      |
+#|------------|--------------------------------------------|--------------|
+#| Cortex-A*  | [-mthumb] -march=armv7-a -mfloat-abi=hard  | armv7-ar     |
+#| (Hard FP)  | -mfpu=vfpv3-d16                            | /thumb       |
+#|            |                                            | /fpu
+#|------------|--------------------------------------------|--------------|
+
 ASFLAGS = --warn -mcpu=cortex-a8
 LDFLAGS =
 

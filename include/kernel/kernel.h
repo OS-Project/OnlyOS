@@ -14,8 +14,7 @@ extern "C" {
     #include "kernel/config.h"
     #include DRIVER_UART_PATH
 
-    typedef struct SYSTEM SYSTEM;
-    struct SYSTEM {
+    typedef struct  {
         // Compilation informations
         char* _COMPILATION_TIME;
         char* _COMPILATION_DATE;
@@ -26,7 +25,7 @@ extern "C" {
         char SYSTEM_STDOUT;
         char SYSTEM_STDERR;
         char SYSTEM_STDIN;
-    };
+    } SYSTEM;
 
     void kinit();
     bool kinit_drivers();

@@ -2,6 +2,7 @@
  * Created by Alan Gardin
  * Modified by Thibault Piana
 */
+
 #include "drivers/uart/uart.h"
 
 /* Write */
@@ -49,23 +50,38 @@ int UART_read(char *pRxBuffer, int numBytesToRead, char uart_number) {
 
     if((pRxBuffer != 0) && (numBytesToRead > 0))
     {
-        while(count <= (numBytesToRead - 1))
-        {
+        while(count <= (numBytesToRead - 1)) {
             ch = UART_readByte(uart_number);
-            *writePtr = ch;
-            writePtr++;
-            count++;
+            if (ch != 0x8
+                && ch != 0xB
+                && ch != 0xC
+                && ch != 0xE
+                && ch != 0xF) {
 
-            if(ch == 0xD) {
-                ch = UART_readByte(uart_number);
+                *writePtr = ch;
+                writePtr++;
+                count++;
+
+                if (ch == 0xD) {
+                    ch = UART_readByte(uart_number);
+                    break;
+                }
+                if (ch == 0xA)
+                    break;
+
                 break;
             }
-            if(ch == 0xA)
+            else if (ch == 0x8) { /* 0x8 == retour arrière */
+                if (count > 0) {
+                    writePtr--;
+                    count--;
+                }
                 break;
+            }
         }
-
         *writePtr = '\0';
     }
+
     return count;
 }
 

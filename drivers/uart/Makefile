@@ -4,15 +4,15 @@
 ROOT=../..
 FILE_NAME = libdUART.a
 
-include ${ROOT}/makedefs
+include ${ROOT}/build/makedefs
 
-SRC=${DRIVER_SRC}/uart/uart.c
-
+SRC=${DRIVER_SRC}/uart/uart.c \
+    ${HAL_SRC}/uart/uart_irda_cir.c
 OBJ= $(SRC:.c=.o)
 
 all: ${OBJ}
 	@echo "Creation de la librairie ${FILE_NAME}"
-	@$(LD) ${OBJ} -o ${FILE_NAME} ${LDFLAGS}
+	@$(CC) -shared -o ${FILE_NAME} ${OBJ} ${CCFLAGS}
 
 clean:
 	@rm -rf ${OBJ}
