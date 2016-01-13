@@ -13,12 +13,9 @@ OBJ= $(SRC:.c=.o) boot/boot.o
 LIBS=${BIN_LIBS_SRC}/drivers/lib_dUART.a \
     ${BIN_LIBS_SRC}/drivers/lib_dGPIO.a \
     ${BIN_LIBS_SRC}/drivers/lib_dTIMER.a \
-    ${ROOT}/syscalls/standard/libc.a \
-    ${ROOT}/syscalls/standard/libg.a \
-    ${ROOT}/syscalls/libm.a \
-    ${ROOT}/syscalls/libgcc.a
+    ${BIN_LIBS_SRC}/hal/lib_HAL.a
 
-all: ${OBJ} ${SYSCALLS_SRC}/syscalls.o
+all: ${OBJ}
 	@echo "### Compilation du système"
 	@echo "\n## Compilation des drivers"
 	@(cd ${DRIVER_SRC}; make)
@@ -26,8 +23,8 @@ all: ${OBJ} ${SYSCALLS_SRC}/syscalls.o
 	@echo "\n## Compilation de la HAL"
 	@(cd ${HAL_SRC}; make)
 
-	@echo "\n## Assemblage des drivers, de la HAL, et de la lib standard"
-	@$(CC) -shared -o libfunc.a ${LIBS} ${SYSCALLS_SRC}/syscalls.c ${CCFLAGS}
+	@echo "\n## Assemblage des drivers et de la HAL"
+	@$(CC) -shared -o libfunc.a ${LIBS} ${CCFLAGS}
 	@(mkdir -p ${BIN_LIBS_SRC}; mv libfunc.a ${BIN_LIBS_SRC}/libfunc.a)
 	@make clean
 

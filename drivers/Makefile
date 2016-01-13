@@ -16,9 +16,9 @@ all:
 	@(cd gpio; make)
 	@(cd uart; make)
 
-	@echo "Assemblage des librairies en ${FILE_NAME}"
-	@$(CC) -shared -o ${FILE_NAME} ${OBJ} ${CCFLAGS}
-	@(mkdir -p ${BIN_LIBS_SRC}/drivers; mv ${FILE_NAME} ${BIN_LIBS_SRC}/drivers/${FILE_NAME})
+	#@echo "Assemblage des librairies en ${FILE_NAME}"
+	#@$(AR) -rv ${FILE_NAME} ${OBJ}
+	#@(mkdir -p ${BIN_LIBS_SRC}/drivers; mv ${FILE_NAME} ${BIN_LIBS_SRC}/drivers/${FILE_NAME})
 clean:
 	@rm -rf ${OBJ}
 
