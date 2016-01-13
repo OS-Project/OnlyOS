@@ -1,32 +1,23 @@
 # Created by Thibault PIANA
-# Creation : 25/12/2015
+# Creation : 19/12/2015
 
-ROOT=../..
-FILE_NAME = LibDriver.a
-include ${ROOT}/makedefs
+ROOT=
+FILE_NAME = lib_dTIMER.a
 
-LIBS_PATHS=-L${DRIVER_SRC}/uart \
-    -L${DRIVER_SRC}/gpio
+include ${ROOT}/build/makedefs
 
-LIBS=-ldUART \
-    -ldGPIO
+SRC=
+OBJ= $(SRC:.c=.o)
 
-all: EXEC
-	@echo "Linkage des sources"
-	$(LD) -T ${ROOT}/linker.ld ${LDFLAGS} -o ${FILE_NAME} ${LIBS_PATHS} ${LIBS}
+all: ${OBJ}
+	@echo "### Compilation du système"
+	@(cd ${DRIVER_SRC}; make)
+	@(cd ${HAL_SRC}; make)
 
+	@(mkdir -p ${BIN_LIBS_SRC}/drivers; mv ${FILE_NAME} ${BIN_LIBS_SRC}/drivers/${FILE_NAME})
 	@make clean
 
-EXEC:
-	@echo "Compilation de la lib UART"
-	@(cd ${DRIVER_SRC}/uart && make)
-
-	@echo "Compilation de la lib GPIO"
-	@(cd ${DRIVER_SRC}/gpio && make)
-
 clean:
-	@echo "Nettoyage de la lib GPIO"
-	@(cd ${DRIVER_SRC}/gpio && make clean)
+	@rm -rf ${OBJ}
 
-	@echo "Nettoyage de la lib UART"
-	@(cd ${DRIVER_SRC}/uart && make clean)
+include ${ROOT}/build/makefuncs

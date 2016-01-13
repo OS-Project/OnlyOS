@@ -25,7 +25,9 @@ DRIVER_SRC=${ROOT}/drivers
 KERNEL_SRC=${ROOT}/kernel
 HAL_SRC=${ARCH_SRC}/arm/hal
 SYSCALLS_SRC=${ROOT}/syscalls
+
 BIN_SRC=${ROOT}/bin
+BIN_LIBS_SRC=${BIN_SRC}/${C_MODE}/libs
 
 # Files paths
 LINKER_PATH = ${ROOT}/build/linker.ld
@@ -34,11 +36,11 @@ LINKER_PATH = ${ROOT}/build/linker.ld
 IPATH=-I ${ROOT}/include/arch/arm \
       -I ${ROOT}/include/arch/arm/hal/hw \
       -I ${ROOT}/include \
-      -I ${ROOT}/include/syscalls
-      -I ${ROOT}/bin/${C_MODE}
+      -I ${ROOT}/include/syscalls \
+      -I ${BIN_LIBS_SRC}
 
 # Flags
-CCFLAGS = -Wall ${IPATH} -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-a8 -march=armv7-a
+CCFLAGS = -Wall ${IPATH} -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-a8 -march=armv7-a -Wall -Wextra -mfloat-abi=softfp -mfpu=vfpv3-d16 #-ansi
 
 #|------------|--------------------------------------------|--------------|
 #| Cortex-A*  | [-mthumb] -march=armv7-a                   | armv7-ar     |

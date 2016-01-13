@@ -41,7 +41,7 @@
 */
 
 #include "hw_types.h"
-#include "rtc.h"
+#include "hal/timer/rtc.h"
 
 /******************************************************************************
 **                 LOCAL MACRO DEFINITIONS                                   

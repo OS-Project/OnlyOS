@@ -3,8 +3,6 @@
 */
 
 #include "drivers/timer/watchdog.h"
-#include "hal/timer/watchdog.h"
-#include "soc_AM335x"
 
 void WDT_enable(char wdt_number)
 {

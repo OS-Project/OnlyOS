@@ -6,7 +6,7 @@
 #define ONLYOS_RTC_H
 
 #include <stdint.h>
-#include "arch/hal/timer/rtc.h"
+#include "hal/timer/rtc.h"
 
 
 void RTC_start();

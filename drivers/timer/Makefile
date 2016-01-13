@@ -1,12 +1,14 @@
-# Adapted by Thibault PIANA & Alan Gardin
-# Creation : 13/01/2016
+# Created by Thibault PIANA
+# Creation : 19/12/2015
 
 ROOT=../..
-FILE_NAME = lib_dGPIO.a
+FILE_NAME = lib_dTIMER.a
 
 include ${ROOT}/build/makedefs
 
-SRC=${DRIVER_SRC}/gpio/gpio.c
+SRC=${DRIVER_SRC}/timer/dmtimer.c \
+    ${DRIVER_SRC}/timer/rtc.c \
+    ${DRIVER_SRC}/timer/watchdog.c
 OBJ= $(SRC:.c=.o)
 
 all: ${OBJ}
@@ -19,4 +21,3 @@ clean:
 	@rm -rf ${OBJ}
 
 include ${ROOT}/build/makefuncs
-
