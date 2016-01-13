@@ -1,43 +1,43 @@
-//
-// Created by Thibault PIANA on 20/10/15.
-//
+/*
+    * Created by Thibault PIANA on 20/10/15.
+*/
 
 #include "drivers/gpio/gpio.h"
 
 void GPIO_setPin(char gpio_number, char gpio_pin, GPIO_PIN state) {
-    unsigned int gpio_base_adress = GPIO_getPhysicalAdress(gpio_base);
+    unsigned int base_adress = GPIO_getPhysicalAdress(gpio_number);
 
     switch(state)
     {
         case GPIO_PIN_MODE_INPUT:
-            GPIODirModeSet(gpio_base_adress, gpio_pin, GPIO_DIR_INPUT);
+            GPIODirModeSet(base_adress, gpio_pin, GPIO_DIR_INPUT);
         case GPIO_PIN_MODE_OUTPUT:
-            GPIODirModeSet(gpio_base_adress, gpio_pin, GPIO_DIR_OUTPUT);
+            GPIODirModeSet(base_adress, gpio_pin, GPIO_DIR_OUTPUT);
         case GPIO_PIN_STATE_HIGH:
-            GPIOPinWrite(gpio_base_adress, gpio_pin, GPIO_PIN_LOW);
+            GPIOPinWrite(base_adress, gpio_pin, GPIO_PIN_LOW);
         case GPIO_PIN_STATE_LOW:
-            GPIOPinWrite(gpio_base_adress, gpio_pin, GPIO_PIN_HIGH);
+            GPIOPinWrite(base_adress, gpio_pin, GPIO_PIN_HIGH);
     }
 }
 
 unsigned int GPIO_getPinState(char gpio_number, char gpio_pin) {
-    unsigned int base_adress = GPIO_getPhysicalAdress(gpio_base);
+    unsigned int base_adress = GPIO_getPhysicalAdress(gpio_number);
     unsigned int pin_state = GPIOPinRead(base_adress, gpio_pin);
 
     return pin_state;
 }
 void GPIO_enable(char gpio_number) {
-    unsigned int base_adress = GPIO_getPhysicalAdress(gpio_base);
+    unsigned int base_adress = GPIO_getPhysicalAdress(gpio_number);
     GPIOModuleEnable(base_adress);
 }
 
 void GPIO_disable(char gpio_number) {
-    unsigned int base_adress = GPIO_getPhysicalAdress(gpio_base);
+    unsigned int base_adress = GPIO_getPhysicalAdress(gpio_number);
     GPIOModuleDisable(base_adress);
 }
 
 void GPIO_reset(char gpio_number) {
-    unsigned int base_adress = GPIO_getPhysicalAdress(gpio_base);
+    unsigned int base_adress = GPIO_getPhysicalAdress(gpio_number);
     GPIOModuleReset(base_adress);
 }
 

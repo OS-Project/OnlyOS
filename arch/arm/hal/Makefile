@@ -15,8 +15,7 @@ SRC=${HAL_SRC}/timer/dmtimer.c	 \
 OBJ= $(SRC:.c=.o)
 
 all: ${OBJ}
-	@echo "## Compilation de la HAL"
-	@echo "Creation de la librairie ${FILE_NAME}"
+	@echo "# Creation de la librairie ${FILE_NAME}"
 	@$(CC) -shared -o ${FILE_NAME} ${OBJ} ${CCFLAGS}
 	@(mkdir -p ${BIN_LIBS_SRC}/hal; mv ${FILE_NAME} ${BIN_LIBS_SRC}/hal/${FILE_NAME})
 	@make clean

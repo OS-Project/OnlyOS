@@ -7,13 +7,13 @@ FILE_NAME = lib_drivers.a
 include ${ROOT}/build/makedefs
 
 OBJ=${BIN_LIBS_SRC}/drivers/lib_dUART.a \
-    #${BIN_LIBS_SRC}/drivers/lib_dGPIO.a \
+    ${BIN_LIBS_SRC}/drivers/lib_dGPIO.a \
     ${BIN_LIBS_SRC}/drivers/lib_dTIMER.a
 
 all:
 	@echo "## Compilation des drivers"
 	@(cd timer; make)
-	#@(cd gpio; make)
+	@(cd gpio; make)
 	@(cd uart; make)
 
 	@echo "Assemblage des librairies en ${FILE_NAME}"

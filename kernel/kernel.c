@@ -6,16 +6,17 @@
 #include "kernel/user.h"
 #include "kernel/drivers/drivers.h"
 
-//USER * user_;
+USER * user_;
 SYSTEM * system_;
 
 #define kmalloc malloc /* Temporary */
 #define kprintf printf
+
 int kmain()
 {
     kinit();
     kprintf("Kernel initialisation done\n");
-    klaunch();
+    //klaunch();
 
     kprintf("\nEnd of code, system sleep, please restart\n");
 
@@ -66,11 +67,11 @@ void kinit()
 bool kinit_drivers()
 {
     bool status = true;
-    status &= dinit_wtd(system_);
+    status &= dinit_wdt(system_);
     if(status)
         kprintf("[Init] Watchdog timer initialized\n");
 
-    status &= dinit_timer(system_);
+    status &= dinit_dmtimer(system_);
     if(status)
         kprintf("[Init] DM timer initialized\n");
 

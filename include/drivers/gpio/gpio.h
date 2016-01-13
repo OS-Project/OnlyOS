@@ -1,5 +1,5 @@
 /*
-    Created by Thibault PIANA on 20/10/15.
+    * Created by Thibault PIANA on 20/10/15.
 */
 
 #ifdef __cplusplus
@@ -24,23 +24,24 @@ extern "C" {
     /**
      * GPIO_setPin can change state and level of a pin
      */
-    void GPIO_setPin(unsigned int gpio_base, unsigned int gpio_pin, GPIO_PIN state);
+    void GPIO_setPin(char gpio_number, char gpio_pin, GPIO_PIN state);
 
     /**
      * Return an array with actual state of pin
      * [level, state]
      */
-    unsigned int GPIO_getPinState(unsigned int gpio_base, GPIO_PIN gpio_pin);
+    unsigned int GPIO_getPinState(char gpio_number, char gpio_pin);
 
     /**
      * Enable GPIO
      */
-    void GPIO_enable(unsigned int gpio_base);
-    void GPIO_disable(unsigned int gpio_base);
-    void GPIO_reset(unsigned int gpio_base);
-    unsigned int GPIO_getPhysicalAdress(unsigned int gpio_base);
+    void GPIO_enable(char gpio_number);
+    void GPIO_disable(char gpio_number);
+    void GPIO_reset(char gpio_number);
+    unsigned int GPIO_getPhysicalAdress(char gpio_number);
 
-#endif //DRIVER_GPIO_H
+
+#endif /* DRIVER_GPIO_H */
 #ifdef __cplusplus
 }
 #endif

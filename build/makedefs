@@ -37,10 +37,12 @@ IPATH=-I ${ROOT}/include/arch/arm \
       -I ${ROOT}/include/arch/arm/hal/hw \
       -I ${ROOT}/include \
       -I ${ROOT}/include/syscalls \
-      -I ${BIN_LIBS_SRC}
+      -I ${BIN_LIBS_SRC} \
+      -I ${BIN_LIBS_SRC}/drivers \
+      -I ${BIN_LIBS_SRC}/hal
 
 # Flags
-CCFLAGS = -Wall ${IPATH} -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-a8 -march=armv7-a -Wall -Wextra -mfloat-abi=softfp -mfpu=vfpv3-d16 #-ansi
+CCFLAGS = -Wall ${IPATH} -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-a8 -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fPIC #-ansi -Wall -Wextra
 
 #|------------|--------------------------------------------|--------------|
 #| Cortex-A*  | [-mthumb] -march=armv7-a                   | armv7-ar     |
