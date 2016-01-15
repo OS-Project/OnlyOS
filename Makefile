@@ -5,21 +5,17 @@ ROOT=.
 FILE_NAME = kernel.bin
 include ${ROOT}/build/makedefs
 
-SRC = ${KERNEL_SRC}/kernel.c \
-    ${KERNEL_SRC}/drivers/drivers.c \
-    ${SYSCALLS_SRC}/syscalls.c
-SRC += ${shell python scripts/create_src_list.py}
-
+SRC = ${shell python scripts/create_src_list.py}
 OBJ = $(SRC:.c=.o) boot/boot.o
 
 all: ${OBJ}
 	@echo "\n### Linkage des sources"
-	$(LD) -T ${LINKER_PATH} ${LDFLAGS} ${OBJ} -o ${FILE_NAME}.elf ${INCLUDE_STD_LIB_C}
-	$(PREFIX)-objdump -D ${FILE_NAME}.elf > ${FILE_NAME}.list
-	$(PREFIX)-objcopy ${FILE_NAME}.elf -O srec ${FILE_NAME}.srec
-	$(PREFIX)-nm ${FILE_NAME}.elf -n > ${FILE_NAME}.sections
-	$(PREFIX)-objcopy ${FILE_NAME}.elf -O binary ${FILE_NAME}.bin
-	mv ${FILE_NAME}.bin boot.bin
+	#$(LD) -T ${LINKER_PATH} ${LDFLAGS} ${OBJ} -o ${FILE_NAME}.elf ${INCLUDE_STD_LIB_C}
+	#$(PREFIX)-objdump -D ${FILE_NAME}.elf > ${FILE_NAME}.list
+	#$(PREFIX)-objcopy ${FILE_NAME}.elf -O srec ${FILE_NAME}.srec
+	#$(PREFIX)-nm ${FILE_NAME}.elf -n > ${FILE_NAME}.sections
+	#$(PREFIX)-objcopy ${FILE_NAME}.elf -O binary ${FILE_NAME}.bin
+	#mv ${FILE_NAME}.bin boot.bin
 
 	@make clean
 

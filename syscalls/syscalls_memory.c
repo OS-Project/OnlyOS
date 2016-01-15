@@ -10,42 +10,6 @@
 #include <sys/types.h>
 #include <stddef.h>
 
-#include "drivers/uart/uart.h"
-
-#define UART_DEFAULT (char)0x0
-
-int _close(int file) {
-    return -1;
-}
-
-int _fstat(int file, struct stat *st) {
-    st->st_mode = S_IFCHR;
-    return 0;
-}
-
-int _isatty(int file) {
-    return 1;
-}
-
-int _lseek(int file, int ptr, int dir) {
-    return 0;
-}
-
-int _open(const char *name, int flags, int mode) {
-    return -1;
-}
-
-/* I/O management */
-int _read(int file, char *ptr, int len) {
-    int data_len = UART_read(ptr, len, UART_DEFAULT);
-    return data_len;
-}
-
-int _write(int file, char *ptr, int len) {
-    int data_len = UART_write(ptr, len, UART_DEFAULT);
-    return data_len;
-}
-
 /* Memory management */
 char *heap_end = NULL;
 caddr_t _sbrk(int incr) {
