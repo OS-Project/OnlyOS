@@ -2,23 +2,22 @@
 # Creation : 13/01/2016
 
 ROOT=..
-FILE_NAME = lib_drivers.a
+FILE_NAME = libdrivers.a
 
 include ${ROOT}/build/makedefs
+SRC =
+SRC += $(wildcard gpio/*.c)
+SRC += $(wildcard uart/*.c)
+SRC += $(wildcard timer/*.c)
 
-OBJ=${BIN_LIBS_SRC}/drivers/lib_dUART.a \
-    ${BIN_LIBS_SRC}/drivers/lib_dGPIO.a \
-    ${BIN_LIBS_SRC}/drivers/lib_dTIMER.a
+OBJ= $(SRC:.c=.o)
 
-all:
-	@echo "## Compilation des drivers"
-	@(cd timer; make)
-	@(cd gpio; make)
-	@(cd uart; make)
+all: ${OBJ}
+	@echo "# Assemblage des librairies en ${FILE_NAME}"
+	@$(AR) -rv ${FILE_NAME} ${OBJ}
+	@(mkdir -p ${BIN_LIBS_SRC}; mv ${FILE_NAME} ${BIN_LIBS_SRC}/${FILE_NAME})
+	@make clean
 
-	#@echo "Assemblage des librairies en ${FILE_NAME}"
-	#@$(AR) -rv ${FILE_NAME} ${OBJ}
-	#@(mkdir -p ${BIN_LIBS_SRC}/drivers; mv ${FILE_NAME} ${BIN_LIBS_SRC}/drivers/${FILE_NAME})
 clean:
 	@rm -rf ${OBJ}
 
