@@ -12,7 +12,7 @@ Todo
 - [ ] uart_init(): causes crashes
 - [ ] C++ support.
 - [ ] Mettre uart_strLen dans un fichier util
-- [ ] Séparer les fichiers du syscalls.c
+- [X] Séparer les fichiers du syscalls.c
 
 Questions
 ---------
@@ -21,6 +21,11 @@ Questions
 - uart_write_byte(): alternate version using diferrent register?
 - uart_read_byte(): alternate version for signed values?
 
+# How ?
+How to compile a new source ?
+---------
+Create a file "makesrc" in the directory of the source(s) file(s) and add the name of the sources inside.
+The script will automaticaly reconize the files and compile them
 
 # Others
 Questions

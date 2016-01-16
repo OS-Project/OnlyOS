@@ -35,7 +35,7 @@ _start:
             bne	write_zero
 
     call_main:
-        b	main
+        b	kmain
 
 halt:
     b	halt

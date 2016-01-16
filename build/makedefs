@@ -26,8 +26,8 @@ KERNEL_SRC=${ROOT}/kernel
 HAL_SRC=${ARCH_SRC}/arm/hal
 SYSCALLS_SRC=${ROOT}/syscalls
 
-BIN_SRC=${ROOT}/bin
-BIN_LIBS_SRC=${BIN_SRC}/${C_MODE}/libs
+BIN_SRC=${ROOT}/bin/${C_MODE}
+BIN_LIBS_SRC=${BIN_SRC}/libs
 
 # Files paths
 LINKER_PATH = ${ROOT}/build/linker.ld
@@ -37,12 +37,11 @@ IPATH=-I ${ROOT}/include/arch/arm \
       -I ${ROOT}/include/arch/arm/hal/hw \
       -I ${ROOT}/include \
       -I ${ROOT}/include/syscalls \
-      -I ${BIN_LIBS_SRC} \
-      -I ${BIN_LIBS_SRC}/drivers \
-      -I ${BIN_LIBS_SRC}/hal
+
+LPATH =
 
 # Flags
-CCFLAGS = -Wall ${IPATH} -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-a8 -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fPIC #-ansi -Wall -Wextra
+CCFLAGS = -Wall ${IPATH} -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-a8 -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -O3 #-ansi -Wall -Wextra
 
 #|------------|--------------------------------------------|--------------|
 #| Cortex-A*  | [-mthumb] -march=armv7-a                   | armv7-ar     |
@@ -58,7 +57,7 @@ CCFLAGS = -Wall ${IPATH} -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-a8 
 #|------------|--------------------------------------------|--------------|
 
 ASFLAGS = --warn -mcpu=cortex-a8
-LDFLAGS =
+LDFLAGS = ${LPATH}
 
 # Includes
 ifeq (${STD_LIB_FORMAT}, STANDARD) # If we use newlib standard

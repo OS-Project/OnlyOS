@@ -12,7 +12,7 @@
 	@$(AS) $(ASFLAGS) $< -o $@
 
 INIT_MAKE:
-	@echo "Initialisation de la librairie standard newlib:${STD_LIB_FORMAT}"
+	@echo "Initialisation de la librairie standard newlib : ${STD_LIB_FORMAT}"
     ifeq (${STD_LIB_FORMAT}, STANDARD)
 		@cp ${ROOT}/include/syscalls/standard/newlib.h ${ROOT}/include/syscalls/newlib.h
     else # If we use newlib nano

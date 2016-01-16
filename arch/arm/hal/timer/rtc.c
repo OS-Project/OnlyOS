@@ -101,6 +101,10 @@
  *
  * \return   None.\n
  */
+unsigned int RtcVersionGet(void) {
+    return RTC_REV_AM335X;
+}
+
 void RTCRun(unsigned int baseAdd)
 {
     volatile unsigned int splitPower = 0;

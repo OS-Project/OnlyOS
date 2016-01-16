@@ -46,7 +46,7 @@ SYSTEM * system_;
     bool kinit_devices();
 
     void kinit_screen();
-
+    int klaunch();
 #endif //ONLYOS_KERNEL_H
 
 #ifdef __cplusplus

@@ -58,7 +58,7 @@ unsigned int GPIO_getPhysicalAdress(char gpio_number) {
             physical_adress = SOC_GPIO_3_REGS;
             break;
         default:
-            /* Error */
+            physical_adress = 0;
             break;
     }
     return physical_adress;
