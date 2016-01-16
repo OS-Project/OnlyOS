@@ -7,7 +7,7 @@ extern "C" {
 
 #ifndef ONLYOS_KERNEL_H
 #define ONLYOS_KERNEL_H
-    #include <stdbool.h>
+
     #include <stdlib.h>
     #include <stdio.h>
 
@@ -42,8 +42,8 @@ SYSTEM * system_;
 #define kprintf printf
     int kmain();
     void kinit();
-    bool kinit_drivers();
-    bool kinit_devices();
+    int kinit_drivers();
+    int kinit_devices();
 
     void kinit_screen();
     int klaunch();

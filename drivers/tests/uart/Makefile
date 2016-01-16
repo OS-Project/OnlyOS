@@ -8,7 +8,9 @@ include ${ROOT}/build/makedefs
 SRC=${DRIVER_SRC}/tests/uart/uart.c \
     ${DRIVER_SRC}/uart/uart.c \
     ${HAL_SRC}/uart/uart_irda_cir.c \
-    ${SYSCALLS_SRC}/syscalls.c
+    ${SYSCALLS_SRC}/syscalls_io.c \
+    ${SYSCALLS_SRC}/syscalls_mis.c \
+    ${SYSCALLS_SRC}/syscalls_memory.c
 OBJ=$(SRC:.c=.o) ${BOOT_SRC}/boot.o
 
 all: INIT_MAKE ${OBJ}

@@ -12,12 +12,12 @@
     #include DRIVER_DMTIMER_PATH
     #include DRIVER_WDT_PATH
 
-    bool dinit_dmtimer(SYSTEM * system_);
+    int dinit_dmtimer(SYSTEM * system_);
 
-    bool dinit_filesystem(SYSTEM * system_);
-    bool dinit_rtc(SYSTEM * system_);
-    bool dinit_uart(SYSTEM * system_);
-    bool dinit_gpio(SYSTEM * system_);
-    bool dinit_wdt(SYSTEM * system_);
+    int dinit_filesystem(SYSTEM * system_);
+    int dinit_rtc(SYSTEM * system_);
+    int dinit_uart(SYSTEM * system_);
+    int dinit_gpio(SYSTEM * system_);
+    int dinit_wdt(SYSTEM * system_);
 
 #endif //ONLYOS_DRIVERS_H

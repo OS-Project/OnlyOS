@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-void pathShow()
+void consoleShow()
 {
-    printf("OnlyOS:%s$ ", path_);
+    printf("OnlyOS:%s$ ", name, path_);
 }

@@ -2,7 +2,7 @@
 # Creation : 19/12/2015
 
 ROOT=.
-FILE_NAME = kernel.bin
+FILE_NAME = kernel
 include ${ROOT}/build/makedefs
 
 SRC = ${shell python scripts/create_src_list.py}

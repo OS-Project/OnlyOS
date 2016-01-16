@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main()
+int kmain()
 {
     int nombreMystere = 0, nombreEntre = 0;
     const int MAX = 100, MIN = 1;

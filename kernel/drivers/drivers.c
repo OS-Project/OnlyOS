@@ -4,29 +4,29 @@
 
 #include "kernel/drivers/drivers.h"
 
-bool dinit_dmtimer(SYSTEM * system_) {
+int dinit_dmtimer(SYSTEM * system_) {
     TIMER_set(0, system_->SYSTEM_DMTIMER);
     TIMER_start(system_->SYSTEM_DMTIMER);
-    return true;
+    return 1;
 }
 
-bool dinit_filesystem(SYSTEM * system_) {
-    return true;
+int dinit_filesystem(SYSTEM * system_) {
+    return 1;
 }
 
-bool dinit_rtc(SYSTEM * system_) {
-    return true;
+int dinit_rtc(SYSTEM * system_) {
+    return 1;
 }
 
-bool dinit_uart(SYSTEM * system_) {
-    return true;
+int dinit_uart(SYSTEM * system_) {
+    return 1;
 }
 
-bool dinit_gpio(SYSTEM * system_) {
-    return true;
+int dinit_gpio(SYSTEM * system_) {
+    return 1;
 }
 
-bool dinit_wdt(SYSTEM * system_) {
+int dinit_wdt(SYSTEM * system_) {
     if(system_->SYSTEM_WDT) {
         WDT_enable(0);
         WDT_enable(1);

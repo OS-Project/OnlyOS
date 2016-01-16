@@ -36,12 +36,12 @@ LINKER_PATH = ${ROOT}/build/linker.ld
 IPATH=-I ${ROOT}/include/arch/arm \
       -I ${ROOT}/include/arch/arm/hal/hw \
       -I ${ROOT}/include \
-      -I ${ROOT}/include/syscalls \
+      -I ${ROOT}/include/syscalls
 
 LPATH =
 
 # Flags
-CCFLAGS = -Wall ${IPATH} -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-a8 -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -O3 #-ansi -Wall -Wextra
+CCFLAGS = -Wall ${IPATH} -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-a8 -march=armv7-a -pedantic -ansi -Wextra
 
 #|------------|--------------------------------------------|--------------|
 #| Cortex-A*  | [-mthumb] -march=armv7-a                   | armv7-ar     |

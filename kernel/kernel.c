@@ -14,12 +14,12 @@ SYSTEM * system_;
 
 int kmain()
 {
+    kprintf("### Kernel initialisation\n");
     kinit();
-    kprintf("Kernel initialisation done\n");
-    //klaunch();
+    kprintf("### Kernel initialisation done\n");
 
-    kprintf("\nEnd of code, system sleep, please restart\n");
     klaunch();
+    kprintf("\nEnd of code, system sleep, please restart\n");
     while(1);
     return 0;
 }
@@ -64,28 +64,30 @@ void kinit()
  *
  * Initialise drivers
  */
-bool kinit_drivers()
+int kinit_drivers()
 {
-    bool status = true;
-    status &= dinit_wdt(system_);
-    if(status)
-        kprintf("[Init] Watchdog timer initialized\n");
+    int status = 1;
 
     status &= dinit_dmtimer(system_);
     if(status)
-        kprintf("[Init] DM timer initialized\n");
+        kprintf("[Init] DM timer ok\n");
 
     status &= dinit_rtc(system_);
     if(status)
-        kprintf("[Init] RTC initialized\n");
+        kprintf("[Init] RTC ok\n");
 
     status &= dinit_uart(system_);
     if(status)
-        kprintf("[Init] UART initialized\n");
+        kprintf("[Init] UART ok\n");
 
     status &= dinit_gpio(system_);
     if(status)
-        kprintf("[Init] GPIO initialized\n");
+        kprintf("[Init] GPIO ok\n");
+    /*
+    status &= dinit_wdt(system_);
+    if(status)
+        kprintf("[Init] Watchdog timer ok\n");
+    */
 
     return status;
 }
@@ -94,8 +96,7 @@ bool kinit_drivers()
  * Initialise devices list
  * Initialise devices
  */
-bool kinit_devices()
-{
+int kinit_devices() {
     return true;
 }
 
