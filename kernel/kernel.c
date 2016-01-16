@@ -19,7 +19,7 @@ int kmain()
     //klaunch();
 
     kprintf("\nEnd of code, system sleep, please restart\n");
-
+    klaunch();
     while(1);
     return 0;
 }
