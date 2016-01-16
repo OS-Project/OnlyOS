@@ -6,5 +6,5 @@
 
 int klaunch()
 {
-
+    return 0;
 }

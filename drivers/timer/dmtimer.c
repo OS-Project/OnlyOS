@@ -66,7 +66,7 @@ unsigned int TIMER_getPhysicalAdress(char timer_number) {
             physical_adress = SOC_DMTIMER_7_REGS;
             break;
         default:
-            /* Error */
+            physical_adress = 0;
             break;
     }
     return physical_adress;

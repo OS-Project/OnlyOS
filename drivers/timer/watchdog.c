@@ -18,7 +18,7 @@ void WDT_disable(char wdt_number)
 
 unsigned int WDT_getPhysicalAdress(char wdt_number)
 {
-    unsigned physical_adress;
+    unsigned int physical_adress;
     switch (wdt_number) {
         case 0:
             physical_adress = SOC_WDT_0_REGS;
@@ -27,6 +27,7 @@ unsigned int WDT_getPhysicalAdress(char wdt_number)
             physical_adress = SOC_WDT_1_REGS;
             break;
         default:
+            physical_adress = 0;
             break;
     }
 

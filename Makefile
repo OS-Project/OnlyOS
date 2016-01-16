@@ -8,7 +8,7 @@ include ${ROOT}/build/makedefs
 SRC = ${shell python scripts/create_src_list.py}
 OBJ = $(SRC:.c=.o) boot/boot.o
 
-all: ${OBJ}
+all: INIT_MAKE ${OBJ}
 	@echo "\n### Linkage des sources"
 	#$(LD) -T ${LINKER_PATH} ${LDFLAGS} ${OBJ} -o ${FILE_NAME}.elf ${INCLUDE_STD_LIB_C}
 	#$(PREFIX)-objdump -D ${FILE_NAME}.elf > ${FILE_NAME}.list
