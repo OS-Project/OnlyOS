@@ -2,11 +2,11 @@
 interrupt_vector_table:
     b _start // Reset Handler
     b . // Undefined instruction
-    b . // SWI Handler (Software interrupt)
+    b swi_handler // SWI Handler (Software interrupt)
     b . // Prefetch Abort
     b . // Data Abort
     b . // Reserved
-    b . // IRQ
+    b irq_handler // IRQ
     b . // FIQ
 
 
