@@ -3,18 +3,19 @@ OUTPUT_ARCH(arm)
 ENTRY(_start)	/* Entry point of the program */
 
 
+SYS_STACK_SIZE = 0x100000; /* 1M */
 C_STACK_SIZE = 0x100000; /* 1M */
-SVC_STACK_SIZE = 0x100000;
+SVC_STACK_SIZE = 0x100000; /* 1M */
 IRQ_STACK_SIZE = 1024;
 
 
 MEMORY
 {
-    SDRAM (rwx) : ORIGIN = 0x80000000, LENGTH = 512M;
-    CODE (rx) : ORIGIN = 0x80000000, LENGTH = 1M;
-    HEAP (rw) : ORIGIN = 0x80100000, LEGNTH = 1M;
-    STACK (rw) : ORIGIN = 0x80200000, LEGNTH = 1M;
+    CODE (rx) : ORIGIN = 0x80000000, LENGTH = 50M
+    HEAP (rw) : ORIGIN = 0x83200000, LENGTH = 100M
+    STACK (rw) : ORIGIN = 0x89600000, LENGTH = 50M
 }
+
 
 SECTIONS
 {
@@ -51,13 +52,17 @@ SECTIONS
     .heap :
     {
         _sheap = .;
-        . = . + 0x6400000; /* 100 Mo */
         _eheap = .;
     } > HEAP
 
     .stack :
     {
         _sstack = .;
+
+        _s_sys_stack = .;
+        . += SYS_STACK_SIZE;
+        _e_sys_stack = .;
+
         _s_irq_stack = .;
         . += IRQ_STACK_SIZE;
         _e_irq_stack = .;

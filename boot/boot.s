@@ -24,7 +24,7 @@ _start:
     .equ    fiq_mode, 0b10001         // Fast interrupt
 
     stack_init:
-        //msr cpsr, #svc_mode
+        msr cpsr, #svc_mode
         ldr r0, =_e_svc_stack
         mov	sp, r0
 
@@ -37,6 +37,8 @@ _start:
         //msr cpsr, #abort_mode
         //msr cpsr, #fiq_mode
         msr cpsr, #sys_mode
+        ldr r0, =_e_sys_stack
+        mov sp, r0
 
     bss_init:
         ldr	r0, =_sbss
@@ -55,5 +57,8 @@ _start:
     call_main:
         b	kmain
 
+
+swi_handler:
+irq_handler:
 halt:
     b	halt
