@@ -67,7 +67,7 @@ void kinit()
 int kinit_drivers()
 {
     int status = 1;
-
+    kprintf("[Init] Initialization of timer\n");
     status &= dinit_dmtimer(system_);
     if(status)
         kprintf("[Init] DM timer ok\n");

@@ -1,3 +1,4 @@
 syscalls_io.c
 syscalls_memory.c
 syscalls_mis.c
+syscalls_time.c

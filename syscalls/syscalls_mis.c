@@ -9,6 +9,10 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <stddef.h>
+#include <errno.h>
+
+#undef errno
+extern int  errno;
 
 int _close(int file) {
     return -1;
@@ -29,4 +33,9 @@ int _lseek(int file, int ptr, int dir) {
 
 int _open(const char *name, int flags, int mode) {
     return -1;
+}
+
+int _wait (int *status) {
+    errno = ECHILD;
+    return -1;                    /* Always fails */
 }
