@@ -16,9 +16,27 @@ interrupt_vector_table:
 
 _start:
 
-    // Set up the stack: last available ram address: 0xBFFF_FFFF (datasheet p179), minus 512MB.
+    .equ    sys_mode, 0b11111         // System mode
+    .equ    und_mode, 0b11011         // Undefined mode
+    .equ    abort_mode, 0b10111       // Abort mode
+    .equ    svc_mode, 0b10011         // Supervisor mode
+    .equ    irq_mode, 0b10010         // Interrupt mode
+    .equ    fiq_mode, 0b10001         // Fast interrupt
+
     stack_init:
-        mov	sp, #0xA0000000
+        //msr cpsr, #svc_mode
+        ldr r0, =_e_svc_stack
+        mov	sp, r0
+
+        msr cpsr, #irq_mode
+        ldr r0, =_e_svc_stack
+        mov sp, r0
+
+
+        //msr cpsr, #und_mode
+        //msr cpsr, #abort_mode
+        //msr cpsr, #fiq_mode
+        msr cpsr, #sys_mode
 
     bss_init:
         ldr	r0, =_sbss
