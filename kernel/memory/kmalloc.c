@@ -14,4 +14,8 @@ int liballoc_free(void*,int) {
     return 0;
 }
 
+int _ksqrt()
+{
+
+}
 

@@ -1,5 +1,0 @@
-McASP is an acronym for Multichannel Audio Serial Port, a communication peripheral found in Texas Instruments family of digital signal processors (DSPs) and Microcontroller Units (MCUs).[1]
-The McASP functions as a general-purpose audio serial port optimized for the needs of multichannel audio applications. Depending on the implementation, the McASP may be useful for time-division multiplexed (TDM) stream, Inter-Integrated Sound (I2S) protocols, and intercomponent digital audio interface transmission (DIT). However, some implementations are limited to supporting just the Inter-Integrated Sound (I2S) protocol.[2]
-The McASP consists of transmit and receive sections that may operate synchronized, or completely independently with separate master clocks, bit clocks, and frame syncs, and using different transmit modes with different bit-stream formats. The McASP module also includes up to 16 serializers that can be individually enabled to either transmit or receive. In addition, all of the McASP pins can be configured as general-purpose input/output (GPIO) pins.
-
-https://en.wikipedia.org/wiki/McASP

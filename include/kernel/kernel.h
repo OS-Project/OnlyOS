@@ -27,19 +27,6 @@ extern "C" {
         char SYSTEM_STDIN;
     } SYSTEM;
 
-/*
- * Created by Thibault PIANA on 10/11/15.
-*/
-
-#include "kernel/kernel.h"
-#include "kernel/user.h"
-#include "kernel/drivers/drivers.h"
-
-//USER * user_;
-SYSTEM * system_;
-
-#define kmalloc malloc /* Temporary */
-#define kprintf printf
     int kmain();
     void kinit();
     int kinit_drivers();

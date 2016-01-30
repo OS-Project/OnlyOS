@@ -29,11 +29,9 @@ int dinit_gpio(SYSTEM * system_) {
 int dinit_wdt(SYSTEM * system_) {
     if(system_->SYSTEM_WDT) {
         WDT_enable(0);
-        WDT_enable(1);
     }
     else {
         WDT_disable(0);
-        WDT_disable(1);
     }
     return true;
 }

@@ -1,23 +1,21 @@
 /*---------------------------------------------------------------------------/
-/  FatFs - FAT file system module include R0.11a    (C)ChaN, 2015
+/  FatFs - FAT file system module include file  R0.10b    (C)ChaN, 2014
 /----------------------------------------------------------------------------/
-/ FatFs module is a free software that opened under license policy of
-/ following conditions.
+/ FatFs module is a generic FAT file system module for small embedded systems.
+/ This is a free software that opened for education, research and commercial
+/ developments under license policy of following terms.
 /
-/ Copyright (C) 2015, ChaN, all right reserved.
+/  Copyright (C) 2014, ChaN, all right reserved.
 /
-/ 1. Redistributions of source code must retain the above copyright notice,
-/    this condition and the following disclaimer.
+/ * The FatFs module is a free software and there is NO WARRANTY.
+/ * No restriction on use. You can use, modify and redistribute it for
+/   personal, non-profit or commercial product UNDER YOUR RESPONSIBILITY.
+/ * Redistributions of source code must retain the above copyright notice.
 /
-/ This software is provided by the copyright holder and contributors "AS IS"
-/ and any warranties related to this software are DISCLAIMED.
-/ The copyright owner or contributors be NOT LIABLE for any damages caused
-/ by use of this software.
-/---------------------------------------------------------------------------*/
-
+/----------------------------------------------------------------------------*/
 
 #ifndef _FATFS
-#define _FATFS	64180	/* Revision ID */
+#define _FATFS	8051	/* Revision ID */
 
 #ifdef __cplusplus
 extern "C" {
@@ -25,6 +23,13 @@ extern "C" {
 
 #include "integer.h"	/* Basic integer types */
 #include "ffconf.h"		/* FatFs configuration options */
+
+#include <stdlib.h>
+
+#ifdef ENV_FWTEST
+ #include <stdio.h>
+#endif
+
 #if _FATFS != _FFCONF
 #error Wrong configuration file (ffconf.h).
 #endif
@@ -73,6 +78,9 @@ typedef char TCHAR;
 
 
 
+
+
+
 /* File system object structure (FATFS) */
 
 typedef struct {
@@ -90,10 +98,10 @@ typedef struct {
 #if _FS_REENTRANT
 	_SYNC_t	sobj;			/* Identifier of sync object */
 #endif
-#if !_FS_READONLY
+//#if !_FS_READONLY
 	DWORD	last_clust;		/* Last allocated cluster */
 	DWORD	free_clust;		/* Number of free clusters */
-#endif
+//#endif
 #if _FS_RPATH
 	DWORD	cdir;			/* Current directory start cluster (0:root) */
 #endif
@@ -104,7 +112,14 @@ typedef struct {
 	DWORD	dirbase;		/* Root directory start sector (FAT32:Cluster#) */
 	DWORD	database;		/* Data start sector */
 	DWORD	winsect;		/* Current sector appearing in the win[] */
-	BYTE	win[_MAX_SS];	/* Disk access window for Directory, FAT (and file data at tiny cfg) */
+	BYTE	win[_MAX_SS]
+#ifndef ENV_FWTEST
+        __attribute__ ((aligned (64)))
+#endif
+        ;	/* Disk access window for Directory, FAT (and file data at tiny cfg) */
+#ifdef ENV_FWTEST
+	FILE*   FHandle;
+#endif
 } FATFS;
 
 
@@ -121,10 +136,10 @@ typedef struct {
 	DWORD	sclust;			/* File start cluster (0:no cluster chain, always 0 when fsize is 0) */
 	DWORD	clust;			/* Current cluster of fpter (not valid when fprt is 0) */
 	DWORD	dsect;			/* Sector number appearing in buf[] (0:invalid) */
-#if !_FS_READONLY
+//#if !_FS_READONLY
 	DWORD	dir_sect;		/* Sector number containing the directory entry */
 	BYTE*	dir_ptr;		/* Pointer to the directory entry in the win[] */
-#endif
+//#endif
 #if _USE_FASTSEEK
 	DWORD*	cltbl;			/* Pointer to the cluster link map table (Nulled on file open) */
 #endif
@@ -134,6 +149,9 @@ typedef struct {
 #if !_FS_TINY
 	BYTE	buf[_MAX_SS];	/* File private data read/write window */
 #endif
+#ifdef ENV_FWTEST
+    FILE   *FHandle;
+#endif //ENV_FWTEST
 } FIL;
 
 
@@ -156,14 +174,11 @@ typedef struct {
 	WCHAR*	lfn;			/* Pointer to the LFN working buffer */
 	WORD	lfn_idx;		/* Last matched LFN index number (0xFFFF:No LFN) */
 #endif
-#if _USE_FIND
-	const TCHAR*	pat;	/* Pointer to the name matching pattern */
-#endif
 } DIR;
 
 
 
-/* File information structure (FILINFO) */
+/* File status structure (FILINFO) */
 
 typedef struct {
 	DWORD	fsize;			/* File size */
@@ -176,8 +191,6 @@ typedef struct {
 	UINT 	lfsize;			/* Size of LFN buffer in TCHAR */
 #endif
 } FILINFO;
-
-
 
 /* File function return code (FRESULT) */
 
@@ -200,7 +213,7 @@ typedef enum {
 	FR_TIMEOUT,				/* (15) Could not get a grant to access the volume within defined period */
 	FR_LOCKED,				/* (16) The operation is rejected according to the file sharing policy */
 	FR_NOT_ENOUGH_CORE,		/* (17) LFN working buffer could not be allocated */
-	FR_TOO_MANY_OPEN_FILES,	/* (18) Number of open files > _FS_LOCK */
+	FR_TOO_MANY_OPEN_FILES,	/* (18) Number of open files > _FS_SHARE */
 	FR_INVALID_PARAMETER	/* (19) Given parameter is invalid */
 } FRESULT;
 
@@ -212,7 +225,7 @@ typedef enum {
 FRESULT f_open (FIL* fp, const TCHAR* path, BYTE mode);				/* Open or create a file */
 FRESULT f_close (FIL* fp);											/* Close an open file object */
 FRESULT f_read (FIL* fp, void* buff, UINT btr, UINT* br);			/* Read data from a file */
-FRESULT f_write (FIL* fp, const void* buff, UINT btw, UINT* bw);	/* Write data to a file */
+FRESULT f_write (FIL* fp, const void* buff, UINT btw, UINT* bw);
 FRESULT f_forward (FIL* fp, UINT(*func)(const BYTE*,UINT), UINT btf, UINT* bf);	/* Forward data to the stream */
 FRESULT f_lseek (FIL* fp, DWORD ofs);								/* Move file pointer of a file object */
 FRESULT f_truncate (FIL* fp);										/* Truncate file */
@@ -220,13 +233,11 @@ FRESULT f_sync (FIL* fp);											/* Flush cached data of a writing file */
 FRESULT f_opendir (DIR* dp, const TCHAR* path);						/* Open a directory */
 FRESULT f_closedir (DIR* dp);										/* Close an open directory */
 FRESULT f_readdir (DIR* dp, FILINFO* fno);							/* Read a directory item */
-FRESULT f_findfirst (DIR* dp, FILINFO* fno, const TCHAR* path, const TCHAR* pattern);	/* Find first file */
-FRESULT f_findnext (DIR* dp, FILINFO* fno);							/* Find next file */
 FRESULT f_mkdir (const TCHAR* path);								/* Create a sub directory */
 FRESULT f_unlink (const TCHAR* path);								/* Delete an existing file or directory */
 FRESULT f_rename (const TCHAR* path_old, const TCHAR* path_new);	/* Rename/Move a file or directory */
 FRESULT f_stat (const TCHAR* path, FILINFO* fno);					/* Get file status */
-FRESULT f_chmod (const TCHAR* path, BYTE attr, BYTE mask);			/* Change attribute of the file/dir */
+FRESULT f_chmod (const TCHAR* path, BYTE value, BYTE mask);			/* Change attribute of the file/dir */
 FRESULT f_utime (const TCHAR* path, const FILINFO* fno);			/* Change times-tamp of the file/dir */
 FRESULT f_chdir (const TCHAR* path);								/* Change current directory */
 FRESULT f_chdrive (const TCHAR* path);								/* Change current drive */
@@ -242,12 +253,15 @@ int f_puts (const TCHAR* str, FIL* cp);								/* Put a string to the file */
 int f_printf (FIL* fp, const TCHAR* str, ...);						/* Put a formatted string to the file */
 TCHAR* f_gets (TCHAR* buff, int len, FIL* fp);						/* Get a string from the file */
 
-#define f_eof(fp) ((int)((fp)->fptr == (fp)->fsize))
-#define f_error(fp) ((fp)->err)
-#define f_tell(fp) ((fp)->fptr)
-#define f_size(fp) ((fp)->fsize)
-#define f_rewind(fp) f_lseek((fp), 0)
-#define f_rewinddir(dp) f_readdir((dp), 0)
+#ifndef ENV_FWTEST
+ #define f_eof(fp) (((fp)->fptr == (fp)->fsize) ? 1 : 0)
+ #define f_error(fp) ((fp)->err)
+ #define f_tell(fp) ((fp)->fptr)
+ #define f_size(fp) ((fp)->fsize)
+#else
+ DWORD f_tell(FIL* fp);
+ DWORD f_size(FIL* fp);
+#endif
 
 #ifndef EOF
 #define EOF (-1)
@@ -260,7 +274,7 @@ TCHAR* f_gets (TCHAR* buff, int len, FIL* fp);						/* Get a string from the fil
 /* Additional user defined functions                            */
 
 /* RTC function */
-#if !_FS_READONLY && !_FS_NORTC
+#if !_FS_READONLY
 DWORD get_fattime (void);
 #endif
 
@@ -281,7 +295,6 @@ int ff_req_grant (_SYNC_t sobj);				/* Lock sync object */
 void ff_rel_grant (_SYNC_t sobj);				/* Unlock sync object */
 int ff_del_syncobj (_SYNC_t sobj);				/* Delete a sync object */
 #endif
-
 
 
 
@@ -325,7 +338,6 @@ int ff_del_syncobj (_SYNC_t sobj);				/* Delete a sync object */
 
 /* Fast seek feature */
 #define CREATE_LINKMAP	0xFFFFFFFF
-
 
 
 /*--------------------------------*/

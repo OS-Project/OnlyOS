@@ -5,6 +5,7 @@
 #include "kernel/kernel.h"
 #include "kernel/user.h"
 #include "kernel/drivers/drivers.h"
+#include "drivers/fs/fat/diskio.h"
 
 USER * user_;
 SYSTEM * system_;
@@ -19,7 +20,7 @@ int kmain()
     kprintf("### Kernel initialisation done\n");
 
     klaunch();
-    kprintf("\nEnd of code, system sleep, please restart\n");
+    kprintf("\nEnd of code, please restart\n");
     while(1);
     return 0;
 }
@@ -53,7 +54,12 @@ void kinit()
     kinit_devices();
     kprintf("[Init] ### Devices initialisation done\n");
 
-
+    kprintf("[Init] ### Initialize MMC 0\n");
+    DSTATUS result =  disk_initialize(0);
+    kprintf("[Init] MMC 0 respond %d \n", result);
+    kprintf("[Init] ### Initialize MMC 1\n");
+    DSTATUS result =  disk_initialize(1);
+    kprintf("[Init] MMC 1 respond %d \n", result);
     kinit_screen();
 }
 
@@ -88,7 +94,6 @@ int kinit_drivers()
     if(status)
         kprintf("[Init] Watchdog timer ok\n");
     */
-
     return status;
 }
 
