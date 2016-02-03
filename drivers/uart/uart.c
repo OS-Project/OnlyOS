@@ -37,6 +37,10 @@ int UART_writeStr(char *str, char uart_number) {
     return len;
 }
 
+int UART_writeStrOnStdout(char *str) {
+    int len = UART_writeStr(str, CONFIG_SYSTEM_STDOUT);
+    return len;
+}
 /* Read */
 char UART_readByte(char uart_number) {
     unsigned int base_adress = UART_getPhysicalAdress(uart_number);

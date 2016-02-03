@@ -6,7 +6,7 @@ FILE_NAME = kernel
 include ${ROOT}/build/makedefs
 
 SRC = ${shell python scripts/create_src_list.py}
-OBJ = $(SRC:.c=.o) boot/boot.o
+OBJ = $(SRC:.c=.o)
 
 all: INIT_MAKE ${OBJ}
 	@echo "\n### Linkage des sources"

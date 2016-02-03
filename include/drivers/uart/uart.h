@@ -8,10 +8,15 @@ extern "C" {
     #include "hal/uart/uart_irda_cir.h"
     #include "soc_AM335x.h"
 
+    /* System config */
+    #include "kernel/config.h"
+
     /* Write */
     void UART_writeByte(const char data, char uart_number);
     int UART_write(const char *pcBuf, int len, char uart_number);
     int UART_writeStr(char *str, char uart_number);
+
+    int UART_writeStrOnStdout(char *str);
 
     /* Read */
     char UART_readByte(char uart_number);

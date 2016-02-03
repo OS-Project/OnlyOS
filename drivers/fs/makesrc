@@ -1,2 +1,2 @@
 fat/ff.c
-fat/diskio.c
+fat/fat_mmcsd.c

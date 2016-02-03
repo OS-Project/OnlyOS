@@ -53,13 +53,14 @@ void kinit()
     kprintf("[Init] ### Start devices initialisation\n");
     kinit_devices();
     kprintf("[Init] ### Devices initialisation done\n");
-
+    /*
     kprintf("[Init] ### Initialize MMC 0\n");
     DSTATUS result =  disk_initialize(0);
     kprintf("[Init] MMC 0 respond %d \n", result);
     kprintf("[Init] ### Initialize MMC 1\n");
     DSTATUS result =  disk_initialize(1);
     kprintf("[Init] MMC 1 respond %d \n", result);
+    */
     kinit_screen();
 }
 

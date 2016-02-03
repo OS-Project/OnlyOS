@@ -39,13 +39,16 @@
 *
 */
 
-#include "soc_AM335x.h"
-#include "hal/mmcsd/hs_mmcsd.h"
-#include "hal/edma.h"
-
 #include "libs/mmcsdlib/mmcsd_proto.h"
+#include "libs/mmcsdlib/hs_mmcsdlib.h"
 
+#include "hal/mmcsd/hs_mmcsd.h"
+
+#include "hal/edma.h"
 #include <string.h>
+#include <drivers/uart/uart.h>
+
+
 /**
  * \brief    Check if the card is inserted and detected
  *
@@ -97,41 +100,37 @@ unsigned int HSMMCSDControllerInit(mmcsdCtrlInfo *ctrl)
 
     if (status != 0)
     {
-        // ("HS MMC/SD Reset failed\n\r", -1);
+        UART_writeStrOnStdout("HS MMC/SD Reset failed\n\r");
     }
 
     /* Lines Reset */
     HSMMCSDLinesReset(ctrl->memBase, HS_MMCSD_ALL_RESET);
 
     /* Set supported voltage list */
-    if (ctrl->memBase==SOC_MMCHS_1_REGS) // MMC1 is always eMMC on BBB
-    {
-       HSMMCSDSupportedVoltSet(ctrl->memBase, HS_MMCSD_SUPPORT_VOLT_1P8 |HS_MMCSD_SUPPORT_VOLT_3P3);
-       HSMMCSDSystemConfig(ctrl->memBase,HS_MMCSD_AUTOIDLE_ENABLE);
-       HSMMCSDBusWidthSet(ctrl->memBase, HS_MMCSD_BUS_WIDTH_4BIT); /////////////////////////////////////////////////////////////////
-       HSMMCSDBusVoltSet(ctrl->memBase, HS_MMCSD_BUS_VOLT_3P3);
-    }
-    else
-    {
-       HSMMCSDSupportedVoltSet(ctrl->memBase,HS_MMCSD_SUPPORT_VOLT_1P8|HS_MMCSD_SUPPORT_VOLT_3P0);
-       HSMMCSDSystemConfig(ctrl->memBase,HS_MMCSD_AUTOIDLE_ENABLE);
-       HSMMCSDBusWidthSet(ctrl->memBase,HS_MMCSD_BUS_WIDTH_1BIT);
-       HSMMCSDBusVoltSet(ctrl->memBase,HS_MMCSD_BUS_VOLT_3P0);
-    }
+    HSMMCSDSupportedVoltSet(ctrl->memBase, HS_MMCSD_SUPPORT_VOLT_1P8 |
+                                                HS_MMCSD_SUPPORT_VOLT_3P0);
+
+    HSMMCSDSystemConfig(ctrl->memBase, HS_MMCSD_AUTOIDLE_ENABLE);
+
+    /* Set the bus width */
+    HSMMCSDBusWidthSet(ctrl->memBase, HS_MMCSD_BUS_WIDTH_1BIT );
+
+    /* Set the bus voltage */
+    HSMMCSDBusVoltSet(ctrl->memBase, HS_MMCSD_BUS_VOLT_3P0);
 
     /* Bus power on */
     status = HSMMCSDBusPower(ctrl->memBase, HS_MMCSD_BUS_POWER_ON);
 
     if (status != 0)
     {
-        // HS MMC/SD Power on failed\n\r", -1);
+        UART_writeStrOnStdout("HS MMC/SD Power on failed\n\r");
     }
 
     /* Set the initialization frequency */
     status = HSMMCSDBusFreqSet(ctrl->memBase, ctrl->ipClk, ctrl->opClk, 0);
     if (status != 0)
     {
-        // ("HS MMC/SD Bus Frequency set failed\n\r", -1);
+        UART_writeStrOnStdout("HS MMC/SD Bus Frequency set failed\n\r");
     }
 
     HSMMCSDInitStreamSend(ctrl->memBase);
@@ -242,16 +241,10 @@ void HSMMCSDBusWidthConfig(mmcsdCtrlInfo *ctrl, unsigned int busWidth)
     {
            HSMMCSDBusWidthSet(ctrl->memBase, HS_MMCSD_BUS_WIDTH_1BIT);
     }
-
-    else if (busWidth == SD_BUS_WIDTH_4BIT)
+    else
     {
            HSMMCSDBusWidthSet(ctrl->memBase, HS_MMCSD_BUS_WIDTH_4BIT);
     }
-    else
-    {
-    	HSMMCSDBusWidthSet(ctrl->memBase, HS_MMCSD_BUS_WIDTH_8BIT);
-    }
-
 }
 /**
  * \brief   Set output bus frequency
