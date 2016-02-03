@@ -7,13 +7,6 @@ extern "C" {
 
 #ifndef ONLYOS_KERNEL_H
 #define ONLYOS_KERNEL_H
-
-    #include <stdlib.h>
-    #include <stdio.h>
-
-    #include "kernel/config.h"
-    #include DRIVER_UART_PATH
-
     typedef struct  {
         // Compilation informations
         char* _COMPILATION_TIME;

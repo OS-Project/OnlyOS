@@ -3,11 +3,12 @@
 */
 
 #include "kernel/kernel.h"
-#include "kernel/user.h"
+#include "kernel/config.h"
 #include "kernel/drivers/drivers.h"
-#include "drivers/fs/fat/diskio.h"
 
-USER * user_;
+#include <stdlib.h>
+#include <stdio.h>
+
 SYSTEM * system_;
 
 #define kmalloc malloc /* Temporary */
@@ -41,11 +42,11 @@ void kinit()
     system_->SYSTEM_STDIN = CONFIG_SYSTEM_STDIN;
 
     /* Initialisation de l'utilisateur */
-    user_ = kmalloc(sizeof(USER));
+    /*user_ = kmalloc(sizeof(USER));
 
     user_->current_path = "/";
     user_->name = "root";
-
+    */
     /* Initilisation des drivers */
     kprintf("[Init] ### Start drivers initialisation\n");
     kinit_drivers();
@@ -53,14 +54,7 @@ void kinit()
     kprintf("[Init] ### Start devices initialisation\n");
     kinit_devices();
     kprintf("[Init] ### Devices initialisation done\n");
-    /*
-    kprintf("[Init] ### Initialize MMC 0\n");
-    DSTATUS result =  disk_initialize(0);
-    kprintf("[Init] MMC 0 respond %d \n", result);
-    kprintf("[Init] ### Initialize MMC 1\n");
-    DSTATUS result =  disk_initialize(1);
-    kprintf("[Init] MMC 1 respond %d \n", result);
-    */
+
     kinit_screen();
 }
 

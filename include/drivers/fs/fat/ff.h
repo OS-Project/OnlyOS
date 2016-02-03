@@ -62,16 +62,7 @@
 
 
 #include "integer.h"
-
-#if defined(am335x)
 #include "soc_AM335x.h"
-#endif
-#if defined(omapl138)
-#include "soc_OMAPL138.h"
-#endif
-#if defined(c6748)
-#include "soc_C6748.h"
-#endif
 
 /* Definitions corresponds to multiple sector size (not tested) */
 #define    S_MAX_SIZ    512            /* Do not change */
