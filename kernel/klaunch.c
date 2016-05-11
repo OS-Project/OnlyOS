@@ -4,8 +4,6 @@
 
 #include "kernel/kernel.h"
 #include "kernel/config.h"
-#include "drivers/fs/fs.h"
-#include "drivers/fs/fat/ff.h"
 
 #include <stdlib.h>
 #include <stdio.h>

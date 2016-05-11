@@ -19,5 +19,4 @@
     int dinit_uart(SYSTEM * system_);
     int dinit_gpio(SYSTEM * system_);
     int dinit_wdt(SYSTEM * system_);
-
 #endif //ONLYOS_DRIVERS_H
