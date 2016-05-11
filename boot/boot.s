@@ -55,10 +55,12 @@ _start:
             bne	write_zero
 
     call_main:
-        b	kmain
+	mov r0, #0
+        b	kexit
 
 
 swi_handler:
 irq_handler:
 halt:
-    b	halt
+    mov r0, #0 // No error
+    b	kexit

@@ -27,6 +27,7 @@ extern "C" {
 
     void kinit_screen();
     int klaunch();
+    void kexit(int errnum);
 #endif //ONLYOS_KERNEL_H
 
 #ifdef __cplusplus

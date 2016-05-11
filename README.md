@@ -4,6 +4,11 @@ The operating system
 # Filesystem driver
 Todo
 -----
+- [ ] Handle exit/error.
+- [ ] SVC calls handling.
+- [ ] IRQ handling.
+- [ ] Exceptions handling.
+- [ ] Uart interrupts.
 - [ ] File system (must code diskio.c)
 
 # UART driver
@@ -21,21 +26,24 @@ Questions
 - uart_write_byte(): alternate version using diferrent register?
 - uart_read_byte(): alternate version for signed values?
 
-# How ?
+# Exceptions/interrupts handling
+
+
+# Misc
 How to compile a new source ?
----------
+-----------------------------
 Create a file "makesrc" in the directory of the source(s) file(s) and add the name of the sources inside.
 The script will automaticaly reconize the files and compile them
 
-# Others
 Questions
 ---------
+- kexit() or call to _exit() syscall ?
 - fichier tempo en C
 - C init
 - Linker script: start at 0x80200000?
 
 How to compile newlib ?
----------
+-----------------------
 ./configure --target=arm-none-eabi --enable-interwork --enable-multilib --with-gnu-as --with-gnu-ld --disable-shared --disable-libssp --disable-libada --disable-newlib-supplied-syscalls --enable-lite-exit --disable-newlib-multithread
 
 sources : https://gcc.gnu.org/ml/gcc-help/2012-08/msg00190.html

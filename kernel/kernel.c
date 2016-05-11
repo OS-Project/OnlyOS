@@ -8,6 +8,8 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <errno.h>
+extern int errno;
 
 SYSTEM * system_;
 
@@ -112,4 +114,11 @@ void kinit_screen()
     kprintf("|_______|_|  |__|_______||___| |_______|_______|");
     kprintf("\n\n");
     kprintf("Developped by Thibault PIANA & Alan GARDIN\n\n");
+}
+
+void kexit(int err_num)
+{
+	if (err_num) kprintf("Kernel exited with error\n");
+	else kprintf("Kernel exited without error\n");
+	while(1);
 }
