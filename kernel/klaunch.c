@@ -11,6 +11,5 @@
 
 int klaunch()
 {
-    printf("klaunch in and out\n");
     return 0;
 }
