@@ -13,14 +13,6 @@
 
 int klaunch()
 {
-    FATFS mmc_sd;
-
-    printf("Mount SD card : \n");
-    f_mount(0, &mmc_sd);
-
-    printf("Show root directory : \n");
-    int result = Cmd_ls();
-
-    printf("Result : %d", result);
+    printf("klaunch in and out\n");
     return 0;
 }
