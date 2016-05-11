@@ -54,9 +54,9 @@ _start:
             cmp	r0, r1
             bne	write_zero
 
+    // Arguments not defined
     call_main:
-	mov r0, #0
-        b	kexit
+        b	kmain
 
 
 swi_handler:
