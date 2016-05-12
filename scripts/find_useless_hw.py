@@ -8,7 +8,7 @@ def extract_hw(ligne):
     l3 = "hw_" + l2[0]
     return l3.replace('\n','')
 
-path = "/media/thibault/Programmation et sites/Programmation/TIPE/OnlyOS"
+path = "/media/thibault/Données/Programmation/TIPE/OnlyOS"
 hw_path = path + "/include/arch/arm/hal/hw"
 
 liste_hw = []
