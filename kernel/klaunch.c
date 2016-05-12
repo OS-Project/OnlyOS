@@ -12,11 +12,6 @@
 
 int klaunch()
 {
-    int k = 0;
-    while(k % 5000 != 0)
-    {
-        printf("%d", RTC_getTime(0));
-        k++;
-    }
+    
     return 0;
 }

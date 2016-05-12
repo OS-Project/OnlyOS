@@ -13,8 +13,8 @@ int dinit_filesystem(SYSTEM * system_) {
 }
 
 int dinit_rtc(SYSTEM * system_) {
-    RTC_init(0);
-    RTC_start(0);
+    //RTC_init(0);
+    //RTC_start(0);
     return 1;
 }
 
