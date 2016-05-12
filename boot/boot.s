@@ -6,8 +6,8 @@ interrupt_vector_table:
 	b error // Prefetch Abort
 	b error // Data Abort
     	b error // Reserved
-	b error // IRQ
-	b error // FIQ
+	b irq_handler // IRQ
+	nop // FIQ
 
 .section ".text.interrupt_handler"
 fiq_handler:
@@ -78,11 +78,11 @@ _start:
     stack_init:
         msr cpsr, #svc_mode
         ldr r0, =_e_svc_stack
-        mov	sp, r0
+        mov sp, r0
 
-        //msr cpsr, #irq_mode
-        //ldr r0, =_e_irq_stack
-        //mov sp, r0
+        msr cpsr, #irq_mode
+        ldr r0, =_e_irq_stack
+        mov sp, r0
 
 
         // Kernel mode
