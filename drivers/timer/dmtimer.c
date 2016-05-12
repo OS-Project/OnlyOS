@@ -3,7 +3,8 @@
 //
 
 #include "drivers/timer/dmtimer.h"
-
+#include "hal/timer/dmtimer.h"
+#include "soc_AM335x.h"
 
 void TIMER_start(char timer_number) {
     unsigned int adress = TIMER_getPhysicalAdress(timer_number);

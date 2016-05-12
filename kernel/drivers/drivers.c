@@ -5,8 +5,6 @@
 #include "kernel/drivers/drivers.h"
 
 int dinit_dmtimer(SYSTEM * system_) {
-    TIMER_set(0, system_->SYSTEM_DMTIMER);
-    TIMER_start(system_->SYSTEM_DMTIMER);
     return 1;
 }
 
@@ -15,6 +13,8 @@ int dinit_filesystem(SYSTEM * system_) {
 }
 
 int dinit_rtc(SYSTEM * system_) {
+    RTC_init(0);
+    RTC_start(0);
     return 1;
 }
 
@@ -33,5 +33,5 @@ int dinit_wdt(SYSTEM * system_) {
     else {
         WDT_disable(0);
     }
-    return true;
+    return 1;
 }

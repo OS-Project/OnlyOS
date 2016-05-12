@@ -9,8 +9,8 @@
     #include "kernel/config.h"
 
     #include DRIVER_UART_PATH
-    #include DRIVER_DMTIMER_PATH
     #include DRIVER_WDT_PATH
+    #include DRIVER_RTC_PATH
 
     int dinit_dmtimer(SYSTEM * system_);
 

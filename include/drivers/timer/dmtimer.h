@@ -7,9 +7,6 @@ extern "C" {
 
 #ifndef ONLYOS_DMTIMER_H
 #define ONLYOS_DMTIMER_H
-    #include "hal/timer/dmtimer.h"
-    #include "soc_AM335x.h"
-
     void TIMER_start(char timer_number);
     void TIMER_stop(char timer_number);
     void TIMER_set(unsigned int counter, char timer_number);

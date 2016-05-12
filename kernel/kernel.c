@@ -100,7 +100,7 @@ int kinit_drivers()
  * Initialise devices
  */
 int kinit_devices() {
-    return true;
+    return 1;
 }
 
 void kinit_screen()

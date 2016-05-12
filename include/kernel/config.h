@@ -20,8 +20,6 @@ extern "C" {
     #define DRIVER_DMTIMER_PATH "drivers/timer/dmtimer.h"
     #define DRIVER_WDT_PATH "drivers/timer/watchdog.h"
     #define DRIVER_UART_PATH "drivers/uart/uart.h"
-    #define DRIVER_SPI_PATH "drivers/spi/spi.h"
-    #define DRIVER_I2C_PATH "drivers/i2c/i2c.h"
 #endif //ONLYOS_FILES_REFERENCES_H
 
 #ifdef __cplusplus
