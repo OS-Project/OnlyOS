@@ -24,6 +24,7 @@ SECTIONS
     {
         _stext = .;
         *(.text.interrupt_vector_table)
+	*(.text.interrupt_handler)
         *(.text.boot)
         _etext = .;
     } > CODE
