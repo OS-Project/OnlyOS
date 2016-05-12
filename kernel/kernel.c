@@ -19,10 +19,10 @@ SYSTEM * system_;
 int kmain()
 {
     kprintf("### Kernel initialisation\n");
-    kinit();
+    //kinit();
     kprintf("### Kernel initialisation done\n");
 
-    klaunch();
+    //klaunch();
     
     kprintf("\nEnd of code, please restart\n");
     while(1);
