@@ -15,7 +15,7 @@
 #include "libs/mmcsdlib/hs_mmcsdlib.h"
 
 #include "hw_types.h"
-
+#include <string.h>
 
 typedef struct _fatDevice
 {
@@ -32,11 +32,9 @@ typedef struct _fatDevice
 
 
 #define DRIVE_NUM_MMCSD     0
-#define DRIVE_NUM_MAX      2
-
+#define DRIVE_NUM_MAX      10
 
 fatDevice fat_devices[DRIVE_NUM_MAX];
-
 
 /*-----------------------------------------------------------------------*/
 /* Initialize Disk Drive                                                 */
@@ -68,7 +66,7 @@ disk_initialize(
         }
         else
         {
-#if DEBUG				
+            // if debug
             if (card->cardType == MMCSD_CARD_SD)
             {
                 UART_writeStrOnStdout("\r\nSD Card ");
@@ -76,25 +74,19 @@ disk_initialize(
                 /*UARTPutNum(card->sd_ver);*/
     
                 if (card->highCap)
-                {
                     UART_writeStrOnStdout(", High Capacity");
-                }
     
                 if (card->tranSpeed == SD_TRANSPEED_50MBPS)
-                {
                     UART_writeStrOnStdout(", High Speed");
-                }
             }
             else if (card->cardType == MMCSD_CARD_MMC)
-            {
                 UART_writeStrOnStdout("\r\nMMC Card ");
-            }
-#endif            
+
+            // endif
+
             /* Set bus width */
             if (card->cardType == MMCSD_CARD_SD)
-            {
                 MMCSDBusWidthSet(card->ctrl);
-            }
     
             /* Transfer speed */
             MMCSDTranSpeedSet(card->ctrl);

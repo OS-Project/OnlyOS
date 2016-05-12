@@ -81,7 +81,6 @@ unsigned int MMCSDAppCmdSend(mmcsdCtrlInfo *ctrl, mmcsdCmd *c)
     unsigned int status = 0;
     mmcsdCmd capp;
 
-
     /* APP cmd should be preceeded by a CMD55 */
     capp.idx = SD_CMD(55);
     capp.flags = 0;

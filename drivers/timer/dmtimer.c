@@ -8,6 +8,10 @@
 void TIMER_start(char timer_number) {
     unsigned int adress = TIMER_getPhysicalAdress(timer_number);
 
+    DMTimerModeConfigure(adress, DMTIMER_AUTORLD_NOCMP_ENABLE);
+    DMTimerCounterSet(adress, 0);
+    DMTimerReloadSet(adress, 50000);
+    DMTimerIntEnable(adress);
     DMTimerEnable(adress);
 }
 void TIMER_stop(char timer_number) {
