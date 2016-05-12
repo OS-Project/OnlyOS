@@ -27,7 +27,9 @@ Questions
 - uart_read_byte(): alternate version for signed values?
 
 # Exceptions/interrupts handling
-
+- kexit() or call to _exit() syscall ?
+- Branch prediction p59 Cortex Guide.
+- Disable interrupts in exit function
 
 # Misc
 How to compile a new source ?
@@ -37,10 +39,9 @@ The script will automaticaly reconize the files and compile them
 
 Questions
 ---------
-- kexit() or call to _exit() syscall ?
 - fichier tempo en C
 - C init
-- Linker script: start at 0x80200000?
+
 
 How to compile newlib ?
 -----------------------

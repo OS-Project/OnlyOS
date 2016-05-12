@@ -1,14 +1,13 @@
 .section ".text.interrupt_vector_table"
 interrupt_vector_table:
-    b _start // Reset Handler
-    b error // Undefined instruction
-    b svc_handler // SVC Handler (Software interrupt)
-    b error // Prefetch Abort
-    b error // Data Abort
-    b error // Reserved
-    b error // IRQ
-	b error
-	nop // FIQ
+	b _start // Reset Handler
+	b error // Undefined instruction
+	b svc_handler // SVC Handler (Software interrupt)
+	b error // Prefetch Abort
+	b error // Data Abort
+    	b error // Reserved
+	b error // IRQ
+	b error // FIQ
 
 .section ".text.interrupt_handler"
 fiq_handler:
@@ -81,9 +80,9 @@ _start:
         ldr r0, =_e_svc_stack
         mov	sp, r0
 
-        msr cpsr, #irq_mode
-        ldr r0, =_e_irq_stack
-        mov sp, r0
+        //msr cpsr, #irq_mode
+        //ldr r0, =_e_irq_stack
+        //mov sp, r0
 
 
         // Kernel mode
