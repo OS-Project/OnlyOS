@@ -27,11 +27,11 @@ int dinit_gpio(SYSTEM * system_) {
 }
 
 int dinit_wdt(SYSTEM * system_) {
-    if(system_->SYSTEM_WDT) {
+    /*if(system_->SYSTEM_WDT) {
         WDT_enable(0);
     }
     else {
         WDT_disable(0);
-    }
+    }*/
     return 1;
 }
