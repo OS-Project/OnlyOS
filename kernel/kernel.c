@@ -22,7 +22,7 @@ int kmain()
     //kinit();
     kprintf("### Kernel initialisation done\n");
 
-    //klaunch();
+    klaunch();
     
     kprintf("\nEnd of code, please restart\n");
     while(1);

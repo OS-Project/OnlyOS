@@ -10,6 +10,6 @@
 
 int klaunch()
 {
-    printf("Code ok - Test lib standard mode nano Ok");
+    printf("Code ok - Test sans lib_m et sans lib_g");
     return 0;
 }

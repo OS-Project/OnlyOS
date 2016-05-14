@@ -69,4 +69,4 @@ LDFLAGS = ${LPATH}
 #    INCLUDE_STD_LIB_CPP = -L${ROOT}/syscalls/nano -L${ROOT}/syscalls -lstdc++_nano -lsupc++_nano -lm -lgcc
 #endif
 
-INCLUDE_STD_LIB_C = -L${ROOT}/syscalls -lc -lg -lm -lgcc
+INCLUDE_STD_LIB_C = -L${ROOT}/syscalls -lc -lgcc
