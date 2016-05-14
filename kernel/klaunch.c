@@ -5,13 +5,11 @@
 #include "kernel/kernel.h"
 #include "kernel/config.h"
 
-#include DRIVER_RTC_PATH
-
 #include <stdlib.h>
 #include <stdio.h>
 
 int klaunch()
 {
-    
+    printf("Code ok - Test lib standard mode nano Ok");
     return 0;
 }

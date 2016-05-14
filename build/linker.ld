@@ -2,12 +2,10 @@ OUTPUT_FORMAT("elf32-littlearm", "elf32-bigarm", "elf32-littlearm")
 OUTPUT_ARCH(arm)
 ENTRY(_start)	/* Entry point of the program */
 
-
 SYS_STACK_SIZE = 0x100000; /* 1M */
 C_STACK_SIZE = 0x100000; /* 1M */
 SVC_STACK_SIZE = 0x100000; /* 1M */
 IRQ_STACK_SIZE = 1024;
-
 
 MEMORY
 {
