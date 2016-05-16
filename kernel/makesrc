@@ -1,3 +1,4 @@
+interrupt.o
 kernel.c
 drivers/drivers.c
 klaunch.c

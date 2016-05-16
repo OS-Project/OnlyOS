@@ -27,6 +27,7 @@ Questions
 - uart_read_byte(): alternate version for signed values?
 
 # Exceptions/interrupts handling
+- Interruption table: where should it be placed? .sections shows correct address (fiq_handler=0x1C + 4 = 0x20)
 - kexit() or call to _exit() syscall ?
 - Branch prediction p59 Cortex Guide.
 - Disable interrupts in exit function
@@ -36,6 +37,8 @@ How to compile a new source ?
 -----------------------------
 Create a file "makesrc" in the directory of the source(s) file(s) and add the name of the sources inside.
 The script will automaticaly reconize the files and compile them
+
+Bugs for asm source files
 
 Questions
 ---------
