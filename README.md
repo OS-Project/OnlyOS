@@ -27,23 +27,28 @@ Questions
 - uart_read_byte(): alternate version for signed values?
 
 # Exceptions/interrupts handling
-- Interruption table: where should it be placed? .sections shows correct address (fiq_handler=0x1C + 4 = 0x20)
-- kexit() or call to _exit() syscall ?
-- Branch prediction p59 Cortex Guide.
-- Disable interrupts in exit function
+- [ ] Init stacks for all modes. Stack sizes in boot.s must match the linker script.
+- [ ] Clear .bss section.
+- [ ] Interruption table: where should it be placed? .sections shows correct address (fiq_handler=0x1C + 4 = 0x20)
+- [ ] Linker script.
+- [ ] Prefetch abort and data abort modes differences?
+- [ ] kexit() or call to _exit() syscall ?
+- [ ] Branch prediction p59 Cortex Guide.
+- [ ] Disable interrupts in exit function
 
 # Misc
 How to compile a new source ?
 -----------------------------
-Create a file "makesrc" in the directory of the source(s) file(s) and add the name of the sources inside.
-The script will automaticaly reconize the files and compile them
+Create a file "makesrc" in the directory of the source(s) file(s) and add the name of the sources inside.  
+The script will automaticaly reconize the files and compile them.  
 
-Bugs for asm source files
+Bugs for asm source files.  
 
 Questions
 ---------
 - fichier tempo en C
 - C init
+- Compilation: use arm instruction (-marm option in gcc)
 
 
 How to compile newlib ?
