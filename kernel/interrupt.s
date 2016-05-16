@@ -1,8 +1,16 @@
-.section ".text.interrupt_handler"
-.global fiq_handler
-.global irq_handler
-.global svc_handler
+.text
+.section ".text.interrupt_vector_table"
+interrupt_vector_table:
+	b _start // Reset Handler
+	b error // Undefined instruction
+	b svc_handler // SVC Handler (Software interrupt)
+	b error // Prefetch Abort
+	b error // Data Abort
+    	b error // Reserved
+	b irq_handler // IRQ
+	nop // FIQ
 
+.section ".text.interrupt_handler"
 fiq_handler:
         // Done auto: spsr = cpsr. Ref: p456
         stmfd sp!, {r0-r12,lr} // Save registers
