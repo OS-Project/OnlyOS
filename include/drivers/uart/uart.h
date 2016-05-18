@@ -11,12 +11,13 @@
     void UART_putc(unsigned char byteTx);
     unsigned int UART_write(const char *pcBuf, unsigned int len);
 
-    void UART_printf(const char *string, va_list vaArg);
+    unsigned int UART_writeStr(const char *str);
+    //void UART_printf(const char *string, va_list vaArg);
 
     /* Input */
     char*  UART_gets(char *pRxBuffer, int numBytesToRead);
     unsigned char UART_getc(void);
-    int UART_scanf(const char *format, va_list vaArg);
+    //int UART_scanf(const char *format, va_list vaArg);
 #endif
 
 #ifdef __cplusplus

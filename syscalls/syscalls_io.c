@@ -6,11 +6,7 @@
  * This file contain the rewrite of the POSIX interface
  */
 
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <stddef.h>
-#include "drivers/uart/uart.h"
-
+*
 #define UART_DEFAULT (char)0x0
 
 /* I/O management */

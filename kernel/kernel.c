@@ -14,7 +14,7 @@ extern int errno;
 SYSTEM * system_;
 
 #define kmalloc malloc /* Temporary */
-#define kprintf printf
+#define kprintf UART_writeStr
 
 int kmain()
 {
@@ -22,7 +22,7 @@ int kmain()
     //kinit();
     kprintf("### Kernel initialisation done\n");
 
-    klaunch();
+    //klaunch();
     
     kprintf("\nEnd of code, please restart\n");
     while(1);
@@ -31,7 +31,7 @@ int kmain()
 
 void kinit()
 {
-    /* System initialization */
+    /* System initialization */ /*
     system_ = kmalloc(sizeof(SYSTEM));
 
     system_->_COMPILATION_TIME = __TIME__;
@@ -43,7 +43,7 @@ void kinit()
     system_->SYSTEM_STDOUT = CONFIG_SYSTEM_STDOUT;
     system_->SYSTEM_STDERR = CONFIG_SYSTEM_STDERR;
     system_->SYSTEM_STDIN = CONFIG_SYSTEM_STDIN;
-
+    */
     /* Initialisation de l'utilisateur */
     /*user_ = kmalloc(sizeof(USER));
 

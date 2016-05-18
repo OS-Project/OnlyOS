@@ -8,8 +8,6 @@ C_MODE = debug
 # Configure toolchain
 PREFIX=arm-none-eabi
 
-#STD_LIB_FORMAT = STANDARD
-
 # Compiler, Linker and Archiver with respect to the toolchain
 CC=${PREFIX}-gcc
 CPP=${PREFIX}-g++
@@ -36,9 +34,9 @@ LINKER_PATH = ${ROOT}/build/linker.ld
 IPATH=-I ${ROOT}/include/arch/arm \
       -I ${ROOT}/include/arch/arm/hal/hw \
       -I ${ROOT}/include \
-      -I ${ROOT}/include/syscalls
+      -I ${ROOT}/build
 
-LPATH =
+LPATH = -L${ROOT}/build
 
 # Flags
 CCFLAGS = -Wall ${IPATH} -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-a8 -march=armv7-a #-pedantic -ansi -Wextra
@@ -56,17 +54,5 @@ CCFLAGS = -Wall ${IPATH} -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-a8 
 #|            |                                            | /fpu
 #|------------|--------------------------------------------|--------------|
 
-
 ASFLAGS = --warn -mcpu=cortex-a8
 LDFLAGS = ${LPATH}
-
-# Includes
-#ifeq (${STD_LIB_FORMAT}, STANDARD) # If we use newlib standard
-#    INCLUDE_STD_LIB_C = -L${ROOT}/syscalls/standard -L${ROOT}/syscalls -lc -lg -lm -lgcc
-#    INCLUDE_STD_LIB_CPP = -L${ROOT}/syscalls/standard -L${ROOT}/syscalls -lstdc++ -lsupc++ -lm -lgcc
-#else # If we use newlib nano
-#    INCLUDE_STD_LIB_C = -L${ROOT}/syscalls/nano -L${ROOT}/syscalls -lc_nano -lg_nano -lm -lgcc
-#    INCLUDE_STD_LIB_CPP = -L${ROOT}/syscalls/nano -L${ROOT}/syscalls -lstdc++_nano -lsupc++_nano -lm -lgcc
-#endif
-
-INCLUDE_STD_LIB_C = -L${ROOT}/syscalls -lc -lgcc
