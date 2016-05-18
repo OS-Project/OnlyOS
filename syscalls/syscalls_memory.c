@@ -6,10 +6,6 @@
  * This file contain the rewrite of the POSIX interface
  */
 
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <stddef.h>
-
 /* Memory management */
 char *heap_end = NULL;
 caddr_t _sbrk(int incr) {

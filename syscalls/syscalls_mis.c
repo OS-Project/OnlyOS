@@ -6,13 +6,7 @@
  * This file contain the rewrite of the POSIX interface
  */
 
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <stddef.h>
-#include <errno.h>
 
-#undef errno
-extern int  errno;
 
 int _close(int file) {
     return -1;
