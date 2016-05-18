@@ -40,14 +40,12 @@
 *
 */
 
-#include "hal/uart/uart_console.h"
-
-#include "hal/uart/uart_irda_cir.h"
-#include "hal/beaglebone.h"
-
 #include "hw_types.h"
 #include "soc_AM335x.h"
+#include "hal/beaglebone.h"
 
+#include "hal/uart/uart_irda_cir.h"
+#include "hal/uart/uart_console.h"
 
 /**
  * \brief   This function initializes the specified UART instance for use.
@@ -66,7 +64,7 @@
  *          and receiver FIFO trigger levels.
  */
 
-static void UARTStdioInitExpClk(unsigned int baudRate,
+void UARTStdioInitExpClk(unsigned int baudRate,
                                 unsigned int rxTrigLevel,
                                 unsigned int txTrigLevel)
 {
@@ -100,8 +98,7 @@ static void UARTStdioInitExpClk(unsigned int baudRate,
 /*
 ** A wrapper function performing FIFO configurations.
 */
-
-static void UartFIFOConfigure(unsigned int txTrigLevel,
+void UartFIFOConfigure(unsigned int txTrigLevel,
                               unsigned int rxTrigLevel)
 {
     unsigned int fifoConfig = 0;
@@ -123,8 +120,7 @@ static void UartFIFOConfigure(unsigned int txTrigLevel,
 /*
 ** A wrapper function performing Baud Rate settings.
 */
-
-static void UartBaudRateSet(unsigned int baudRate)
+void UartBaudRateSet(unsigned int baudRate)
 {
     unsigned int divisorValue = 0;
 

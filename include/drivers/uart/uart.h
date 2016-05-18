@@ -17,6 +17,7 @@
     /* Input */
     char*  UART_gets(char *pRxBuffer, int numBytesToRead);
     unsigned char UART_getc(void);
+    void UART_stdioRead(unsigned char *rxBuff, unsigned char rxByte);
     //int UART_scanf(const char *format, va_list vaArg);
 #endif
 
