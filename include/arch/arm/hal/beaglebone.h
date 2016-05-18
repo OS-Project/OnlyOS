@@ -1,8 +1,8 @@
 /**
- * \file   evmskAM335x.h
+ * \file   beaglebone.h
  *
  * \brief  This file contains prototype declarations of functions which 
- *         performs EVM configurations for EVM-SK.
+ *         performs EVM configurations.
  */
 
 /*
@@ -40,8 +40,8 @@
 */
 
 
-#ifndef _EVM_AM335X_H_
-#define _EVM_AM335X_H_
+#ifndef _BEAGLEBONE_H_
+#define _BEAGLEBONE_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -52,19 +52,34 @@ extern "C" {
 *****************************************************************************/
 #define CTRL_NUM_IOPAD_REGS                 (211)
 
-#define PRINT_WRG(x)                        UARTPuts ("\r\n|WARNING|", -1);\
-                                            UARTPuts (x, -1); \
-                                            UARTPuts ("|\r\n", -1);            
-                                 
-#define PRINT_ERR(x)                        UARTPuts ("\r\n|ERROR|", -1); \
-                                            UARTPuts (x, -1); \
-                                            UARTPuts ("|\r\n", -1);                                                                   
-                                 
-#define EVMSK_BOARD_NAME                    ("A335_S")
-#define EVMSK_1_2B_VERSION                  ("1.2B")
-#define EVMSK_1_3A_VERSION                  ("1.3A")
-#define BOARD_ID_EVMSK_1_2B                 (0x1)
-#define BOARD_ID_EVMSK_1_3A                 (0x2)
+#define BBB_BOARD_NAME                      ("A335BON")
+#define BBB_A1_VERSION                      ("00A1")
+#define BBB_A2_VERSION                      ("00A2")
+#define BBB_A3_VERSION                      ("00A3")
+#define BBB_A5_VERSION                      ("00A5")
+#define BBB_A6_VERSION                      ("00A6")
+#define BOARD_ID_BBB_A1                     (0x1)
+#define BOARD_ID_BBB_A2                     (0x2)
+#define BOARD_ID_BBB_A3                     (0x3)
+#define BOARD_ID_BBB_A5                     (0x4)
+#define BOARD_ID_BBB_A6                     (0x5)
+
+/*
+** BeagleBone Black
+*/
+#define BNL_BOARD_NAME                      ("A335BNL")
+#define BNL_A1_VERSION                      ("00A1")
+#define BNL_A2_VERSION                      ("00A2")
+#define BNL_A3_VERSION                      ("00A3")
+#define BNL_A4_VERSION                      ("00A4")
+#define BNL_A5_VERSION                      ("00A5")
+#define BNL_A6_VERSION                      ("00A6")
+#define BOARD_ID_BNL_A1                     (0x1)
+#define BOARD_ID_BNL_A2                     (0x2)
+#define BOARD_ID_BNL_A3                     (0x3)
+#define BOARD_ID_BNL_A4                     (0x4)
+#define BOARD_ID_BNL_A5                     (0x5)
+#define BOARD_ID_BNL_A6                     (0x6)
 
 /*
 ** Structure to map selection of IO Pad for power down configuration
@@ -90,55 +105,38 @@ typedef struct ctrlRegContext {
 
 extern unsigned int BoardInfoCheck(unsigned char *boardId,
                                    unsigned char *boardVer);
-extern void LCDBackLightEnable(void);
-extern void LCDBackLightDisable(void);
-extern unsigned int LCDPinMuxSetup(void);
-extern void TSCADCPinMuxSetUp(void);
-extern void GPIO1Pin29PinMuxSetup(void);
-extern void GPIO1Pin4PinMuxSetup(void);
-extern void LCDModuleClkConfig(void);
-extern void I2C1ModuleClkConfig(void);
-extern void I2C0ModuleClkConfig(void);
-extern void GPIO0ModuleClkConfig(void);
+extern void ControlRegContextSave(CTRLREGCONTEXT *contextPtr);
+extern void ControlRegContextRestore(CTRLREGCONTEXT *contextPtr);
 extern void GPIO1ModuleClkConfig(void);
-extern void TSCADCModuleClkConfig(void);
+extern void GPIO2ModuleClkConfig(void);
+extern void GPIO3ModuleClkConfig(void);
+extern void GPIO1Pin23PinMuxSetup(void);
+extern void GPIO0ModuleClkConfig(void);
+extern void UART0ModuleClkConfig(void);
+extern void UART1ModuleClkConfig(void);
+extern void UART2ModuleClkConfig(void);
+extern void UARTPinMuxSetup(unsigned int instanceNum);
+extern void CPSWPinMuxSetup(void);
+extern void CPSWClkEnable(void);
+extern unsigned int RTCRevisionInfoGet(void);
+extern void EDMAModuleClkConfig(void);
+extern void EVMMACAddrGet(unsigned int addrIdx, unsigned char *macAddr);
+extern void WatchdogTimer1ModuleClkConfig(void);
 extern void DMTimer2ModuleClkConfig(void);
 extern void DMTimer3ModuleClkConfig(void);
 extern void DMTimer4ModuleClkConfig(void);
 extern void DMTimer6ModuleClkConfig(void);
 extern void DMTimer7ModuleClkConfig(void);
-extern void I2CPinMuxSetup(unsigned int instance);
-extern void UARTPinMuxSetup(unsigned int instanceNum);
-extern void UART0ModuleClkConfig(void);
-extern void EVMMACAddrGet(unsigned int addrIdx, unsigned char *macAddr);
-extern void EVMPortRGMIIModeSelect(void);
-extern void CPSWClkEnable(void);
-extern void WatchdogTimer1ModuleClkConfig(void);
-extern void McASP1PinMuxSetup(void);
-extern void McASP1ModuleClkConfig(void);
-extern void EDMAModuleClkConfig(void);
-extern unsigned int EDMA3CrossBarChannelMap(unsigned int baseAdd, 
-                                     unsigned int crossBarEvent,
-                                     unsigned int Channel);
-extern unsigned int EDMAVersionGet(void);
-extern void UPDNPinControl(void);
-extern void CPSWPinMuxSetup(void);
-extern void ControlRegContextSave(CTRLREGCONTEXT *contextPtr);
-extern void ControlRegContextRestore(CTRLREGCONTEXT *contextPtr);
-extern void HSMMCSDModuleClkConfig(void);
+extern void DMTimer1msModuleClkConfig(unsigned int clkselect);
+extern void EVMPortMIIModeSelect(void);
 extern void RTCModuleClkConfig(void);
-extern void ECAPPinMuxSetup(unsigned int instanceNum);
-extern void GPIO0Pin2PinMuxSetup(void);
-extern void GPIO1Pin2PinMuxSetup(void);
+extern void HSMMCSDModuleClkConfig(unsigned char drive);
+extern void HSMMCSDPinMuxSetup();
+extern void I2C0ModuleClkConfig(void);
+extern void I2C1ModuleClkConfig(void);
+extern void I2CPinMuxSetup(unsigned int instance);
 extern void GpioPinMuxSetup(unsigned int offsetAddr,
                             unsigned int padConfValue);
-extern unsigned int RtcVersionGet(void);
-extern void HSMMCSDPinMuxSetup(void);
-extern void USB0ModuleClkConfig(void);
-extern void GPIO3ModuleClkConfig(void);
-extern void USBModuleClkEnable(unsigned int ulIndex, unsigned int ulBase);
-extern void USBModuleClkDisable(unsigned int ulIndex, unsigned int ulBase);
-
 extern void IOPadContextSave(CTRLREGCONTEXT *contextPtr, unsigned int ioPadOff);
 extern void IOPadContextRestore(CTRLREGCONTEXT *contextPtr,
                                 unsigned int ioPadOff);
@@ -152,3 +150,4 @@ void IOPadSel(CTRLREGCONTEXT *contextPtr, unsigned int ioPadOff,
 
 #endif
 
+/******************************** End of file *******************************/
