@@ -1,1 +1,3 @@
 uart_irda_cir.c
+uart_console.c
+uart_config.c

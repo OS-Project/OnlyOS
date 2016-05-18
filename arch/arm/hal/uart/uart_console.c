@@ -40,35 +40,14 @@
 *
 */
 
+#include "hal/uart/uart_console.h"
 
-#include "../../../../include/arch/arm/hal/uart/uart_irda_cir.h"
-#include "soc_AM335x.h"
-#include "beaglebone.h"
+#include "hal/uart/uart_irda_cir.h"
+#include "hal/beaglebone.h"
+
 #include "hw_types.h"
+#include "soc_AM335x.h"
 
-/******************************************************************************
-**              INTERNAL MACRO DEFINITIONS
-******************************************************************************/
-#define UART_CONSOLE_BASE                    (SOC_UART_0_REGS)
-#define BAUD_RATE_115200                     (115200)
-#define UART_MODULE_INPUT_CLK                (48000000)
-
-/******************************************************************************
-**              INTERNAL FUNCTION DECLARATIONS
-******************************************************************************/
-static void UARTStdioInitExpClk(unsigned int baudRate,
-                                unsigned int rxTrigLevel,
-                                unsigned int txTrigLevel);
-static void UartFIFOConfigure(unsigned int txTrigLevel,
-                              unsigned int rxTrigLevel);
-static void UartBaudRateSet(unsigned int baudRate);
-void UARTConsolePutc(unsigned char data);
-unsigned char UARTConsoleGetc(void);
-void UARTConsoleInit(void);
-
-/******************************************************************************
-**              FUNCTION DEFINITIONS
-******************************************************************************/
 
 /**
  * \brief   This function initializes the specified UART instance for use.

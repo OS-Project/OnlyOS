@@ -39,13 +39,14 @@
 *
 */
 
+#include "hal/beaglebone.h"
 
 #include "hw_control_AM335x.h"
-#include "soc_AM335x.h"
 #include "hw_cm_wkup.h"
 #include "hw_cm_per.h"
-#include "beaglebone.h"
 #include "hw_types.h"
+
+#include "soc_AM335x.h"
 
 /**
  * \brief   This function selects the UART pins for use. The UART pins

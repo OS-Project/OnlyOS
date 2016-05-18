@@ -1,30 +1,22 @@
 #ifdef __cplusplus
-extern "C" {
+"C" {
 #endif
 
 #ifndef DRIVER_UART_H
 #define DRIVER_UART_H
-    #include "hw_uart_irda_cir.h"
-    #include "hal/uart/uart_irda_cir.h"
-    #include "soc_AM335x.h"
+    void UART_stdioInit(void);
 
-    /* System config */
-    #include "kernel/config.h"
+    /* Output */
+    unsigned int UART_puts(char *pTxBuffer, int numBytesToWrite);
+    void UART_putc(unsigned char byteTx);
+    unsigned int UART_write(const char *pcBuf, unsigned int len);
 
-    /* Write */
-    void UART_writeByte(const char data, char uart_number);
-    int UART_write(const char *pcBuf, int len, char uart_number);
-    int UART_writeStr(char *str, char uart_number);
+    void UART_printf(const char *string, va_list vaArg);
 
-    int UART_writeStrOnStdout(char *str);
-
-    /* Read */
-    char UART_readByte(char uart_number);
-    int UART_read(char *pRxBuffer, int numBytesToRead, char uart_number);
-
-    /* Other */
-    unsigned int UART_getPhysicalAdress(char uart_number);
-    int UART_strlen(char *str);
+    /* Input */
+    char*  UART_gets(char *pRxBuffer, int numBytesToRead);
+    unsigned char UART_getc(void);
+    int UART_scanf(const char *format, va_list vaArg);
 #endif
 
 #ifdef __cplusplus

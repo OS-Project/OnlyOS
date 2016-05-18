@@ -15,8 +15,7 @@ Todo
 Todo
 -----
 - [ ] uart_init(): causes crashes
-- [ ] C++ support.
-- [ ] Mettre uart_strLen dans un fichier util
+- [X] Mettre uart_strLen dans un fichier util
 - [X] Séparer les fichiers du syscalls.c
 
 Questions
