@@ -127,13 +127,18 @@ _start:
 @
 
 Clear_Bss_Section:
-         LDR   r0, =_sbss                 @ Start address of BSS
-         LDR   r1, =(_ebss - 0x04)          @ End address of BSS
-         MOV   r2, #0  
-Loop: 
-         STR   r2, [r0], #4                    @ Clear one word in BSS
-         CMP   r0, r1
-         BLE   Loop                            @ Clear till BSS end
+        ldr	r0, =_sbss
+        ldr	r1, =_ebss
+        cmp r0,r1
+
+        beq Enter_BootLoader
+        mov	r4, #0
+
+        write_zero:
+            strb r4, [r0]
+            add r0,r0,#1
+            cmp	r0, r1
+            bne	write_zero
 
 @
 @ Enter the main function. 

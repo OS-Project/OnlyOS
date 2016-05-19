@@ -9,7 +9,7 @@ IRQ_STACK_SIZE = 1024;
 
 MEMORY
 {
-    CODE (rx) : ORIGIN = 0x80000000, LENGTH = 50M
+    CODE (rw) : ORIGIN = 0x80000000, LENGTH = 50M
     HEAP (rw) : ORIGIN = 0x83200000, LENGTH = 100M
     STACK (rw) : ORIGIN = 0x89600000, LENGTH = 50M
 }
@@ -76,8 +76,4 @@ SECTIONS
 
         _estack = .;
     } > STACK
-
-    /* C lib */
-    heap_low = _sheap;
-    heap_top = _eheap;
 }
