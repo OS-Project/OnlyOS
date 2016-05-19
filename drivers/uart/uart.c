@@ -15,7 +15,7 @@
 /* Utils */
 #include "utils/string.h"
 
-void UART_StdioInit(void)
+void UART_stdioInit(void)
 {
     UARTConsoleInit();
 }
@@ -68,7 +68,7 @@ unsigned int UART_puts(char *pTxBuffer, int numBytesToWrite)
         pTxBuffer++;
         count++;
 
-        if((0 == flag) && (count == numBytesToWrite))
+        if((0 == flag) && (count == (unsigned int)numBytesToWrite))
             break;
     }
     /* Returns the number of bytes written onto the transmitter FIFO. */

@@ -21,7 +21,7 @@ extern "C" {
     } SYSTEM;
 
     int kmain();
-    void kinit();
+    int kinit();
     int kinit_drivers();
     int kinit_devices();
 

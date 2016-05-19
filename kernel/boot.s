@@ -127,7 +127,6 @@ _start:
 @
 
 Clear_Bss_Section:
-
          LDR   r0, =_sbss                 @ Start address of BSS
          LDR   r1, =(_ebss - 0x04)          @ End address of BSS
          MOV   r2, #0  

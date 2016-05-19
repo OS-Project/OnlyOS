@@ -39,7 +39,7 @@ IPATH=-I ${ROOT}/include/arch/arm \
 LPATH = -L${ROOT}/build
 
 # Flags
-CCFLAGS = -Wall ${IPATH} -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-a8 -march=armv7-a #-pedantic -ansi -Wextra
+CCFLAGS = -Wall ${IPATH} -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-a8 -march=armv7-a -pedantic -Wextra -std=c99
 
 #|------------|--------------------------------------------|--------------|
 #| Cortex-A*  | [-mthumb] -march=armv7-a                   | armv7-ar     |
