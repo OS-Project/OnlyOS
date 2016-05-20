@@ -4,6 +4,12 @@
 
 #ifndef DRIVER_UART_H
 #define DRIVER_UART_H
+    #define va_list  __builtin_va_list
+    #define va_arg  __builtin_va_arg
+
+    static const char * const g_pcHex = "0123456789abcdef";
+
+    /* Functions */
     void UART_stdioInit(void);
 
     /* Output */
@@ -12,7 +18,7 @@
     unsigned int UART_write(const char *pcBuf, unsigned int len);
 
     unsigned int UART_writeStr(const char *str);
-    //void UART_printf(const char *string, va_list vaArg);
+    void UART_printf(const char *string, ...);
 
     /* Input */
     char*  UART_gets(char *pRxBuffer, int numBytesToRead);
