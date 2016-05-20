@@ -8,18 +8,35 @@
      */
     /* General configuration */
     #define PAGE_SIZE = 8192; /* 8kB */
-
+    #define
     /* Define */
     #define FREE_BLOCK ((unsigned char)0x10)
     #define TAKEN_BLOCK ((unsigned char)0x20)
 
-    #define HEAP_START _sheap
-    #define HEAP_END _eheap;
+    extern char _bheap;
+    extern char _sheap;
+    extern char _theap;
+    extern char _eheap;
+
+    extern char _sstack;
+    extern char _estack;
+
+    #define HEAP_BASE &_bheap;
+    #define HEAP_TOP &_theap;
+    #define HEAP_START &_sheap
+    #define HEAP_END &_eheap;
+
+    #define STACK_START &_sstack
+    #define STACK_END &_estack
 
     typedef struct {
         unsigned int start_adress;
         unsigned int end_adress;
         unsigned int size;
+
+        unsigned int usable_heap_start;
+        unsigned int usable_heap_end;
+
         MEMORY_MAPPER mapper;
     } MEMORY;
 
@@ -41,7 +58,7 @@
     } MEMORY_BLOCK;
 
     /* Functions */
-    unsigned int minit(MEMORY *memory, bool console_);
+    void minit(MEMORY *memory, bool console_);
     unsigned int mcreate_block(MEMORY *memory, unsigned int start_adress, unsigned int size);
     unsigned int mremove_block(MEMORY *memory, MEMORY_BLOCK* entry);
 

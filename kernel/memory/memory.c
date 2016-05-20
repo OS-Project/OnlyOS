@@ -1,13 +1,25 @@
 #include <kernel/memory/memory.h>
 #include <kernel/config.h>
 
+/* Console */
+#include DRIVER_UART_PATH
 /* Libs */
 #include <utils/libbool.h>
 
-MEMORY* minit(bool console)
+void minit(bool console)
 {
-    unsigned int memory_size = (unsigned int)(HEAP_TOP - HEAP_START);
+    HEAP_END = STACK_START - 1;
+    HEAP_TOP = HEAP_END;
+
+    unsigned int memory_size = (unsigned int)(HEAP_END - HEAP_START);
+
+    if(console)
+        kprintf("[Memory] HEAP size : %d", memory_size);
+
     unsigned int nb_max_allocation = (memory_size / PAGE_SIZE) + 1; /* NOT OPTIMIZED */
+
+    if(console)
+        kprintf("[Memory] Max number of blocks : %d", nb_max_allocation);
 
     unsigned int size_max = nb_max_allocation * sizeof(MEMORY_BLOCK); /* Size of allocation table */
 
@@ -29,7 +41,11 @@ MEMORY* minit(bool console)
     memory_mapper->blocks = memory_mapper->end_adress; //
     memory->mapper = memory_mapper;
 
+    /* Set HEAP attributes */
     HEAP_START = HEAP_START + sizeof(MEMORY) + sizeof(MEMORY_MAPPER) + size_max; /* Set base adress to the begining of the real HEAP zone */
 
-    return memory;
+    
+    kprintf("[Memory] HEAP start : 0x%p\n", HEAP_START);
+    kprintf("[Memory] HEAP top : 0x%p\n", HEAP_TOP);
 }
+

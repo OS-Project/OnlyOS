@@ -49,8 +49,10 @@ SECTIONS
 
     .heap :
     {
+        _bheap = .;
         _sheap = .;
         _theap = .;
+        _eheap = .;
     } > HEAP
 
     .stack :

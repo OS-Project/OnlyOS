@@ -12,7 +12,7 @@
 #include "hw_uart_irda_cir.h"
 #include "soc_AM335x.h"
 
-/* Utils */
+/* Libs */
 #include "utils/string.h"
 
 void UART_stdioInit(void)
@@ -82,38 +82,41 @@ void UART_putc(unsigned char byteTx)
 }
 
 /* Not working :( */
-void UART_printf(const char *string, ...)
+void UART_printf(const char *pcString, ...)
 {
-    va_list vaArg;
     unsigned int idx, pos, count, base, neg;
     char *pcStr, pcBuf[16], cFill;
+    va_list vaArgP;
     int value;
 
+    /* Start the varargs processing. */
+    va_start(vaArgP, pcString);
+
     /* Loop while there are more characters in the string. */
-    while(*string)
+    while(*pcString)
     {
         /* Find the first non-% character, or the end of the string. */
-        for(idx = 0u; (string[idx] != '%') && (string[idx] != '\0'); idx++)
+        for(idx = 0; (pcString[idx] != '%') && (pcString[idx] != '\0'); idx++)
         {
         }
 
         /* Write this portion of the string. */
-        UART_write(string, idx);
+        UART_write(pcString, idx);
 
         /* Skip the portion of the string that was written. */
-        string += idx;
+        pcString += idx;
 
         /* See if the next character is a %. */
-        if(*string == '%')
+        if(*pcString == '%')
         {
             /* Skip the %. */
-            string++;
+            pcString++;
 
             /*
             ** Set the digit count to zero, and the fill character to space
             ** (i.e. to the defaults).
             */
-            count = 0u;
+            count = 0;
             cFill = ' ';
 
             /*
@@ -124,7 +127,7 @@ void UART_printf(const char *string, ...)
             again:
 
             /* Determine how to handle the next character. */
-            switch(*string++)
+            switch(*pcString++)
             {
                 /* Handle the digit characters. */
                 case '0':
@@ -142,14 +145,14 @@ void UART_printf(const char *string, ...)
                     ** If this is a zero, and it is the first digit, then the
                     ** fill character is a zero instead of a space.
                     */
-                    if((string[-1] == '0') && (count == 0))
+                    if((pcString[-1] == '0') && (count == 0))
                     {
                         cFill = '0';
                     }
 
                     /* Update the digit count. */
                     count *= 10;
-                    count += string[-1] - '0';
+                    count += pcString[-1] - '0';
 
                     /* Get the next character. */
                     goto again;
@@ -159,10 +162,10 @@ void UART_printf(const char *string, ...)
                 case 'c':
                 {
                     /* Get the value from the varargs. */
-                    value = va_arg(vaArg, unsigned int);
+                    value = va_arg(vaArgP, unsigned int);
 
                     /* Print out the character. */
-                    UART_putc((unsigned char)value);
+                    UART_write((char *)&value, 1);
 
                     /* This command has been handled. */
                     break;
@@ -172,10 +175,10 @@ void UART_printf(const char *string, ...)
                 case 'd':
                 {
                     /* Get the value from the varargs. */
-                    value = va_arg(vaArg, unsigned int);
+                    value = va_arg(vaArgP, unsigned int);
 
                     /* Reset the buffer position. */
-                    pos = 0u;
+                    pos = 0;
 
                     /*
                     ** If the value is negative, make it positive and indicate
@@ -187,19 +190,17 @@ void UART_printf(const char *string, ...)
                         value = -(int)value;
 
                         /* Indicate that the value is negative. */
-                        neg = 1u;
+                        neg = 1;
                     }
                     else
                     {
-                        /*
-                        ** Indicate that the value is positive so that a minus
-                        ** sign isn't inserted.
-                        */
-                        neg = 0u;
+                        /* Indicate that the value is positive so that a minus
+                         * sign isn't inserted. */
+                        neg = 0;
                     }
 
                     /* Set the base to 10. */
-                    base = 10u;
+                    base = 10;
 
                     /* Convert the value to ASCII. */
                     goto convert;
@@ -209,10 +210,10 @@ void UART_printf(const char *string, ...)
                 case 's':
                 {
                     /* Get the string pointer from the varargs. */
-                    pcStr = va_arg(vaArg, char *);
+                    pcStr = va_arg(vaArgP, char *);
 
                     /* Determine the length of the string. */
-                    for(idx = 0u; pcStr[idx] != '\0'; idx++)
+                    for(idx = 0; pcStr[idx] != '\0'; idx++)
                     {
                     }
 
@@ -224,7 +225,9 @@ void UART_printf(const char *string, ...)
                     {
                         count -= idx;
                         while(count--)
-                            UART_putc((unsigned char)(" "));
+                        {
+                            UART_write((const char *)" ", 1);
+                        }
                     }
                     /* This command has been handled. */
                     break;
@@ -234,17 +237,19 @@ void UART_printf(const char *string, ...)
                 case 'u':
                 {
                     /* Get the value from the varargs. */
-                    value = va_arg(vaArg, unsigned int);
+                    value = va_arg(vaArgP, unsigned int);
 
                     /* Reset the buffer position. */
-                    pos = 0u;
+                    pos = 0;
 
                     /* Set the base to 10. */
-                    base = 10u;
+                    base = 10;
 
-                    /* Indicate that the value is positive so that a minus sign
-                     * isn't inserted. */
-                    neg = 0u;
+                    /*
+                    ** Indicate that the value is positive so that a minus sign
+                    ** isn't inserted.
+                    */
+                    neg = 0;
 
                     /* Convert the value to ASCII. */
                     goto convert;
@@ -253,7 +258,7 @@ void UART_printf(const char *string, ...)
                     /*
                     ** Handle the %x and %X commands.  Note that they are treated
                     ** identically; i.e. %X will use lower case letters for a-f
-                    ** instead of the upper case letters it should use.  We also
+                    ** instead of the upper case letters is should use.  We also
                     ** alias %p to %x.
                     */
                 case 'x':
@@ -261,19 +266,19 @@ void UART_printf(const char *string, ...)
                 case 'p':
                 {
                     /* Get the value from the varargs. */
-                    value = va_arg(vaArg, unsigned int);
+                    value = va_arg(vaArgP, unsigned int);
 
                     /* Reset the buffer position. */
-                    pos = 0u;
+                    pos = 0;
 
                     /* Set the base to 16. */
-                    base = 16u;
+                    base = 16;
 
                     /*
                     ** Indicate that the value is positive so that a minus sign
                     ** isn't inserted.
                     */
-                    neg = 0u;
+                    neg = 0;
 
                     /*
                     ** Determine the number of digits in the string version of
@@ -281,7 +286,7 @@ void UART_printf(const char *string, ...)
                     */
                     convert:
                     for(idx = 1;
-                        (((int)(idx * base) <= value) && // value changed to unsigned int
+                        (((idx * base) <= value) &&
                          (((idx * base) / base) == idx));
                         idx *= base, count--)
                     {
@@ -309,11 +314,13 @@ void UART_printf(const char *string, ...)
                         ** The minus sign has been placed, so turn off the
                         ** negative flag.
                         */
-                        neg = 0u;
+                        neg = 0;
                     }
 
-                    /* Provide additional padding at the beginning of the
-                     * string conversion if needed. */
+                    /*
+                    ** Provide additional padding at the beginning of the
+                    ** string conversion if needed.
+                    */
                     if((count > 1) && (count < 16))
                     {
                         for(count--; count; count--)
@@ -322,8 +329,10 @@ void UART_printf(const char *string, ...)
                         }
                     }
 
-                    /* If the value is negative, then place the minus sign
-                     * before the number. */
+                    /*
+                    ** If the value is negative, then place the minus sign
+                    ** before the number.
+                    */
                     if(neg)
                     {
                         /* Place the minus sign in the output buffer. */
@@ -347,7 +356,7 @@ void UART_printf(const char *string, ...)
                 case '%':
                 {
                     /* Simply write a single %. */
-                    UART_write(string - 1, 1);
+                    UART_write(pcString - 1, 1);
 
                     /* This command has been handled. */
                     break;
@@ -365,7 +374,11 @@ void UART_printf(const char *string, ...)
             }
         }
     }
+
+    /* End the varargs processing. */
+    va_end(vaArgP);
 }
+
 
 char* UART_gets(char *pRxBuffer, int numBytesToRead)
 {

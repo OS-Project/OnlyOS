@@ -19,7 +19,7 @@ extern "C" {
     #define EXIT_SUCCESS (int)0
     #define EXIT_FAILURE (int)1
 
-    #define kprintf UART_writeStr
+    #define kprintf UART_printf
 #endif //ONLYOS_FILES_REFERENCES_H
 
 #ifdef __cplusplus
