@@ -2,36 +2,50 @@
 // Created by Thibault on 09/01/2016.
 //
 
-#include "kernel/drivers/drivers.h"
+#include <kernel/kernel.h>
+#include <kernel/drivers/drivers.h>
+#include <kernel/config.h>
 
-int dinit_dmtimer(SYSTEM * system_) {
-    return 1;
+/* Libs */
+#include <utils/libbool.h>
+
+#include DRIVER_UART_PATH
+
+unsigned int dinit(bool console)
+{
+    dinit_uart();
+
+    if(console)
+        kprintf("[Driver] UART driver configured and initialized\n");
+
+    return EXIT_SUCCESS;
 }
 
-int dinit_filesystem(SYSTEM * system_) {
-    return 1;
+unsigned int dinit_dmtimer() {
+    return EXIT_SUCCESS;
 }
 
-int dinit_rtc(SYSTEM * system_) {
-    //RTC_init(0);
-    //RTC_start(0);
-    return 1;
+unsigned int dinit_filesystem() {
+    return EXIT_SUCCESS;
 }
 
-int dinit_uart(SYSTEM * system_) {
-    return 1;
+unsigned int dinit_rtc() {
+    return EXIT_SUCCESS;
 }
 
-int dinit_gpio(SYSTEM * system_) {
-    return 1;
+/* Init UART driver */
+unsigned int dinit_uart() {
+    UART_stdioInit();
+    UART_putc('\n');
+    UART_putc('\n');
+
+    return EXIT_SUCCESS;
 }
 
-int dinit_wdt(SYSTEM * system_) {
-    /*if(system_->SYSTEM_WDT) {
-        WDT_enable(0);
-    }
-    else {
-        WDT_disable(0);
-    }*/
-    return 1;
+unsigned int dinit_gpio() {
+    return EXIT_SUCCESS;
+}
+
+unsigned int dinit_wdt() {
+    return EXIT_SUCCESS;
 }

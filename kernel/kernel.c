@@ -1,33 +1,34 @@
 /*
  * Created by Thibault PIANA on 10/11/15.
 */
-#include "kernel/kernel.h"
-#include "drivers/uart/uart.h"
-#include "soc_AM335x.h"
-#include "hal/uart/uart_irda_cir.h"
+#include <kernel/config.h>
+#include <kernel/kernel.h>
+#include <kernel/drivers/drivers.h>
 
-#define kprintf UART_writeStr
+#include <drivers/uart/uart.h>
+
+/* libs */
+#include <utils/libbool.h>
 
 int kmain()
 {
-    UART_write("salut", 5);
-    int a = 0;
-    return 0;
+    kinit();
+
+    while(1);
+    return EXIT_SUCCESS;
 }
 
-/*
 int kinit()
 {
-    // Init UART
-    UART_stdioInit();
-    UART_putc('\n');
-    UART_putc('\n');
-
-    return 0;
+    dinit(true);
+    kprintf("[Init] ### Drivers initialisation done\n");
+    kprintf("[INIT] ### Start memory initilisation\n");
+    return EXIT_SUCCESS;
 }
- */
 
 void kexit(int err_num)
 {
+    if (err_num) kprintf("Kernel exited with error\n");
+    else kprintf("Kernel exited without error\n");
     while(1);
 }

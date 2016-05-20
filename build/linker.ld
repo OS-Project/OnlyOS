@@ -14,7 +14,6 @@ MEMORY
     STACK (rw) : ORIGIN = 0x89600000, LENGTH = 50M
 }
 
-
 SECTIONS
 {
     . = 0x80000000;
@@ -51,7 +50,7 @@ SECTIONS
     .heap :
     {
         _sheap = .;
-        _eheap = .;
+        _theap = .;
     } > HEAP
 
     .stack :

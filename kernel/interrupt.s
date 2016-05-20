@@ -2,6 +2,7 @@
 .extern _start
 .extern error
 .section ".text.interrupt_vector_table"
+
 interrupt_vector_table:
 	b _start // Reset Handler
 	b error // Undefined instruction

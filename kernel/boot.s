@@ -126,12 +126,12 @@ _start:
 @ Clear the BSS section here
 @
 
-Clear_Bss_Section:
+clear_bss_section:
         ldr	r0, =_sbss
         ldr	r1, =_ebss
         cmp r0,r1
 
-        beq Enter_BootLoader
+        beq enter_bootLoader
         mov	r4, #0
 
         write_zero:
@@ -144,7 +144,7 @@ Clear_Bss_Section:
 @ Enter the main function. 
 @
 
-Enter_BootLoader:
+enter_bootLoader:
          LDR   r10,=kmain                   @ Get the address of main
          MOV   lr,pc                           @ Dummy return 
          BX    r10                             @ Branch to main 
