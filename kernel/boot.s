@@ -18,7 +18,8 @@
 .equ  MODE_ABT, 0x17
 .equ  MODE_SYS, 0x1F            
 
-.equ  I_bit, 0xC0               
+.equ FIQ_BIT, 0x40
+.equ IRQ_BIT, 0x80               
 
 .text
 .code 32
@@ -32,28 +33,28 @@ _start:
 	// Disable irqs and fiqs first
 	stack_init:
 		ldr r0, =_estack
-        	msr cpsr_c, #MODE_UND | I_bit
+        	msr cpsr_c, #MODE_UND | IRQ_BIT | FIQ_BIT
        		mov sp, r0
 		sub r0, r0, #UND_STACK_SIZE
 
-		msr cpsr_c, #MODE_SVC | I_bit
+		msr cpsr_c, #MODE_SVC | IRQ_BIT | FIQ_BIT
         	mov sp, r0
 		sub r0, r0, #SVC_STACK_SIZE
 
-        	msr cpsr_c, #MODE_ABT | I_bit
+        	msr cpsr_c, #MODE_ABT | IRQ_BIT | FIQ_BIT
         	mov sp, r0
 		sub r0, r0, #ABT_STACK_SIZE
 
-        	msr cpsr_c, #MODE_IRQ | I_bit
+        	msr cpsr_c, #MODE_IRQ | IRQ_BIT | FIQ_BIT
         	mov sp, r0
 		sub r0, r0, #IRQ_STACK_SIZE
 
-        	msr cpsr_c, #MODE_FIQ | I_bit
+        	msr cpsr_c, #MODE_FIQ | IRQ_BIT | FIQ_BIT
         	mov sp, r0
 		sub r0, r0, #FIQ_STACK_SIZE
 
         	// Kernel mode
-        	msr cpsr_c, #MODE_SYS | I_bit
+        	msr cpsr_c, #MODE_SYS | IRQ_BIT | FIQ_BIT
         	mov sp, r0    
                  
 	bss_init:
