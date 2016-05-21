@@ -1,5 +1,5 @@
-boot.o
 interrupt.o
+boot.o
+coprocessor.o
 kernel.c
 drivers/drivers.c
-klaunch.c

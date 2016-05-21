@@ -1,124 +1,82 @@
 /*
  * Created by Thibault PIANA on 10/11/15.
 */
+#include <kernel/config.h>
+#include <kernel/kernel.h>
+#include <kernel/drivers/drivers.h>
 
-#include "kernel/kernel.h"
-#include "kernel/config.h"
-#include "kernel/drivers/drivers.h"
+#include <drivers/uart/uart.h>
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <errno.h>
-extern int errno;
-
-SYSTEM * system_;
-
-#define kmalloc malloc /* Temporary */
-#define kprintf printf
+/* Libs */
+#include <utils/libbool.h>
+#include <kernel/coprocessor.h>
+#define DEBUG 1
 
 int kmain()
 {
-    kprintf("### Kernel initialisation\n");
-    //kinit();
-    kprintf("### Kernel initialisation done\n");
+    kinit();
 
-    klaunch();
-    
-    kprintf("\nEnd of code, please restart\n");
+    kprintf("[INIT] Move interrupt vector table\n");
+    kinit_vector_table();
+    kprintf("[INIT] Interrupt vector table moved\n");
+
+    __asm__("svc #0");
+
     while(1);
-    return 0;
+    return EXIT_SUCCESS;
 }
 
-void kinit()
+void kinit_vector_table()
 {
-    /* System initialization */
-    system_ = kmalloc(sizeof(SYSTEM));
+    const unsigned int AM335X_VECTOR_BASE = 0x4030FC00;
 
-    system_->_COMPILATION_TIME = __TIME__;
-    system_->_COMPILATION_DATE = __DATE__;
+    unsigned int const vecTbl[14]=
+    {
+            0xE59FF018,    /* Opcode for loading PC with the contents of [PC + 0x18] */
+            0xE59FF018,    /* Opcode for loading PC with the contents of [PC + 0x18] */
+            0xE59FF018,    /* Opcode for loading PC with the contents of [PC + 0x18] */
+            0xE59FF018,    /* Opcode for loading PC with the contents of [PC + 0x18] */
+            0xE59FF014,    /* Opcode for loading PC with the contents of [PC + 0x14] */
+            0xE24FF008,    /* Opcode for loading PC with (PC - 8) (eq. to while(1)) */
+            0xE59FF010,    /* Opcode for loading PC with the contents of [PC + 0x10] */
+            0xE59FF010,    /* Opcode for loading PC with the contents of [PC + 0x10] */
+            (unsigned int)kmain,
+            (unsigned int)kexit,
+            (unsigned int)interrupt_SVC_handler,
+            (unsigned int)kexit,
+            (unsigned int)kexit,
+            (unsigned int)kexit
+    };
 
-    system_->SYSTEM_DMTIMER = CONFIG_SYSTEM_DMTIMER;
-    system_->SYSTEM_WDT = CONFIG_SYSTEM_WDT_STATUS;
+    unsigned int *dest = (unsigned int *)AM335X_VECTOR_BASE;
+    unsigned int *src =  (unsigned int *)vecTbl;
+    unsigned int count;
 
-    system_->SYSTEM_STDOUT = CONFIG_SYSTEM_STDOUT;
-    system_->SYSTEM_STDERR = CONFIG_SYSTEM_STDERR;
-    system_->SYSTEM_STDIN = CONFIG_SYSTEM_STDIN;
+    set_vectorBaseAddr(AM335X_VECTOR_BASE);
 
-    /* Initialisation de l'utilisateur */
-    /*user_ = kmalloc(sizeof(USER));
-
-    user_->current_path = "/";
-    user_->name = "root";
-    */
-    /* Initilisation des drivers */
-    kprintf("[Init] ### Start drivers initialisation\n");
-    kinit_drivers();
-    kprintf("[Init] ### Drivers initialisation done\n");
-    kprintf("[Init] ### Start devices initialisation\n");
-    kinit_devices();
-    kprintf("[Init] ### Devices initialisation done\n");
-
-    kinit_screen();
+    for(count = 0; count < sizeof(vecTbl)/sizeof(vecTbl[0]); count++)
+        dest[count] = src[count];
 }
 
-/**
- * Initialise drivers list
- *  1. Launch timer
- *  2. Initialise RTC with compilation date
- *
- * Initialise drivers
- */
-int kinit_drivers()
+int kinit()
 {
-    int status = 1;
-    kprintf("[Init] Initialization of timer\n");
-    status &= dinit_dmtimer(system_);
-    if(status)
-        kprintf("[Init] DM timer ok\n");
-
-    status &= dinit_rtc(system_);
-    if(status)
-        kprintf("[Init] RTC ok\n");
-
-    status &= dinit_uart(system_);
-    if(status)
-        kprintf("[Init] UART ok\n");
-
-    status &= dinit_gpio(system_);
-    if(status)
-        kprintf("[Init] GPIO ok\n");
-    /*
-    status &= dinit_wdt(system_);
-    if(status)
-        kprintf("[Init] Watchdog timer ok\n");
-    */
-    return status;
+    dinit(true);
+    kprintf("[INIT] ### Drivers initialisation done\n");
+    kprintf("[INIT] ### Start memory initilisation\n");
+    return EXIT_SUCCESS;
 }
 
-/**
- * Initialise devices list
- * Initialise devices
- */
-int kinit_devices() {
-    return 1;
-}
-
-void kinit_screen()
+void interrupt_SVC_handler()
 {
-    kprintf("_______ __    _ ___    __   __ _______ _______\n");
-    kprintf("|       |  |  | |   |  |  | |  |       |       |\n");
-    kprintf("|   _   |   |_| |   |  |  |_|  |   _   |  _____|\n");
-    kprintf("|  | |  |       |   |  |       |  | |  | |_____\n");
-    kprintf("|  |_|  |  _    |   |__|_     _|  |_|  |_____  |\n");
-    kprintf("|       | | |   |       ||   | |       |_____| |\n");
-    kprintf("|_______|_|  |__|_______||___| |_______|_______|");
-    kprintf("\n\n");
-    kprintf("Developped by Thibault PIANA & Alan GARDIN\n\n");
+    #ifdef DEBUG
+        kprintf("\nSVC interrupt detected\n");
+    #endif
 }
+
 
 void kexit(int err_num)
 {
-	if (err_num) kprintf("Kernel exited with error\n");
-	else kprintf("Kernel exited without error\n");
-	while(1);
+    if (err_num) kprintf("Kernel exited with error : %d\n", err_num);
+    else kprintf("Kernel exited without error\n");
+    while(1);
 }

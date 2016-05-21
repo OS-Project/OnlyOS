@@ -1,30 +1,32 @@
 #ifdef __cplusplus
-extern "C" {
+"C" {
 #endif
 
 #ifndef DRIVER_UART_H
 #define DRIVER_UART_H
-    #include "hw_uart_irda_cir.h"
-    #include "hal/uart/uart_irda_cir.h"
-    #include "soc_AM335x.h"
+    #define va_list  __builtin_va_list
+    #define va_arg  __builtin_va_arg
+    #define va_start  __builtin_va_start
+    #define va_end  __builtin_va_end
 
-    /* System config */
-    #include "kernel/config.h"
+    static const char * const g_pcHex = "0123456789abcdef";
 
-    /* Write */
-    void UART_writeByte(const char data, char uart_number);
-    int UART_write(const char *pcBuf, int len, char uart_number);
-    int UART_writeStr(char *str, char uart_number);
+    /* Functions */
+    void UART_stdioInit(void);
 
-    int UART_writeStrOnStdout(char *str);
+    /* Output */
+    unsigned int UART_puts(char *pTxBuffer, int numBytesToWrite);
+    void UART_putc(unsigned char byteTx);
+    unsigned int UART_write(const char *pcBuf, unsigned int len);
 
-    /* Read */
-    char UART_readByte(char uart_number);
-    int UART_read(char *pRxBuffer, int numBytesToRead, char uart_number);
+    unsigned int UART_writeStr(const char *str);
+    void UART_printf(const char *pcString, ...);
 
-    /* Other */
-    unsigned int UART_getPhysicalAdress(char uart_number);
-    int UART_strlen(char *str);
+    /* Input */
+    char*  UART_gets(char *pRxBuffer, int numBytesToRead);
+    unsigned char UART_getc(void);
+    void UART_stdioRead(unsigned char *rxBuff, unsigned char rxByte);
+    //int UART_scanf(const char *format, va_list vaArg);
 #endif
 
 #ifdef __cplusplus

@@ -15,8 +15,7 @@ Todo
 Todo
 -----
 - [ ] uart_init(): causes crashes
-- [ ] C++ support.
-- [ ] Mettre uart_strLen dans un fichier util
+- [X] Mettre uart_strLen dans un fichier util
 - [X] Séparer les fichiers du syscalls.c
 
 Questions
@@ -58,8 +57,11 @@ How to compile newlib ?
 sources : https://gcc.gnu.org/ml/gcc-help/2012-08/msg00190.html
 ./configure --target=arm-none-eabi --enable-interwork --enable-multilib --with-newlib --disable-nls --disable-shared --disable-threads --with-gnu-ld --with-gnu-as --disable-libssp --disable-libmudflap --disable-libgomp --with-dwarf2 -v --disable-werror --with-cpu=cortex-a8 --with-mode=thumb --enable-target-optspace --with-fpu=fpv4-sp-d16 --with-float=soft --enable-languages=c,c++ --disable-newlib-multithread
 
-with
 
+# Interrupt Handler
 
-
-Pour kmalloc : liballoc
+|    Value   | r0 Code       |     r1                     |   r2                   | return (r0)            |
+| ---------- |: -----------: |: ---------------------- -: | ---------------------: | ---------------------: |
+| UART_putc  | 0x00100       |  the char to push          | Null                   | 0 if success, else 1   |
+| minit      | 0x00200       |  process heap_start adress | Null                   | 0 if success, else 1   |
+| kmalloc    | 0x00201       |  process heap_start adress | Null                   | adress of memory block |

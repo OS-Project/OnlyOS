@@ -2,14 +2,6 @@
     * Created by Thibault on 17/01/2016.
 */
 
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <sys/fcntl.h>
-#include <sys/times.h>
-#include <sys/errno.h>
-#include <sys/time.h>
-#include <kernel/time/time.h>
-
 int _times(struct tms *buf) {
     int sys_time = kgetTime(); /* Kernel time */
 

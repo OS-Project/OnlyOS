@@ -1,25 +1,25 @@
-//
-// Created by Thibault PIANA on 10/11/15.
-//
+/*
+    * Created by Thibault PIANA on 10/11/15.
+*/
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 #ifndef ONLYOS_FILES_REFERENCES_H
 #define ONLYOS_FILES_REFERENCES_H
-    /* Config */
-    #define CONFIG_SYSTEM_DMTIMER 0
-    #define CONFIG_SYSTEM_WDT_STATUS 0
 
-    #define CONFIG_SYSTEM_STDOUT 0
-    #define CONFIG_SYSTEM_STDERR 0
-    #define CONFIG_SYSTEM_STDIN 0
+    #include <utils/libbool.h>
+    /* Config */
 
     /* Paths */
-    #define DRIVER_RTC_PATH "drivers/timer/rtc.h"
-    #define DRIVER_DMTIMER_PATH "drivers/timer/dmtimer.h"
-    #define DRIVER_WDT_PATH "drivers/timer/watchdog.h"
     #define DRIVER_UART_PATH "drivers/uart/uart.h"
+
+    /* EXIT values */
+    #define EXIT_SUCCESS (int)0
+    #define EXIT_FAILURE (int)1
+
+    #define kprintf UART_printf
 #endif //ONLYOS_FILES_REFERENCES_H
 
 #ifdef __cplusplus

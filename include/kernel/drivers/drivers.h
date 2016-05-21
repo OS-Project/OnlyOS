@@ -4,19 +4,14 @@
 
 #ifndef ONLYOS_KERNEL_DRIVERS_H
 #define ONLYOS_KERNEL_DRIVERS_H
+    #include <utils/libbool.h>
 
-    #include "kernel/kernel.h"
-    #include "kernel/config.h"
+    unsigned int dinit(bool console);
+    unsigned int dinit_dmtimer();
 
-    #include DRIVER_UART_PATH
-    #include DRIVER_WDT_PATH
-    #include DRIVER_RTC_PATH
-
-    int dinit_dmtimer(SYSTEM * system_);
-
-    int dinit_filesystem(SYSTEM * system_);
-    int dinit_rtc(SYSTEM * system_);
-    int dinit_uart(SYSTEM * system_);
-    int dinit_gpio(SYSTEM * system_);
-    int dinit_wdt(SYSTEM * system_);
+    unsigned int dinit_filesystem();
+    unsigned int dinit_rtc();
+    unsigned int dinit_uart();
+    unsigned int dinit_gpio();
+    unsigned int dinit_wdt();
 #endif //ONLYOS_DRIVERS_H

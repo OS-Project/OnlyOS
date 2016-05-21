@@ -126,21 +126,25 @@ _start:
 @ Clear the BSS section here
 @
 
-Clear_Bss_Section:
+clear_bss_section:
+        ldr	r0, =_sbss
+        ldr	r1, =_ebss
+        cmp r0,r1
 
-         LDR   r0, =_sbss                 @ Start address of BSS
-         LDR   r1, =(_ebss - 0x04)          @ End address of BSS
-         MOV   r2, #0  
-Loop: 
-         STR   r2, [r0], #4                    @ Clear one word in BSS
-         CMP   r0, r1
-         BLE   Loop                            @ Clear till BSS end
+        beq enter_bootLoader
+        mov	r4, #0
+
+        write_zero:
+            strb r4, [r0]
+            add r0,r0,#1
+            cmp	r0, r1
+            bne	write_zero
 
 @
 @ Enter the main function. 
 @
 
-Enter_BootLoader:
+enter_bootLoader:
          LDR   r10,=kmain                   @ Get the address of main
          MOV   lr,pc                           @ Dummy return 
          BX    r10                             @ Branch to main 
