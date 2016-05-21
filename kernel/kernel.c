@@ -9,15 +9,16 @@
 
 /* Libs */
 #include <utils/libbool.h>
-#include "kernel/cp15.h"
+#include <kernel/coprocessor.h>
+#define DEBUG 1
 
 int kmain()
 {
     kinit();
 
-    kprintf("[INIT] Move interrupt vector table");
-    kinitVector_table();
-    kprintf("[INIT] Interrupt vector table");
+    kprintf("[INIT] Move interrupt vector table\n");
+    kinit_vector_table();
+    kprintf("[INIT] Interrupt vector table moved\n");
 
     __asm__("svc #0");
 
@@ -25,7 +26,7 @@ int kmain()
     return EXIT_SUCCESS;
 }
 
-void kinitVector_table()
+void kinit_vector_table()
 {
     const unsigned int AM335X_VECTOR_BASE = 0x4030FC00;
 
@@ -41,7 +42,7 @@ void kinitVector_table()
             0xE59FF010,    /* Opcode for loading PC with the contents of [PC + 0x10] */
             (unsigned int)kmain,
             (unsigned int)kexit,
-            (unsigned int)kexit,
+            (unsigned int)interrupt_SVC_handler,
             (unsigned int)kexit,
             (unsigned int)kexit,
             (unsigned int)kexit
@@ -51,7 +52,7 @@ void kinitVector_table()
     unsigned int *src =  (unsigned int *)vecTbl;
     unsigned int count;
 
-    CP15VectorBaseAddrSet(AM335X_VECTOR_BASE);
+    set_vectorBaseAddr(AM335X_VECTOR_BASE);
 
     for(count = 0; count < sizeof(vecTbl)/sizeof(vecTbl[0]); count++)
         dest[count] = src[count];
@@ -65,9 +66,17 @@ int kinit()
     return EXIT_SUCCESS;
 }
 
+void interrupt_SVC_handler()
+{
+    #ifdef DEBUG
+        kprintf("\nSVC interrupt detected\n");
+    #endif
+}
+
+
 void kexit(int err_num)
 {
-    if (err_num) kprintf("Kernel exited with error\n");
+    if (err_num) kprintf("Kernel exited with error : %d\n", err_num);
     else kprintf("Kernel exited without error\n");
     while(1);
 }

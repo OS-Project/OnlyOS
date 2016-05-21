@@ -22,12 +22,11 @@ extern "C" {
 
     int kmain();
     int kinit();
-    int kinit_drivers();
-    int kinit_devices();
 
-    void kinitVector_table();
-    void kinit_screen();
-    int klaunch();
+    void kinit_vector_table();
+
+    void interrupt_SVC_handler();
+
     void kexit(int errnum);
 #endif //ONLYOS_KERNEL_H
 
