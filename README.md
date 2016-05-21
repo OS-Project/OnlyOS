@@ -32,20 +32,13 @@ The operating system
 
 
 # Filesystem driver
-Todo
------
 - [ ] File system (must code diskio.c)
 
 
 # UART driver
-Todo
------
 - [ ] uart_init(): causes crashes
 - [X] Mettre uart_strLen dans un fichier util
 - [X] Séparer les fichiers du syscalls.c
-
-Questions
----------
 - Operational mode configuration necesssary?
 - uart_write_byte(): is UART_LSR_TX_SR_E necessary?
 - uart_write_byte(): alternate version using diferrent register?
