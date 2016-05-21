@@ -15,7 +15,6 @@
 int kmain()
 {
     kinit();
-    __asm__("svc #0");
 
     kprintf("Hello Thibault! Changement de message pour que ce soit moins barbant!\n");
 
