@@ -1,4 +1,3 @@
-interrupt.o
 boot.o
 coprocessor.o
 kernel.c

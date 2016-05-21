@@ -1,10 +1,3 @@
-.text
-.extern _start
-.extern error
-.section ".text.interrupt_vector_table"
-
-interrupt_vector_table:
-
 .section ".text.interrupt_handler"
 fiq_handler:
         // Done auto: spsr = cpsr. Ref: p456

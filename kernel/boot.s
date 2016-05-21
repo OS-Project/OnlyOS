@@ -24,8 +24,10 @@
 .code 32
 .global _start
 .global error
-.section ".text.boot"
 
+.include "kernel/interrupt.s"
+
+.section ".text.boot"
 _start:
 	// Disable irqs and fiqs first
 	stack_init:
