@@ -15,14 +15,9 @@
 int kmain()
 {
     kinit();
-
-    kprintf("[INIT] Move interrupt vector table\n");
-    kinit_vector_table();
-    kprintf("[INIT] Interrupt vector table moved\n");
-
     __asm__("svc #0");
 
-    kprintf("Ce message ne devrait pas s'afficher\n");
+    kprintf("Hello Thibault! Changement de message pour que ce soit moins barbant!\n");
 
     while(1);
     return EXIT_SUCCESS;
@@ -65,6 +60,9 @@ int kinit()
     dinit(true);
     kprintf("[INIT] ### Drivers initialisation done\n");
     kprintf("[INIT] ### Start memory initilisation\n");
+    kprintf("[INIT] Move interrupt vector table\n");
+    kinit_vector_table();
+    kprintf("[INIT] Interrupt vector table moved\n");
     return EXIT_SUCCESS;
 }
 

@@ -1,63 +1,16 @@
-@******************************************************************************
-@
-@ init.S - Init code routines
-@
-@******************************************************************************
-@
-@ Copyright (C) 2010 Texas Instruments Incorporated - http://www.ti.com/
-@
-@
-@  Redistribution and use in source and binary forms, with or without
-@  modification, are permitted provided that the following conditions
-@  are met:
-@
-@    Redistributions of source code must retain the above copyright
-@    notice, this list of conditions and the following disclaimer.
-@
-@    Redistributions in binary form must reproduce the above copyright
-@    notice, this list of conditions and the following disclaimer in the
-@    documentation and/or other materials provided with the
-@    distribution.
-@
-@    Neither the name of Texas Instruments Incorporated nor the names of
-@    its contributors may be used to endorse or promote products derived
-@    from this software without specific prior written permission.
-@
-@  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-@  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-@  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-@  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-@  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-@  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-@  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-@  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-@  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-@  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-@  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-@
-@******************************************************************************
-
-@****************************** Global Symbols*******************************
         .global _start
         .global _sstack                  
         .global _sbss
         .global _ebss
         .global start_boot
 
-@************************ Internal Definitions ******************************
-@
-@ Define the stack sizes for different modes. The user/system mode will use
-@ the rest of the total stack size
-@
         .set  UND_STACK_SIZE, 0x8
         .set  ABT_STACK_SIZE, 0x8
         .set  FIQ_STACK_SIZE, 0x8
         .set  IRQ_STACK_SIZE, 0x100
         .set  SVC_STACK_SIZE, 0x8
 
-@
-@ to set the mode bits in CPSR for different modes
-@        
+     
         .set  MODE_USR, 0x10            
         .set  MODE_FIQ, 0x11
         .set  MODE_IRQ, 0x12
@@ -68,23 +21,11 @@
 
         .equ  I_F_BIT, 0xC0               
 
-@**************************** Code Seection ***********************************
-        .text
-
-@
-@ This code is assembled for ARM instructions
-@
-        .code 32
-
-@******************************************************************************
-@
-@******************************************************************************
-@
-@ The reset handler sets up the stack pointers for all the modes. The FIQ and
-@ IRQ shall be disabled during this. Then clears the BSS section, enters the  
-@ main function. 
+.text
+.code 32
 
 _start:
+	// Disable irqs and fiqs first
 @
 @ Set up the Stack for Undefined mode
 @
@@ -121,17 +62,12 @@ _start:
 @      
          MSR   cpsr_c, #MODE_SYS|I_F_BIT       @ change to system mode
          MOV   sp,r0                           @ write the stack pointer
-
-@
-@ Clear the BSS section here
-@
-
 clear_bss_section:
         ldr	r0, =_sbss
         ldr	r1, =_ebss
         cmp r0,r1
 
-        beq enter_bootLoader
+        beq call_main
         mov	r4, #0
 
         write_zero:
@@ -139,12 +75,7 @@ clear_bss_section:
             add r0,r0,#1
             cmp	r0, r1
             bne	write_zero
-
-@
-@ Enter the main function. 
-@
-
-enter_bootLoader:
+call_main:
          LDR   r10,=kmain                   @ Get the address of main
          MOV   lr,pc                           @ Dummy return 
          BX    r10                             @ Branch to main 
@@ -154,7 +85,6 @@ enter_bootLoader:
 error:
 	mov r0, #1
 	b kexit
-@ End of the file
-@
-         .end
+
+.end
     
