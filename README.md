@@ -1,15 +1,41 @@
 # OnlyOS
 The operating system
 
+# Kernel
+- [ ] kexit() or call to _exit() syscall ?
+- [ ] Disable interrupts in exit function
+
+
+# Boot
+- [ ] Init stacks for all modes. Stack sizes in boot.s must match the linker script.
+- [ ] Clear .bss section.
+- [ ] Linker script.
+- [ ] Prefetch abort and data abort modes differences?
+- [ ] Branch prediction p59 Cortex Guide.
+
+
+# Interrupts/Exceptions handling
+- [ ] Interruption table: where should it be placed? 
+- [ ] Table format: .sections shows correct address (fiq_handler=0x1C + 4 = 0x20)
+- [ ] Svc handler
+- [ ] Data abort handler
+- [ ] Prefetch abort handler
+- [ ] Undefined instruction handler
+- [ ] Irq handler
+- [ ] Fiq handler
+
+|    Value   | r0 Code       |     r1                     |   r2                   | return (r0)            |
+| ---------- |: -----------: |: ---------------------- -: | ---------------------: | ---------------------: |
+| UART_putc  | 0x00100       |  the char to push          | Null                   | 0 if success, else 1   |
+| minit      | 0x00200       |  process heap_start adress | Null                   | 0 if success, else 1   |
+| kmalloc    | 0x00201       |  process heap_start adress | Null                   | adress of memory block |
+
+
 # Filesystem driver
 Todo
 -----
-- [ ] Handle exit/error.
-- [ ] SVC calls handling.
-- [ ] IRQ handling.
-- [ ] Exceptions handling.
-- [ ] Uart interrupts.
 - [ ] File system (must code diskio.c)
+
 
 # UART driver
 Todo
@@ -25,15 +51,6 @@ Questions
 - uart_write_byte(): alternate version using diferrent register?
 - uart_read_byte(): alternate version for signed values?
 
-# Exceptions/interrupts handling
-- [ ] Init stacks for all modes. Stack sizes in boot.s must match the linker script.
-- [ ] Clear .bss section.
-- [ ] Interruption table: where should it be placed? .sections shows correct address (fiq_handler=0x1C + 4 = 0x20)
-- [ ] Linker script.
-- [ ] Prefetch abort and data abort modes differences?
-- [ ] kexit() or call to _exit() syscall ?
-- [ ] Branch prediction p59 Cortex Guide.
-- [ ] Disable interrupts in exit function
 
 # Misc
 How to compile a new source ?
@@ -57,11 +74,3 @@ How to compile newlib ?
 sources : https://gcc.gnu.org/ml/gcc-help/2012-08/msg00190.html
 ./configure --target=arm-none-eabi --enable-interwork --enable-multilib --with-newlib --disable-nls --disable-shared --disable-threads --with-gnu-ld --with-gnu-as --disable-libssp --disable-libmudflap --disable-libgomp --with-dwarf2 -v --disable-werror --with-cpu=cortex-a8 --with-mode=thumb --enable-target-optspace --with-fpu=fpv4-sp-d16 --with-float=soft --enable-languages=c,c++ --disable-newlib-multithread
 
-
-# Interrupt Handler
-
-|    Value   | r0 Code       |     r1                     |   r2                   | return (r0)            |
-| ---------- |: -----------: |: ---------------------- -: | ---------------------: | ---------------------: |
-| UART_putc  | 0x00100       |  the char to push          | Null                   | 0 if success, else 1   |
-| minit      | 0x00200       |  process heap_start adress | Null                   | 0 if success, else 1   |
-| kmalloc    | 0x00201       |  process heap_start adress | Null                   | adress of memory block |
