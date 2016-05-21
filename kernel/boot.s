@@ -69,8 +69,8 @@ _start:
             bne	write_zero
 
 	call_main:
-		ldr r10,=kmain
-		bx r10 // TI: branch to main
+		ldr pc,=kmain
+		//bx r10 // TI: branch to main
 		
 	// If kmain returns, exit with error
 

@@ -10,15 +10,16 @@ The operating system
 - [ ] Check flags values in the doc.
 - [ ] Disble irqs and fiqs.
 - [ ] Stack implementation: FA, FD, EA, ED?
-- [ ] Init stacks for all modes. Stack sizes in boot.s must match the linker script.
-- [ ] Clear .bss section.
-- [ ] Linker script.
+- [x] Init stacks for all modes. Stack sizes in boot.s must match the linker script.
+- [x] Clear .bss section.
+- [ ] Call main function: do not use branch. Address may be out of range.
+- [x] Linker script.
 - [ ] Prefetch abort and data abort modes differences?
 - [ ] Branch prediction p59 Cortex Guide.
 
 
 # Interrupts/Exceptions handling
-- [ ] Interruption table: where should it be placed? 
+- [x] Interruption table: copied at boot.
 - [ ] Table format: .sections shows correct address (fiq_handler=0x1C + 4 = 0x20)
 - [ ] Svc handler
 - [ ] Abort handler
@@ -58,9 +59,8 @@ Bugs for asm source files.
 Questions
 ---------
 - fichier tempo en C
-- C init
-- Compilation: use arm instruction (-marm option in gcc)
-- Difference .code 32 and .arm
+- [ ] Compilation: use arm instruction (-marm option in gcc)
+- [x] Difference .code 32 and .arm: none.
 
 
 How to compile newlib ?
