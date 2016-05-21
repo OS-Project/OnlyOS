@@ -48,12 +48,7 @@ void kinit_vector_table()
     unsigned int *src =  (unsigned int *)vecTbl;
     unsigned int count;
 
-    //set_vectorBaseAddr(AM335X_VECTOR_BASE);
-    	__asm__(
-		"mcr     p15, #0, r0, c12, c0, #0\n\t"
-		"dsb"
-	);
-
+    set_vectorBaseAddr(AM335X_VECTOR_BASE);
     for(count = 0; count < sizeof(vecTbl)/sizeof(vecTbl[0]); count++)
         dest[count] = src[count];
 }
