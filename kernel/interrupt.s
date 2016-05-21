@@ -4,14 +4,6 @@
 .section ".text.interrupt_vector_table"
 
 interrupt_vector_table:
-	b _start // Reset Handler
-	b error // Undefined instruction
-	b svc_handler // SVC Handler (Software interrupt)
-	b error // Prefetch Abort
-	b error // Data Abort
-    	b error // Reserved
-	b irq_handler // IRQ
-	b error // FIQ
 
 .section ".text.interrupt_handler"
 fiq_handler:
