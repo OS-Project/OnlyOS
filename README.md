@@ -7,8 +7,8 @@ The operating system
 
 
 # Boot
-- [ ] Check flags values in the doc.
-- [ ] Disble irqs and fiqs.
+- [x] Check flags values for processor modes in the doc.
+- [ ] Check flags values for irq and fiq in the doc.
 - [ ] Stack implementation: FA, FD, EA, ED?
 - [x] Init stacks for all modes. Stack sizes in boot.s must match the linker script.
 - [x] Clear .bss section.
