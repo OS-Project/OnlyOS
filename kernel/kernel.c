@@ -22,6 +22,8 @@ int kmain()
 
     __asm__("svc #0");
 
+    kprintf("Ce message ne devrait pas s'afficher\n");
+
     while(1);
     return EXIT_SUCCESS;
 }
@@ -72,7 +74,6 @@ void interrupt_SVC_handler()
         kprintf("\nSVC interrupt detected\n");
     #endif
 }
-
 
 void kexit(int err_num)
 {
