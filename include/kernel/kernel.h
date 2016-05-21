@@ -25,6 +25,7 @@ extern "C" {
     int kinit_drivers();
     int kinit_devices();
 
+    void kinitVector_table();
     void kinit_screen();
     int klaunch();
     void kexit(int errnum);

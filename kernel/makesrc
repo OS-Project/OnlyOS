@@ -2,3 +2,4 @@ interrupt.o
 boot.o
 kernel.c
 drivers/drivers.c
+cp15.o

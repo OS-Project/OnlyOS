@@ -8,7 +8,7 @@
      */
     /* General configuration */
     #define PAGE_SIZE = 8192; /* 8kB */
-    #define
+
     /* Define */
     #define FREE_BLOCK ((unsigned char)0x10)
     #define TAKEN_BLOCK ((unsigned char)0x20)

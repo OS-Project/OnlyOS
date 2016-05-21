@@ -5,6 +5,7 @@
 #include DRIVER_UART_PATH
 /* Libs */
 #include <utils/libbool.h>
+#include <utils/libtypes.h>
 
 void minit(bool console)
 {
@@ -49,3 +50,8 @@ void minit(bool console)
     kprintf("[Memory] HEAP top : 0x%p\n", HEAP_TOP);
 }
 
+/* _sbrk syscall */
+caddr_t ksbrk(int incr, MEMORY* memory)
+{
+
+}
