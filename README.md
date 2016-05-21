@@ -12,14 +12,14 @@ The operating system
 - [ ] Stack implementation: FA, FD, EA, ED?
 - [x] Init stacks for all modes. Stack sizes in boot.s must match the linker script.
 - [x] Clear .bss section.
-- [ ] Call main function: do not use branch. Address may be out of range.
+- [x] Call main function: do not use branch. Address may be out of range.
 - [x] Linker script.
 - [ ] Prefetch abort and data abort modes differences?
 - [ ] Branch prediction p59 Cortex Guide.
 
 
 # Interrupts/Exceptions handling
-- [x] Interruption table: copied at boot.
+- [ ] Interruption table: copied at boot.
 - [ ] Table format: .sections shows correct address (fiq_handler=0x1C + 4 = 0x20)
 - [ ] Svc handler
 - [ ] Abort handler
