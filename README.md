@@ -7,6 +7,9 @@ The operating system
 
 
 # Boot
+- [ ] Check flags values in the doc.
+- [ ] Disble irqs and fiqs.
+- [ ] Stack implementation: FA, FD, EA, ED?
 - [ ] Init stacks for all modes. Stack sizes in boot.s must match the linker script.
 - [ ] Clear .bss section.
 - [ ] Linker script.
@@ -18,8 +21,7 @@ The operating system
 - [ ] Interruption table: where should it be placed? 
 - [ ] Table format: .sections shows correct address (fiq_handler=0x1C + 4 = 0x20)
 - [ ] Svc handler
-- [ ] Data abort handler
-- [ ] Prefetch abort handler
+- [ ] Abort handler
 - [ ] Undefined instruction handler
 - [ ] Irq handler
 - [ ] Fiq handler
@@ -58,6 +60,7 @@ Questions
 - fichier tempo en C
 - C init
 - Compilation: use arm instruction (-marm option in gcc)
+- Difference .code 32 and .arm
 
 
 How to compile newlib ?

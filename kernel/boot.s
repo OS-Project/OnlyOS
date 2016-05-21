@@ -1,68 +1,60 @@
-        .global _start
-        .global _sstack                  
-        .global _sbss
-        .global _ebss
-        .global start_boot
+.global _start
+.global _sstack                  
+.global _sbss
+.global _ebss
+.global start_boot
 
-        .set  UND_STACK_SIZE, 0x8
-        .set  ABT_STACK_SIZE, 0x8
-        .set  FIQ_STACK_SIZE, 0x8
-        .set  IRQ_STACK_SIZE, 0x100
-        .set  SVC_STACK_SIZE, 0x8
+.equ  UND_STACK_SIZE, 0x8
+.equ  ABT_STACK_SIZE, 0x8
+.equ  FIQ_STACK_SIZE, 0x8
+.equ  IRQ_STACK_SIZE, 0x100
+.equ  SVC_STACK_SIZE, 0x8
 
-     
-        .set  MODE_USR, 0x10            
-        .set  MODE_FIQ, 0x11
-        .set  MODE_IRQ, 0x12
-        .set  MODE_SVC, 0x13
-        .set  MODE_ABT, 0x17
-        .set  MODE_UND, 0x1B
-        .set  MODE_SYS, 0x1F            
+.equ  MODE_UND, 0x1B     
+.equ  MODE_USR, 0x10            
+.equ  MODE_FIQ, 0x11
+.equ  MODE_IRQ, 0x12
+.equ  MODE_SVC, 0x13
+.equ  MODE_ABT, 0x17
+.equ  MODE_SYS, 0x1F            
 
-        .equ  I_F_BIT, 0xC0               
+.equ  I_bit, 0xC0               
 
 .text
 .code 32
+.global _start
+.global error
+.section ".text.boot"
 
 _start:
 	// Disable irqs and fiqs first
-@
-@ Set up the Stack for Undefined mode
-@
-         LDR   r0, =_sstack                     @ Read the stack address
-         MSR   cpsr_c, #MODE_UND|I_F_BIT       @ switch to undef  mode
-         MOV   sp,r0                           @ write the stack pointer
-         SUB   r0, r0, #UND_STACK_SIZE         @ give stack space
-@
-@ Set up the Stack for abort mode
-@        
-         MSR   cpsr_c, #MODE_ABT|I_F_BIT       @ Change to abort mode
-         MOV   sp, r0                          @ write the stack pointer
-         SUB   r0,r0, #ABT_STACK_SIZE          @ give stack space
-@
-@ Set up the Stack for FIQ mode
-@       
-         MSR   cpsr_c, #MODE_FIQ|I_F_BIT       @ change to FIQ mode
-         MOV   sp,r0                           @ write the stack pointer
-         SUB   r0,r0, #FIQ_STACK_SIZE          @ give stack space
-@
-@ Set up the Stack for IRQ mode
-@       
-         MSR   cpsr_c, #MODE_IRQ|I_F_BIT       @ change to IRQ mode
-         MOV   sp,r0                           @ write the stack pointer
-         SUB   r0,r0, #IRQ_STACK_SIZE          @ give stack space
-@
-@ Set up the Stack for SVC mode
-@        
-         MSR   cpsr_c, #MODE_SVC|I_F_BIT       @ change to SVC mode
-         MOV   sp,r0                           @ write the stack pointer
-         SUB   r0,r0, #SVC_STACK_SIZE          @ give stack space
-@
-@ Set up the Stack for USer/System mode
-@      
-         MSR   cpsr_c, #MODE_SYS|I_F_BIT       @ change to system mode
-         MOV   sp,r0                           @ write the stack pointer
-clear_bss_section:
+	stack_init:
+		ldr r0, =_estack
+        	msr cpsr_c, #MODE_UND | I_bit
+       		mov sp, r0
+		sub r0, r0, #UND_STACK_SIZE
+
+		msr cpsr_c, #MODE_SVC | I_bit
+        	mov sp, r0
+		sub r0, r0, #SVC_STACK_SIZE
+
+        	msr cpsr_c, #MODE_ABT | I_bit
+        	mov sp, r0
+		sub r0, r0, #ABT_STACK_SIZE
+
+        	msr cpsr_c, #MODE_IRQ | I_bit
+        	mov sp, r0
+		sub r0, r0, #IRQ_STACK_SIZE
+
+        	msr cpsr_c, #MODE_FIQ | I_bit
+        	mov sp, r0
+		sub r0, r0, #FIQ_STACK_SIZE
+
+        	// Kernel mode
+        	msr cpsr_c, #MODE_SYS | I_bit
+        	mov sp, r0    
+                 
+	bss_init:
         ldr	r0, =_sbss
         ldr	r1, =_ebss
         cmp r0,r1
@@ -72,16 +64,16 @@ clear_bss_section:
 
         write_zero:
             strb r4, [r0]
-            add r0,r0,#1
+            add r0, r0,#1
             cmp	r0, r1
             bne	write_zero
-call_main:
-         LDR   r10,=kmain                   @ Get the address of main
-         MOV   lr,pc                           @ Dummy return 
-         BX    r10                             @ Branch to main 
-         SUB   pc, pc, #0x08                   @ looping   
 
-.global error
+	call_main:
+		ldr r10,=kmain
+		bx r10 // TI: branch to main
+		
+	// If kmain returns, exit with error
+
 error:
 	mov r0, #1
 	b kexit
