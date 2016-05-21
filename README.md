@@ -27,11 +27,11 @@ The operating system
 - [ ] Irq handler
 - [ ] Fiq handler
 
-|    Value   | r0 Code       |     r1                     |   r2                   | return (r0)            |
-| ---------- |: -----------: |: ---------------------- -: | ---------------------: | ---------------------: |
-| UART_putc  | 0x00100       |  the char to push          | Null                   | 0 if success, else 1   |
-| minit      | 0x00200       |  process heap_start adress | Null                   | 0 if success, else 1   |
-| kmalloc    | 0x00201       |  process heap_start adress | Null                   | adress of memory block |
+|    Value   | r0 Code       |     r1                     |   r2                   | return (r0)            |  
+| ---------- |: -----------: |: ---------------------- -: | ---------------------: | ---------------------: |  
+| UART_putc  | 0x00100       |  the char to push          | Null                   | 0 if success, else 1   |  
+| minit      | 0x00200       |  process heap_start adress | Null                   | 0 if success, else 1   |  
+| kmalloc    | 0x00201       |  process heap_start adress | Null                   | adress of memory block |  
 
 
 # Filesystem driver
