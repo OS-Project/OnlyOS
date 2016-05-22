@@ -50,6 +50,6 @@ svc_handler:
         movs pc,lr
 
 svc_asm_call:
-	stmfd sp! {lr}
+	stmfd sp!, {lr}
 	svc #0
 	ldmfd sp!, {pc}
