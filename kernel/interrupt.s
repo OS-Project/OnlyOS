@@ -1,4 +1,5 @@
 .section ".text.interrupt_handler"
+.global svc_handler
 .global svc_asm_call
 
 fiq_handler:
