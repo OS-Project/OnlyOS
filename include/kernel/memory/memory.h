@@ -55,11 +55,10 @@
 
     /* Functions */
     int minit();
-    void memory_tests();
     unsigned int mcreate_block(MEMORY *memory, unsigned int start_adress, unsigned int size);
     unsigned int mremove_block(MEMORY *memory, MEMORY_BLOCK* entry);
 
     caddr_t ksbrk(unsigned int incr, MEMORY* memory);
-    unsigned int mfind_free_block(unsigned int size, MEMORY* memory);
     MEMORY * mget_memory(unsigned int heap_start);
+    unsigned int mfind_free_block(unsigned int size, MEMORY* memory);
 #endif

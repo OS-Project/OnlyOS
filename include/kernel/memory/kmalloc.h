@@ -11,4 +11,5 @@
 
     caddr_t kmalloc(unsigned int size);
     MEMORY * kget_memory();
+    void memory_tests();
 #endif //ONLYOS_KERNEL_KMALLOC_H
