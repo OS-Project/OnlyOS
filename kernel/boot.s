@@ -1,7 +1,6 @@
 .text
 .code 32
 
-
 .include "kernel/boot_header.s"
 .include "kernel/interrupt.s"
 
