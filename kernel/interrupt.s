@@ -1,4 +1,6 @@
 .section ".text.interrupt_handler"
+.global svc_asm_call
+
 fiq_handler:
         // Done auto: spsr = cpsr. Ref: p456
         stmfd sp!, {r0-r12,lr} // Save registers
