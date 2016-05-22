@@ -7,7 +7,7 @@
 .equ  ABT_STACK_SIZE, 0x8
 .equ  FIQ_STACK_SIZE, 0x8
 .equ  IRQ_STACK_SIZE, 0x100
-.equ  SVC_STACK_SIZE, 0x8
+.equ  SVC_STACK_SIZE, 0x30
 
 .equ  MODE_UND, 0x1B     
 .equ  MODE_USR, 0x10            
