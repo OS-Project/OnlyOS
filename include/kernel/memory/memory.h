@@ -21,13 +21,28 @@
     extern char _sstack;
     extern char _estack;
 
-    #define HEAP_BASE &_bheap;
-    #define HEAP_TOP &_theap;
     #define HEAP_START &_sheap
     #define HEAP_END &_eheap;
 
     #define STACK_START &_sstack
     #define STACK_END &_estack
+
+    typedef struct {
+        unsigned int start_adress;
+        unsigned int end_adress;
+        unsigned int size;
+        unsigned char type;
+    } MEMORY_BLOCK;
+
+    typedef struct {
+        unsigned int size;
+        unsigned int start_adress;
+        unsigned int end_adress;
+        unsigned int nb_blocks;
+        unsigned int nb_blocks_max;
+
+        MEMORY_BLOCK** blocks;
+    } MEMORY_MAPPER;
 
     typedef struct {
         unsigned int start_adress;
@@ -40,25 +55,9 @@
         MEMORY_MAPPER mapper;
     } MEMORY;
 
-    typedef struct {
-        unsigned int size;
-        unsigned int start_adress;
-        unsigned int end_adress;
-        unsigned int nb_blocks;
-        unsigned int nb_blocks_max;
-
-        MEMORY_ENTRY** blocks;
-    } MEMORY_MAPPER;
-
-    typedef struct {
-        unsigned int start_adress;
-        unsigned int end_adress;
-        unsigned int size;
-        unsigned char type;
-    } MEMORY_BLOCK;
-
     /* Functions */
-    void minit(MEMORY *memory, bool console_);
+    int minit(bool console);
+    void memory_tests();
     unsigned int mcreate_block(MEMORY *memory, unsigned int start_adress, unsigned int size);
     unsigned int mremove_block(MEMORY *memory, MEMORY_BLOCK* entry);
 

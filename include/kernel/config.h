@@ -11,6 +11,7 @@ extern "C" {
 
     #include <utils/libbool.h>
     /* Config */
+    #define DEBUG 1
 
     /* Paths */
     #define DRIVER_UART_PATH "drivers/uart/uart.h"

@@ -4,19 +4,19 @@
 #include <kernel/config.h>
 #include <kernel/kernel.h>
 #include <kernel/drivers/drivers.h>
+#include <kernel/memory/memory.h>
 
 #include <drivers/uart/uart.h>
 
 /* Libs */
 #include <utils/libbool.h>
 #include <kernel/coprocessor.h>
-#define DEBUG 1
 
 int kmain()
 {
     kinit();
 
-    kprintf("Hello Thibault! Changement de message pour que ce soit moins barbant!\n");
+    memory_tests();
 
     while(1);
     return EXIT_SUCCESS;
