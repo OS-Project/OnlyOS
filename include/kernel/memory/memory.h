@@ -2,30 +2,29 @@
 #define ONLYOS_KERNEL_KMALLOC_H
     #include <kernel/config.h>
     #include <utils/libbool.h>
+    #include <utils/libtypes.h>
 
     /*
      * For 1Mb of memory reserved for memory mapper : 16 384 allocations max
      */
     /* General configuration */
-    #define PAGE_SIZE = 8192; /* 8kB */
+    #define PAGE_SIZE (unsigned int)(8192) /* 8kB */
 
     /* Define */
     #define FREE_BLOCK ((unsigned char)0x10)
     #define TAKEN_BLOCK ((unsigned char)0x20)
 
-    extern char _bheap;
     extern char _sheap;
-    extern char _theap;
     extern char _eheap;
 
     extern char _sstack;
     extern char _estack;
 
-    #define HEAP_START &_sheap
-    #define HEAP_END &_eheap;
+    #define HEAP_START _sheap
+    #define HEAP_END _eheap
 
-    #define STACK_START &_sstack
-    #define STACK_END &_estack
+    #define STACK_START _sstack
+    #define STACK_END _estack
 
     typedef struct {
         unsigned int start_adress;
@@ -41,6 +40,8 @@
         unsigned int nb_blocks;
         unsigned int nb_blocks_max;
 
+        unsigned int usable_heap_start;
+        unsigned int usable_heap_end;
         MEMORY_BLOCK** blocks;
     } MEMORY_MAPPER;
 
@@ -49,17 +50,16 @@
         unsigned int end_adress;
         unsigned int size;
 
-        unsigned int usable_heap_start;
-        unsigned int usable_heap_end;
-
-        MEMORY_MAPPER mapper;
+        MEMORY_MAPPER *mapper;
     } MEMORY;
 
     /* Functions */
-    int minit(bool console);
+    int minit();
     void memory_tests();
     unsigned int mcreate_block(MEMORY *memory, unsigned int start_adress, unsigned int size);
     unsigned int mremove_block(MEMORY *memory, MEMORY_BLOCK* entry);
 
-    MEMORY_BLOCK mfind_freeBlock(MEMORY *memory, unsigned int size);
+    caddr_t ksbrk(unsigned int incr, MEMORY* memory);
+    unsigned int mfind_free_block(unsigned int size, MEMORY* memory);
+    MEMORY * mget_memory(unsigned int heap_start);
 #endif

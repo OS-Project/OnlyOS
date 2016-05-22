@@ -44,7 +44,7 @@ SECTIONS
     .bss :
     {
         _sbss = .;
-        *(.bss) *(COMMON)
+        *(.bss)
         _ebss = .;
     } > CODE
 

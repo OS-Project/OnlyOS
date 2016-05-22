@@ -4,7 +4,9 @@
 #include <kernel/config.h>
 #include <kernel/kernel.h>
 #include <kernel/drivers/drivers.h>
+/* Memory management */
 #include <kernel/memory/memory.h>
+#include <kernel/memory/kmalloc.h>
 
 #include <drivers/uart/uart.h>
 
@@ -15,7 +17,7 @@
 int kmain()
 {
     kinit();
-
+    minit();
     memory_tests();
 
     while(1);

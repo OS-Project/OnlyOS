@@ -2,3 +2,4 @@ boot.o
 kernel.c
 drivers/drivers.c
 memory/memory.c
+memory/kmalloc.c
