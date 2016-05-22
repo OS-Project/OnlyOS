@@ -24,9 +24,6 @@ extern "C" {
     int kinit();
 
     void kinit_vector_table();
-
-    void interrupt_SVC_handler();
-
     void kexit(int errnum);
 #endif //ONLYOS_KERNEL_H
 

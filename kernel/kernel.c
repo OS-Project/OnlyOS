@@ -3,13 +3,13 @@
 */
 #include <kernel/config.h>
 #include <kernel/kernel.h>
+#include <kernel/interrupt.h>
 #include <kernel/drivers/drivers.h>
-
+extern void set_vectorBaseAddr(unsigned int addr);
 #include <drivers/uart/uart.h>
 
 /* Libs */
 #include <utils/libbool.h>
-#include <kernel/coprocessor.h>
 #define DEBUG 1
 
 int kmain()
@@ -38,7 +38,7 @@ void kinit_vector_table()
             0xE59FF010,    /* Opcode for loading PC with the contents of [PC + 0x10] */
             (unsigned int)kmain,
             (unsigned int)kexit,
-            (unsigned int)interrupt_SVC_handler,
+            (unsigned int)INT_SVC_handler,
             (unsigned int)kexit,
             (unsigned int)kexit,
             (unsigned int)kexit
@@ -64,12 +64,6 @@ int kinit()
     return EXIT_SUCCESS;
 }
 
-void interrupt_SVC_handler()
-{
-    #ifdef DEBUG
-        kprintf("\nSVC interrupt detected\n");
-    #endif
-}
 
 void kexit(int err_num)
 {

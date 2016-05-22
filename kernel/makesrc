@@ -1,3 +1,4 @@
 boot.o
+interrupt.c
 kernel.c
 drivers/drivers.c
