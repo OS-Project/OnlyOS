@@ -29,9 +29,9 @@
 .include "kernel/interrupt.s"
 
 .section ".text.boot"
-_start:
-	// Disable irqs and fiqs first
+_start:	
 	stack_init:
+		// Stack is empty descending.
 		ldr r0, =_estack
         	msr cpsr_c, #MODE_UND | IRQ_BIT | FIQ_BIT
        		mov sp, r0

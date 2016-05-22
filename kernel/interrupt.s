@@ -48,3 +48,8 @@ svc_handler:
 
         msr cpsr, r11
         movs pc,lr
+
+svc_asm_call:
+	stmfd sp! {lr}
+	svc #0
+	ldmfd sp!, {pc}
