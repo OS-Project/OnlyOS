@@ -46,12 +46,17 @@ irq_handler:
         //Done auto: cpsr = spsr; pc=lr. Ref: p458
 
 svc_handler:
-        mrs r11, cpsr
+	// Save context
+	stmfd sp!, {r4,lr}
+	
+	ldr pc,=INT_SVC_handler
 
-        msr cpsr, r11
+	// Restore context
+	ldmfd sp!, {r4,lr}
+	mrs r0, spsr
+	msr cpsr, r0
         movs pc,lr
 
-svc_asm_call:
-	stmfd sp!, {lr}
+svc_asm_call:	
 	svc #0
-	ldmfd sp!, {pc}
+	mov pc, lr

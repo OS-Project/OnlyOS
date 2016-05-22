@@ -1,5 +1,7 @@
+#include "drivers/uart/uart.h"
+#include "kernel/config.h"
 #include "kernel/interrupt.h"
-
+#define DEBUG
 void INT_SVC_handler(int r0, int r1, int r2, int r3)
 {
     #ifdef DEBUG

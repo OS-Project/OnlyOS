@@ -21,6 +21,7 @@ The operating system
 # Interrupts/Exceptions handling
 - [ ] Interruption table: copied at boot.
 - [ ] Table format: .sections shows correct address (fiq_handler=0x1C + 4 = 0x20)
+- [ ] Svc call.
 - [ ] Svc handler
 - [ ] Abort handler
 - [ ] Undefined instruction handler

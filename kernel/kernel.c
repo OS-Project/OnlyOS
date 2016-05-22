@@ -15,9 +15,9 @@ extern void set_vectorBaseAddr(unsigned int addr);
 int kmain()
 {
     kinit();
-
-    kprintf("Hello Thibault! Changement de message pour que ce soit moins barbant!\n");
-
+	kprintf("Kernel mode printf before svc call\n");
+    INT_SVC_call(0,1,2,3);
+	kprintf("Kernel mode printf after svc call\n");	
     while(1);
     return EXIT_SUCCESS;
 }
