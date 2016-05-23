@@ -8,8 +8,9 @@ extern "C" {
 
 #ifndef ONLYOS_FILES_REFERENCES_H
 #define ONLYOS_FILES_REFERENCES_H
-
     #include <utils/libbool.h>
+    #include <utils/libtypes.h>
+
     /* Config */
     #define DEBUG 1
 

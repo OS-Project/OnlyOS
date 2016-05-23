@@ -4,7 +4,6 @@
 #include <kernel/memory/kmalloc.h>
 #include <kernel/memory/memory.h>
 
-
 #include <kernel/config.h>
 #include <kernel/kernel.h>
 /* Console */
@@ -16,18 +15,24 @@
 
 caddr_t kmalloc(unsigned int size)
 {
+    #ifdef DEBUG
+        kprintf("[Function : kmalloc]\n");
+    #endif
     return (caddr_t)(ksbrk(size, kget_memory()));
 }
 
 MEMORY * kget_memory()
 {
-    return mget_memory(HEAP_START);
+    #ifdef DEBUG
+        kprintf("[Function : kget_memory]\n");
+    #endif
+    return mget_memory(&HEAP_START);
 }
 
 void memory_tests()
 {
-#ifdef DEBUG
-    static int ui = 5; // DATA test
+    #ifdef DEBUG
+        static int ui = 5; // DATA test
         static int ui_unitialized; // BSS test
 
         extern char _stext, _etext, _srodata, _erodata, _sdata, _edata, _sbss, _ebss, _sheap, _eheap, _sstack, _estack;
@@ -62,5 +67,5 @@ void memory_tests()
         kprintf("array[0] : %d. Adresse : %p\n", array[0], &array[0]);
         kprintf("array[1] : %d. Adresse : %p\n", array[1], &array[1]);
         kprintf("array[2] : %d. Adresse : %p\n", array[2], &array[2]);
-#endif
+    #endif
 }

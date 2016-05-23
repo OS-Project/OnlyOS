@@ -1,5 +1,5 @@
-#ifndef ONLYOS_KERNEL_KMALLOC_H
-#define ONLYOS_KERNEL_KMALLOC_H
+#ifndef ONLYOS_KERNEL_MEMORY_H
+#define ONLYOS_KERNEL_MEMORY_H
     #include <kernel/config.h>
     #include <utils/libbool.h>
     #include <utils/libtypes.h>
@@ -55,7 +55,7 @@
 
     /* Functions */
     int minit();
-    unsigned int mcreate_block(MEMORY *memory, unsigned int start_adress, unsigned int size);
+    MEMORY_BLOCK* mcreate_block(MEMORY *memory, unsigned int start_adress, unsigned int size);
     unsigned int mremove_block(MEMORY *memory, MEMORY_BLOCK* entry);
 
     caddr_t ksbrk(unsigned int incr, MEMORY* memory);

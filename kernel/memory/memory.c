@@ -70,8 +70,16 @@ int minit()
 caddr_t ksbrk(unsigned int incr, MEMORY* memory)
 {
     // TODO : verifier qu'on ne depasse pas le nombre max de block
+    #ifdef DEBUG
 
+        kprintf("[Function : ksbrk] Starting\n");
+    #endif
     unsigned int block = (mfind_free_block(incr, memory));
+
+    #ifdef DEBUG
+        kprintf("[Function : ksbrk] free block finded at 0x%p\n", block);
+    #endif
+
     MEMORY_MAPPER *mapper = memory->mapper;
     MEMORY_BLOCK * mblock;
 
@@ -99,12 +107,25 @@ caddr_t ksbrk(unsigned int incr, MEMORY* memory)
 
 unsigned int mfind_free_block(unsigned int size, MEMORY* memory)
 {
+    #ifdef DEBUG
+        kprintf("[Function : mfind_free_block]\n");
+    #endif
     MEMORY_MAPPER *mapper = memory->mapper;
+    #ifdef DEBUG
+        kprintf("[Function : mfind_free_block] mapper getted\n");
+    #endif
     unsigned int adress = 0;
     unsigned int b1, b2;
+
+    #ifdef DEBUG
+        kprintf("[Function : mfind_free_block] Ready to switch\n");
+    #endif
     switch(mapper->nb_blocks)
     {
         case 0:
+            #ifdef DEBUG
+                kprintf("[Function : mfind_free_block] case 0\n");
+            #endif
             if(mapper->usable_heap_end - mapper->usable_heap_start > size)
                 adress = mapper->usable_heap_start;
             else
@@ -112,12 +133,18 @@ unsigned int mfind_free_block(unsigned int size, MEMORY* memory)
 
             break;
         case 1:
+            #ifdef DEBUG
+                kprintf("[Function : mfind_free_block] case 1\n");
+            #endif
             if((mapper->usable_heap_end - mapper->blocks[0]->end_adress) >= size)
                 adress = mapper->blocks[0]->end_adress;
             else
                 adress = (unsigned int)false;
             break;
         default:
+            #ifdef DEBUG
+                kprintf("[Function : mfind_free_block] case >2\n");
+            #endif
             b1 = mapper->blocks[0]->end_adress; b2 = mapper->blocks[1]->end_adress;
             bool find = false;
 
@@ -145,6 +172,12 @@ unsigned int mfind_free_block(unsigned int size, MEMORY* memory)
 
 MEMORY * mget_memory(unsigned int heap_start)
 {
+    #ifdef DEBUG
+        kprintf("[Function : mget_memory]\n");
+    #endif
+    #ifdef DEBUG
+        kprintf("[Function :] Memory getted at 0x%p\n", heap_start);
+    #endif
     return (MEMORY *)(heap_start);
 }
 
