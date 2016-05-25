@@ -15,6 +15,7 @@ extern "C" {
     #endif
 
     typedef void * caddr_t;
+    typedef unsigned int size_t;
 #endif //ONLYOS_LIBTYPES_H
 
 

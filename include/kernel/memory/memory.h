@@ -11,9 +11,6 @@
     #define PAGE_SIZE (unsigned int)(8192) /* 8kB */
 
     /* Define */
-    #define FREE_BLOCK ((unsigned char)0x10)
-    #define TAKEN_BLOCK ((unsigned char)0x20)
-
     extern char _sheap;
     extern char _eheap;
 
@@ -30,7 +27,8 @@
         unsigned int start_adress;
         unsigned int end_adress;
         unsigned int size;
-        unsigned char type;
+        unsigned int nb_page;
+        unsigned int total_size;
     } MEMORY_BLOCK;
 
     typedef struct {
@@ -55,10 +53,18 @@
 
     /* Functions */
     int minit();
-    MEMORY_BLOCK* mcreate_block(MEMORY *memory, unsigned int start_adress, unsigned int size);
-    unsigned int mremove_block(MEMORY *memory, MEMORY_BLOCK* entry);
+
 
     caddr_t ksbrk(unsigned int incr, MEMORY* memory);
     MEMORY * mget_memory(unsigned int heap_start);
     unsigned int mfind_free_block(unsigned int size, MEMORY* memory);
+
+    MEMORY_BLOCK* madd_block(unsigned int size, unsigned int start_adress, MEMORY *memory);
+    void mfree_block(MEMORY_BLOCK * block, MEMORY * memory);
+    void mcopy_block(MEMORY_BLOCK * destination_block, MEMORY_BLOCK * source_block);
+
+    void * kmemcpy(void * destination, const void * source, size_t num);
+
+    void mmemory_show(MEMORY * memory);
+    unsigned int mget_free_space(MEMORY * memory);
 #endif

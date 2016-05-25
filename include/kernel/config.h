@@ -13,6 +13,7 @@ extern "C" {
 
     /* Config */
     #define DEBUG 1
+    #define DEBUG_MEMORY 1
 
     /* Paths */
     #define DRIVER_UART_PATH "drivers/uart/uart.h"
