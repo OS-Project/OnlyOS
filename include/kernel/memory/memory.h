@@ -29,6 +29,7 @@
         unsigned int size;
         unsigned int nb_page;
         unsigned int total_size;
+        unsigned int number;
     } MEMORY_BLOCK;
 
     typedef struct {

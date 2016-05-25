@@ -46,8 +46,8 @@ int minit()
     memory_mapper->start_adress = (unsigned int)(&HEAP_START) + sizeof(MEMORY);
     memory_mapper->end_adress = memory_mapper->start_adress + sizeof(MEMORY_MAPPER) + total_blocks_size;
     memory_mapper->size = memory_mapper->end_adress - memory_mapper->start_adress;
-    memory_mapper->nb_blocks = 0;
-    memory_mapper->nb_blocks_max = nb_max_allocation;
+    memory_mapper->nb_blocks = (unsigned int)0;
+    memory_mapper->nb_blocks_max = (unsigned int)nb_max_allocation;
 
     memory_mapper->blocks = (MEMORY_BLOCK **)(memory_mapper->start_adress + sizeof(MEMORY_MAPPER));
 
@@ -65,25 +65,7 @@ int minit()
     return EXIT_SUCCESS;
 }
 
-MEMORY_BLOCK* madd_block(unsigned int size, unsigned int start_adress, MEMORY *memory)
-{
-    // TODO : verifier qu'on ne depasse pas le nombre max de block
-    MEMORY_MAPPER * mapper = memory->mapper;
-    MEMORY_BLOCK * block = mapper->blocks[mapper->nb_blocks];
-
-    unsigned int nb_pages = (size / PAGE_SIZE) + 1;
-    unsigned int end_adress = (unsigned int)start_adress + (nb_pages * PAGE_SIZE);
-
-    block->start_adress = start_adress;
-    block->end_adress = end_adress;
-    block->size = size;
-    block->nb_page = nb_pages;
-    block->total_size = nb_pages * PAGE_SIZE;
-    mapper->nb_blocks++;
-
-    return block;
-}
-
+/* Memory operation */
 /* _sbrk syscall */
 caddr_t ksbrk(unsigned int incr, MEMORY* memory)
 {
@@ -131,7 +113,6 @@ unsigned int mfind_free_block(unsigned int size, MEMORY* memory)
                 adress = mapper->usable_heap_start;
             else
                 adress = 0;
-
             break;
         case 1:
             #ifdef DEBUG_MEMORY
@@ -177,39 +158,80 @@ MEMORY * mget_memory(unsigned int heap_start)
         kprintf("[Function : mget_memory] Starting\n");
     #endif
     #ifdef DEBUG_MEMORY
-        kprintf("[Function :] Memory getted at 0x%p\n", heap_start);
+        kprintf("[Function : mget_memory] Memory getted at 0x%p\n", heap_start);
     #endif
     return (MEMORY *)(heap_start);
 }
 
+/* Blocks operations */
+MEMORY_BLOCK* madd_block(unsigned int size, unsigned int start_adress, MEMORY *memory)
+{
+    #ifdef DEBUG_MEMORY
+        kprintf("[Function : madd_block] Starting\n");
+    #endif
+    MEMORY_MAPPER * mapper = memory->mapper;
+    if(mapper->nb_blocks + 1 < mapper->nb_blocks_max) {
+        MEMORY_BLOCK *block = mapper->blocks[mapper->nb_blocks];
+
+        unsigned int nb_pages = (size / PAGE_SIZE) + 1;
+        unsigned int end_adress = (unsigned int)(start_adress) + (nb_pages * PAGE_SIZE);
+
+        #ifdef DEBUG_MEMORY
+                kprintf("[Function : madd_block] Block added at : 0x%p - 0x%p\n", start_adress, end_adress);
+        #endif
+        block->start_adress = start_adress;
+        block->end_adress = end_adress;
+        block->size = size;
+        block->nb_page = nb_pages;
+        block->total_size = nb_pages * PAGE_SIZE;
+        mapper->nb_blocks++;
+
+        return block;
+    }
+    else
+        return (MEMORY_BLOCK *)NULL; /* Error */
+}
 
 void mfree_block(MEMORY_BLOCK * block, MEMORY * memory)
 {
-    unsigned int k = 0;
+    unsigned int k;
     MEMORY_MAPPER * mapper = memory->mapper;
 
-    if(mapper->nb_blocks >= 2) {
-        while (mapper->blocks[k]->start_adress != block->start_adress && k < mapper->nb_blocks)
-            k++;
+    switch (mapper->nb_blocks) {
+        case 0:
+            break;
+        case 1:
+            mapper->nb_blocks--;
 
-        if (k != mapper->nb_blocks) {
-            /* Copy all blocks */
-            for (unsigned int i = 0; i < mapper->nb_blocks - k; k++)
-                mcopy_block(mapper->blocks[i + k], mapper->blocks[i + k + 1]);
+            MEMORY_BLOCK * block = mapper->blocks[0];
 
-            /* Remove the last block (optionnal) */
             for (unsigned int i = 0; i < mapper->end_adress; i++) {
                 char *byte = (char *)mapper->blocks[mapper->nb_blocks - 1];
                 *byte = 0x0;
             }
+            break;
+        default:
+            k = 0;
+            while (mapper->blocks[k]->start_adress != block->start_adress && k < mapper->nb_blocks)
+                k++;
 
-            mapper->nb_blocks--;
-        }
-        else
-            kexit(2); /* Error */
+            if (k != mapper->nb_blocks) {
+                /* Copy all blocks */
+                for (unsigned int i = 0; i < mapper->nb_blocks - k; k++)
+                    mcopy_block(mapper->blocks[i + k], mapper->blocks[i + k + 1]);
+
+                /* Remove the last block (optionnal) */
+                for (unsigned int i = 0; i < mapper->end_adress; i++) {
+                    char *byte = (char *)mapper->blocks[mapper->nb_blocks - 1];
+                    *byte = 0x0;
+                }
+
+                mapper->nb_blocks--;
+            }
+            else
+                kexit(2); /* Error */
+            break;
     }
-    else
-        kexit(6); /* Error : Pas assez de blocs */
 }
 
 void mcopy_block(MEMORY_BLOCK * destination_block, MEMORY_BLOCK * source_block)
@@ -220,10 +242,10 @@ void mcopy_block(MEMORY_BLOCK * destination_block, MEMORY_BLOCK * source_block)
     destination_block->total_size = source_block->total_size;
     destination_block->nb_page = source_block->nb_page;
 }
+
 /*
 unsigned int mget_free_space(MEMORY * memory)
 {
-
 }*/
 
 void mmemory_show(MEMORY * memory)
@@ -231,21 +253,8 @@ void mmemory_show(MEMORY * memory)
     for(unsigned int k = 0; k < memory->mapper->nb_blocks; k++) {
         kprintf("----------------------------------------------------\n");
         kprintf("Block %d :\n", k);
-        kprintf("Plage : %p - %p\n", memory->mapper->blocks[k]->start_adress, memory->mapper->blocks[k]->end_adress);
+        kprintf("Plage : 0x%p - 0x%p\n", memory->mapper->blocks[k]->start_adress, memory->mapper->blocks[k]->end_adress);
         kprintf("Size : %d\n", memory->mapper->blocks[k]->size);
     }
 }
 
-void * kmemcpy(void * destination, const void * source, size_t num)
-{
-    /*
-    unsigned int source_adress = (unsigned int)source;
-    unsigned int destination_adress = (unsigned int)destination;
-
-    unsigned int start_destination_adress = (unsigned int)destination;
-    unsigned int end_destination_adress = (unsigned int)start_adress + (unsigned int)num;
-    if(source_adress > destination_adress)
-
-
-    for(unsigned int k = 0; k < num; k++)*/
-}
