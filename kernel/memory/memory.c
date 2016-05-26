@@ -49,7 +49,7 @@ int minit()
     memory_mapper->nb_blocks = (unsigned int)0;
     memory_mapper->nb_blocks_max = (unsigned int)nb_max_allocation;
 
-    memory_mapper->blocks = (MEMORY_BLOCK *)(memory_mapper->start_adress + sizeof(MEMORY_MAPPER));
+    memory_mapper->start_blocks_adress = (unsigned int)(memory_mapper->start_adress + sizeof(MEMORY_MAPPER));
 
     memory_mapper->usable_heap_start = memory_mapper->end_adress;
     memory_mapper->usable_heap_end = memory->end_adress;
@@ -82,10 +82,6 @@ caddr_t mmalloc(unsigned int size, MEMORY* memory)
 
     if(block_adress != false) {
         mblock = madd_block(size, block_adress, memory);
-
-        #ifdef DEBUG_MEMORY
-            kprintf("[Function : mmalloc] Block added at : 0x%p - 0x%p and using %d pages\n", memory->mapper->blocks[0]->start_adress, memory->mapper->blocks[0]->end_adress, memory->mapper->blocks[0]->nb_page);
-        #endif
         return (caddr_t)(mblock->start_adress);
     }
     else /* ERROR : No space */
@@ -125,8 +121,8 @@ unsigned int mfind_free_block(unsigned int size, MEMORY* memory)
             #ifdef DEBUG_MEMORY
                 kprintf("    [Function : mfind_free_block] case 1\n");
             #endif
-            if((mapper->usable_heap_end - mapper->blocks[0]->end_adress) >= size)
-                adress = mapper->blocks[0]->end_adress;
+            if((mapper->usable_heap_end - mget_block(0, memory)->end_adress) >= size)
+                adress = mget_block(0, memory)->end_adress;
             else
                 adress = (unsigned int)false;
             break;
@@ -134,11 +130,11 @@ unsigned int mfind_free_block(unsigned int size, MEMORY* memory)
             #ifdef DEBUG_MEMORY
                 kprintf("    [Function : mfind_free_block] case >2\n");
             #endif
-            b1 = mapper->blocks[0]->end_adress; b2 = mapper->blocks[1]->end_adress;
+            b1 = mget_block(0, memory)->end_adress; b2 = mget_block(1, memory)->end_adress;
             bool find = false;
 
             for(unsigned int k = 1; k < mapper->nb_blocks - 1; k++) {
-                b2 = mapper->blocks[k]->end_adress;
+                b2 = mget_block(k, memory)->end_adress;
                 if (b2 - b1 > size) {
                     adress = b1;
                     find = true;
@@ -148,8 +144,8 @@ unsigned int mfind_free_block(unsigned int size, MEMORY* memory)
             }
             /* If we haven't find, we look the last block */
             if(find == false)
-                if(mapper->usable_heap_end - mapper->blocks[mapper->nb_blocks - 1]->end_adress > size)
-                    adress = mapper->blocks[mapper->nb_blocks - 1]->end_adress;
+                if(mapper->usable_heap_end - mget_last_block(memory)->end_adress > size)
+                    adress = mget_last_block(memory)->end_adress;
                 else
                     adress = 0;
             else
@@ -157,6 +153,25 @@ unsigned int mfind_free_block(unsigned int size, MEMORY* memory)
             break;
     }
     return adress;
+}
+
+MEMORY_BLOCK * mget_block(unsigned int nb, MEMORY * memory)
+{
+    unsigned int adress;
+    if(memory->mapper->nb_blocks > nb) {
+        adress = memory->mapper->start_blocks_adress + (nb * (unsigned int)sizeof(MEMORY_BLOCK));
+        return (MEMORY_BLOCK *)(adress);
+    }
+    else
+        return (MEMORY_BLOCK *)0x0; /* Error */
+}
+
+MEMORY_BLOCK * mget_last_block(MEMORY * memory)
+{
+    if(memory->mapper->nb_blocks > 0)
+        return mget_block(memory->mapper->nb_blocks - 1, memory);
+    else
+        return (MEMORY_BLOCK *)0x0; /* Error */
 }
 
 MEMORY * mget_memory(unsigned int heap_start)
@@ -183,7 +198,7 @@ MEMORY_BLOCK* madd_block(unsigned int size, unsigned int start_adress, MEMORY *m
     unsigned int end_adress;
 
     if(mapper->nb_blocks + 1 < mapper->nb_blocks_max) {
-        block = mapper->blocks[mapper->nb_blocks];
+        block = (MEMORY_BLOCK *)(mapper->start_blocks_adress + (mapper->nb_blocks * (unsigned int)sizeof(MEMORY_BLOCK)));
 
         nb_pages = (size / PAGE_SIZE) + 1;
         end_adress = (unsigned int)(start_adress) + (nb_pages * PAGE_SIZE);
@@ -199,9 +214,6 @@ MEMORY_BLOCK* madd_block(unsigned int size, unsigned int start_adress, MEMORY *m
         block->nb_page = nb_pages;
         block->total_size = nb_pages * PAGE_SIZE;
 
-        #ifdef DEBUG_MEMORY
-            kprintf("    [Function : madd_block] Verification : 0x%p - 0x%p and using %d pages\n", mapper->blocks[mapper->nb_blocks]->start_adress, mapper->blocks[mapper->nb_blocks]->start_adress, mapper->blocks[mapper->nb_blocks]->nb_page);
-        #endif
         /* Increment number of blocks */
         mapper->nb_blocks++;
 
@@ -217,7 +229,6 @@ MEMORY_BLOCK* madd_block(unsigned int size, unsigned int start_adress, MEMORY *m
     return block;
 }
 
-
 /* Memory informations */
 void mmemory_show(MEMORY * memory)
 {
@@ -232,7 +243,6 @@ void mmemory_show(MEMORY * memory)
     kprintf("###### Memory mapper\n");
     kprintf("Size : %d ko\n", memory->mapper->size / 1024);
     kprintf("Plage : 0x%p - 0x%p\n", memory->mapper->start_adress, memory->mapper->end_adress);
-    kprintf("Blocks storage : 0x%p - 0x%p");
     kprintf("Nb blocks : %d \n", memory->mapper->nb_blocks);
     kprintf("Nb blocks max : %d \n", memory->mapper->nb_blocks_max);
     kprintf("Usable plage : 0x%p - 0x%p\n\n", memory->mapper->usable_heap_start, memory->mapper->usable_heap_end);
@@ -240,8 +250,8 @@ void mmemory_show(MEMORY * memory)
     /* Print memory blocks */
     kprintf("###### Blocks\n");
     for(unsigned int k = 0; k < memory->mapper->nb_blocks; k++) {
-        kprintf("[%d] Plage : 0x%p - 0x%p\n", k, memory->mapper->blocks[k]->start_adress, memory->mapper->blocks[k]->end_adress);
-        kprintf("[%d] Size : %d | Pages : %d | Total size : %d\n", k, memory->mapper->blocks[k]->size, memory->mapper->blocks[k]->nb_page, memory->mapper->blocks[k]->total_size);
+        kprintf("[%d] Plage : 0x%p - 0x%p\n", k, mget_block(k, memory)->start_adress, mget_block(k, memory)->end_adress);
+        kprintf("[%d] Size : %d | Pages : %d | Total size : %d\n", k, mget_block(k, memory)->size, mget_block(k, memory)->nb_page, mget_block(k, memory)->total_size);
     }
 }
 

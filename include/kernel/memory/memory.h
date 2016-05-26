@@ -41,7 +41,8 @@
 
         unsigned int usable_heap_start;
         unsigned int usable_heap_end;
-        MEMORY_BLOCK** blocks;
+
+        unsigned int start_blocks_adress;
     } MEMORY_MAPPER;
 
     typedef struct {
@@ -64,6 +65,8 @@
     void mfree_block(MEMORY_BLOCK * block, MEMORY * memory);
     void mcopy_block(MEMORY_BLOCK * destination_block, MEMORY_BLOCK * source_block);
 
+    MEMORY_BLOCK * mget_block(unsigned int nb, MEMORY * memory);
+    MEMORY_BLOCK * mget_last_block(MEMORY * memory);
     void * kmemcpy(void * destination, const void * source, size_t num);
 
     void mmemory_show(MEMORY * memory);
