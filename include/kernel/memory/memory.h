@@ -29,7 +29,7 @@
         unsigned int size;
         unsigned int nb_page;
         unsigned int total_size;
-        unsigned int number;
+        //unsigned int number;
     } MEMORY_BLOCK;
 
     typedef struct {
@@ -56,7 +56,7 @@
     int minit();
 
 
-    caddr_t ksbrk(unsigned int incr, MEMORY* memory);
+    caddr_t mmalloc(unsigned int size, MEMORY* memory);
     MEMORY * mget_memory(unsigned int heap_start);
     unsigned int mfind_free_block(unsigned int size, MEMORY* memory);
 

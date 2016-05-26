@@ -45,11 +45,11 @@ int minit()
     /* MAPPER Configuration */
     memory_mapper->start_adress = (unsigned int)(&HEAP_START) + sizeof(MEMORY);
     memory_mapper->end_adress = memory_mapper->start_adress + sizeof(MEMORY_MAPPER) + total_blocks_size;
-    memory_mapper->size = memory_mapper->end_adress - memory_mapper->start_adress;
+    memory_mapper->size = (unsigned int)(memory_mapper->end_adress) - (unsigned int)(memory_mapper->start_adress);
     memory_mapper->nb_blocks = (unsigned int)0;
     memory_mapper->nb_blocks_max = (unsigned int)nb_max_allocation;
 
-    memory_mapper->blocks = (MEMORY_BLOCK **)(memory_mapper->start_adress + sizeof(MEMORY_MAPPER));
+    memory_mapper->blocks = (MEMORY_BLOCK *)(memory_mapper->start_adress + sizeof(MEMORY_MAPPER));
 
     memory_mapper->usable_heap_start = memory_mapper->end_adress;
     memory_mapper->usable_heap_end = memory->end_adress;
@@ -66,23 +66,27 @@ int minit()
 }
 
 /* Memory operation */
-/* _sbrk syscall */
-caddr_t ksbrk(unsigned int incr, MEMORY* memory)
+/* malloc syscall */
+caddr_t mmalloc(unsigned int size, MEMORY* memory)
 {
     #ifdef DEBUG_MEMORY
-        kprintf("[Function : ksbrk] Starting\n");
+        kprintf("[Function : mmalloc] Starting\n");
     #endif
-    unsigned int block_adress = (mfind_free_block(incr, memory));
+    unsigned int block_adress = (mfind_free_block(size, memory));
 
     #ifdef DEBUG_MEMORY
-        kprintf("[Function : ksbrk] free block finded at 0x%p\n", block_adress);
+        kprintf("[Function : mmalloc] free block finded at 0x%p\n", block_adress);
     #endif
 
     MEMORY_BLOCK * mblock;
 
     if(block_adress != false) {
-        mblock = madd_block(incr, block_adress, memory);
-        return (caddr_t) mblock;
+        mblock = madd_block(size, block_adress, memory);
+
+        #ifdef DEBUG_MEMORY
+            kprintf("[Function : mmalloc] Block added at : 0x%p - 0x%p and using %d pages\n", memory->mapper->blocks[0]->start_adress, memory->mapper->blocks[0]->end_adress, memory->mapper->blocks[0]->nb_page);
+        #endif
+        return (caddr_t)(mblock->start_adress);
     }
     else /* ERROR : No space */
         return (caddr_t)0; /* A modifier : faire une interruption d'erreur */
@@ -91,23 +95,26 @@ caddr_t ksbrk(unsigned int incr, MEMORY* memory)
 unsigned int mfind_free_block(unsigned int size, MEMORY* memory)
 {
     #ifdef DEBUG_MEMORY
-        kprintf("[Function : mfind_free_block] Starting\n");
+        kprintf("    [Function : mfind_free_block] Starting\n");
     #endif
+
     MEMORY_MAPPER *mapper = memory->mapper;
+
     #ifdef DEBUG_MEMORY
-        kprintf("[Function : mfind_free_block] mapper getted\n");
+        kprintf("    [Function : mfind_free_block] mapper getted\n");
     #endif
+
     unsigned int adress = 0;
     unsigned int b1, b2;
 
     #ifdef DEBUG_MEMORY
-        kprintf("[Function : mfind_free_block] Ready to switch\n");
+        kprintf("    [Function : mfind_free_block] Ready to switch\n");
     #endif
     switch(mapper->nb_blocks)
     {
         case 0:
             #ifdef DEBUG_MEMORY
-                kprintf("[Function : mfind_free_block] case 0\n");
+                kprintf("    [Function : mfind_free_block] case 0\n");
             #endif
             if(mapper->usable_heap_end - mapper->usable_heap_start > size)
                 adress = mapper->usable_heap_start;
@@ -116,7 +123,7 @@ unsigned int mfind_free_block(unsigned int size, MEMORY* memory)
             break;
         case 1:
             #ifdef DEBUG_MEMORY
-                kprintf("[Function : mfind_free_block] case 1\n");
+                kprintf("    [Function : mfind_free_block] case 1\n");
             #endif
             if((mapper->usable_heap_end - mapper->blocks[0]->end_adress) >= size)
                 adress = mapper->blocks[0]->end_adress;
@@ -125,7 +132,7 @@ unsigned int mfind_free_block(unsigned int size, MEMORY* memory)
             break;
         default:
             #ifdef DEBUG_MEMORY
-                kprintf("[Function : mfind_free_block] case >2\n");
+                kprintf("    [Function : mfind_free_block] case >2\n");
             #endif
             b1 = mapper->blocks[0]->end_adress; b2 = mapper->blocks[1]->end_adress;
             bool find = false;
@@ -167,94 +174,74 @@ MEMORY * mget_memory(unsigned int heap_start)
 MEMORY_BLOCK* madd_block(unsigned int size, unsigned int start_adress, MEMORY *memory)
 {
     #ifdef DEBUG_MEMORY
-        kprintf("[Function : madd_block] Starting\n");
+        kprintf("    [Function : madd_block] Starting\n");
     #endif
     MEMORY_MAPPER * mapper = memory->mapper;
-    if(mapper->nb_blocks + 1 < mapper->nb_blocks_max) {
-        MEMORY_BLOCK *block = mapper->blocks[mapper->nb_blocks];
+    MEMORY_BLOCK * block;
 
-        unsigned int nb_pages = (size / PAGE_SIZE) + 1;
-        unsigned int end_adress = (unsigned int)(start_adress) + (nb_pages * PAGE_SIZE);
+    unsigned int nb_pages;
+    unsigned int end_adress;
+
+    if(mapper->nb_blocks + 1 < mapper->nb_blocks_max) {
+        block = mapper->blocks[mapper->nb_blocks];
+
+        nb_pages = (size / PAGE_SIZE) + 1;
+        end_adress = (unsigned int)(start_adress) + (nb_pages * PAGE_SIZE);
 
         #ifdef DEBUG_MEMORY
-                kprintf("[Function : madd_block] Block added at : 0x%p - 0x%p\n", start_adress, end_adress);
+            kprintf("    [Function : madd_block] Block added at : 0x%p - 0x%p and using %d pages | Block adress : 0x%p\n", start_adress, end_adress, nb_pages, block);
         #endif
+
+        /* Block creation */
         block->start_adress = start_adress;
         block->end_adress = end_adress;
         block->size = size;
         block->nb_page = nb_pages;
         block->total_size = nb_pages * PAGE_SIZE;
+
+        #ifdef DEBUG_MEMORY
+            kprintf("    [Function : madd_block] Verification : 0x%p - 0x%p and using %d pages\n", mapper->blocks[mapper->nb_blocks]->start_adress, mapper->blocks[mapper->nb_blocks]->start_adress, mapper->blocks[mapper->nb_blocks]->nb_page);
+        #endif
+        /* Increment number of blocks */
         mapper->nb_blocks++;
 
-        return block;
     }
-    else
-        return (MEMORY_BLOCK *)NULL; /* Error */
-}
+    else {
+        #ifdef DEBUG_MEMORY
+            kprintf("    [Function : madd_block] Error\n");
+        #endif
 
-void mfree_block(MEMORY_BLOCK * block, MEMORY * memory)
-{
-    unsigned int k;
-    MEMORY_MAPPER * mapper = memory->mapper;
-
-    switch (mapper->nb_blocks) {
-        case 0:
-            break;
-        case 1:
-            mapper->nb_blocks--;
-
-            MEMORY_BLOCK * block = mapper->blocks[0];
-
-            for (unsigned int i = 0; i < mapper->end_adress; i++) {
-                char *byte = (char *)mapper->blocks[mapper->nb_blocks - 1];
-                *byte = 0x0;
-            }
-            break;
-        default:
-            k = 0;
-            while (mapper->blocks[k]->start_adress != block->start_adress && k < mapper->nb_blocks)
-                k++;
-
-            if (k != mapper->nb_blocks) {
-                /* Copy all blocks */
-                for (unsigned int i = 0; i < mapper->nb_blocks - k; k++)
-                    mcopy_block(mapper->blocks[i + k], mapper->blocks[i + k + 1]);
-
-                /* Remove the last block (optionnal) */
-                for (unsigned int i = 0; i < mapper->end_adress; i++) {
-                    char *byte = (char *)mapper->blocks[mapper->nb_blocks - 1];
-                    *byte = 0x0;
-                }
-
-                mapper->nb_blocks--;
-            }
-            else
-                kexit(2); /* Error */
-            break;
+        block = (MEMORY_BLOCK *)0x0; /* Error */
     }
+
+    return block;
 }
 
-void mcopy_block(MEMORY_BLOCK * destination_block, MEMORY_BLOCK * source_block)
-{
-    destination_block->start_adress = source_block->start_adress;
-    destination_block->end_adress = source_block->end_adress;
-    destination_block->size = source_block->size;
-    destination_block->total_size = source_block->total_size;
-    destination_block->nb_page = source_block->nb_page;
-}
 
-/*
-unsigned int mget_free_space(MEMORY * memory)
-{
-}*/
-
+/* Memory informations */
 void mmemory_show(MEMORY * memory)
 {
+    kprintf("\n-------------------------------------------------------\n");
+
+    /* Print Memory */
+    kprintf("###### Memory : \n");
+    kprintf("Size : %d ko\n", memory->size / 1024);
+    kprintf("Plage : 0x%p - 0x%p\n\n", memory->start_adress, memory->end_adress);
+
+    /* Print Memory Mapper */
+    kprintf("###### Memory mapper\n");
+    kprintf("Size : %d ko\n", memory->mapper->size / 1024);
+    kprintf("Plage : 0x%p - 0x%p\n", memory->mapper->start_adress, memory->mapper->end_adress);
+    kprintf("Blocks storage : 0x%p - 0x%p");
+    kprintf("Nb blocks : %d \n", memory->mapper->nb_blocks);
+    kprintf("Nb blocks max : %d \n", memory->mapper->nb_blocks_max);
+    kprintf("Usable plage : 0x%p - 0x%p\n\n", memory->mapper->usable_heap_start, memory->mapper->usable_heap_end);
+
+    /* Print memory blocks */
+    kprintf("###### Blocks\n");
     for(unsigned int k = 0; k < memory->mapper->nb_blocks; k++) {
-        kprintf("----------------------------------------------------\n");
-        kprintf("Block %d :\n", k);
-        kprintf("Plage : 0x%p - 0x%p\n", memory->mapper->blocks[k]->start_adress, memory->mapper->blocks[k]->end_adress);
-        kprintf("Size : %d\n", memory->mapper->blocks[k]->size);
+        kprintf("[%d] Plage : 0x%p - 0x%p\n", k, memory->mapper->blocks[k]->start_adress, memory->mapper->blocks[k]->end_adress);
+        kprintf("[%d] Size : %d | Pages : %d | Total size : %d\n", k, memory->mapper->blocks[k]->size, memory->mapper->blocks[k]->nb_page, memory->mapper->blocks[k]->total_size);
     }
 }
 

@@ -18,7 +18,7 @@ caddr_t kmalloc(unsigned int size)
     #ifdef DEBUG
         kprintf("[Function : kmalloc]\n");
     #endif
-    return (caddr_t)(ksbrk(size, kget_memory()));
+    return (caddr_t)(mmalloc(size, kget_memory()));
 }
 
 MEMORY * kget_memory()
@@ -26,6 +26,7 @@ MEMORY * kget_memory()
     #ifdef DEBUG
         kprintf("[Function : kget_memory]\n");
     #endif
+
     return mget_memory((unsigned  int)&HEAP_START);
 }
 
@@ -63,20 +64,22 @@ void memory_tests()
 
         int * array = kmalloc(sizeof(int) * 3);
         array[0] = 2; array[1] = 5225; array[2] = 454455;
-
-        kprintf("array[0] : %d. Adresse : 0x%p\n", array[0], &array[0]);
-        kprintf("array[1] : %d. Adresse : 0x%p\n", array[1], &array[1]);
-        kprintf("array[2] : %d. Adresse : 0x%p\n", array[2], &array[2]);
-
         mmemory_show(kget_memory());
+
+        kprintf("\n\n");
+        kprintf("array[0] : %d | Adresse : 0x%p\n", array[0], &array[0]);
+        kprintf("array[1] : %d | Adresse : 0x%p\n", array[1], &array[1]);
+        kprintf("array[2] : %d | Adresse : 0x%p\n\n", array[2], &array[2]);
+
+
         kprintf("\n\n");
 
         char * array2 = kmalloc(sizeof(int) * 5);
         array[0] = 's'; array[1] = 'a'; array[2] = 'l';
-
-        kprintf("array2[0] : %c. Adresse : 0x%p\n", array2[0], &array2[0]);
-        kprintf("array2[1] : %c. Adresse : 0x%p\n", array2[1], &array2[1]);
-        kprintf("array2[2] : %c. Adresse : 0x%p\n", array2[2], &array2[2]);
+        kprintf("\n");
+        kprintf("array2[0] : %c | Adresse : 0x%p\n", array2[0], &array2[0]);
+        kprintf("array2[1] : %c | Adresse : 0x%p\n", array2[1], &array2[1]);
+        kprintf("array2[2] : %c | Adresse : 0x%p\n\n", array2[2], &array2[2]);
 
         mmemory_show(kget_memory());
     #endif
