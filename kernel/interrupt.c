@@ -26,5 +26,16 @@ void INT_IRQ_handler()
 	#ifdef DEBUG
 		kprintf("IRQ interrupt detected\n");
 	#endif
+	int * INTC_SIR_IRQ = (int *)(0x48200040);
+	char activeIRQ = *(INTC_SIR_IRQ) & 0x7F;
+	kprintf("IRQ number: %d", activeIRQ);
+
+
+	switch (activeIRQ)
+	{
+		default:
+			kprintf("Unknown IRQ identifier! \n");
+			break;
+	}
 }
 
