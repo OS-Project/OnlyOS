@@ -7,6 +7,7 @@ The operating system
 
 
 # Boot
+- [x] Disble fiq, enable irq.
 - [x] Check flags values for processor modes in the doc.
 - [x] Check flags values for irq and fiq in the doc.
 - [ ] Stack implementation: FA, FD, EA, ED? Currently ED.

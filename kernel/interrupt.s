@@ -34,6 +34,7 @@ irq_handler:
         and r0, r0, #0b1111111 // Ref: p475
 
         // Branch table
+	ldr pc,=INT_IRQ_handler
 
         // Interrupt has been taken care of. Enable new interrupts
         mov r0, #0x1
@@ -44,7 +45,7 @@ irq_handler:
         msr cpsr, r11 // Restore context
         ldmfd sp!, {r0-r12, lr} // Restore the saved registers from the stack
         subs pc, lr, #4
-        //Done auto: cpsr = spsr; pc=lr. Ref: p458
+        // Done auto: cpsr = spsr; pc=lr. Ref: p458
 
 svc_handler:
 	// Save context

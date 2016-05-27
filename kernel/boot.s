@@ -47,12 +47,17 @@ _start:
             cmp	r0, r1
             bne	write_zero
 
+	// Disable fiq. Enable irq
+	cpsie i
+	cpsid f
+
 	call_main:
 		ldr pc,=kmain
 		
 	// If kmain returns, exit with error
 
 error:
+	cpsid i
 	mov r0, #1
 	b kexit
 

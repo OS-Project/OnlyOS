@@ -21,4 +21,10 @@ void INT_SVC_call(int r0, int r1, int r2, int r3)
 	svc_asm_call(r0, r1, r2, r3);
 }
 
+void INT_IRQ_handler()
+{
+	#ifdef DEBUG
+		kprintf("IRQ interrupt detected\n");
+	#endif
+}
 
