@@ -6,6 +6,9 @@
 
 #include <kernel/config.h>
 #include <kernel/kernel.h>
+
+#include <utils/random.h>
+
 /* Console */
 #include DRIVER_UART_PATH
 
@@ -21,6 +24,12 @@ caddr_t kmalloc(unsigned int size)
     return (caddr_t)(mmalloc(size, kget_memory()));
 }
 
+/*
+caddr_t kcalloc(size_t num, size_t size)
+{
+
+}
+*/
 MEMORY * kget_memory()
 {
     #ifdef DEBUG
@@ -60,27 +69,50 @@ void memory_tests()
         kprintf("o : 0x%p, ", &o);
         kprintf("p : 0x%p\n\n", &p);
 
-        kprintf("[TESTS] MALLOC tests\n\n");
+        /* Test of malloc functions */
+            kprintf("------------------------------------------------------ \n\n");
+            kprintf("[Tests] ######### MALLOC tests\n\n");
 
-        int * array = kmalloc(sizeof(int) * 3);
-        array[0] = 2; array[1] = 5225; array[2] = 454455;
-        mmemory_show(kget_memory());
+            /* Int array */
+            int * array = kmalloc(sizeof(int) * 3);
+            array[0] = 2; array[1] = 5225; array[2] = 454455;
+            mmemory_show(kget_memory());
 
-        kprintf("\n\n");
-        kprintf("array[0] : %d | Adresse : 0x%p\n", array[0], &array[0]);
-        kprintf("array[1] : %d | Adresse : 0x%p\n", array[1], &array[1]);
-        kprintf("array[2] : %d | Adresse : 0x%p\n\n", array[2], &array[2]);
+            kprintf("### 1 array : type -int- :\n");
 
+            for(int k = 0; k < 3; k++)
+                kprintf("[%d] : %d | Adresse : 0x%p\n", k, array[k], &array[k]);
 
-        kprintf("\n\n");
+            /* Char array */
+            kprintf("\n");
 
-        char * array2 = kmalloc(sizeof(int) * 5);
-        array[0] = 's'; array[1] = 'a'; array[2] = 'l';
-        kprintf("\n");
-        kprintf("array2[0] : %c | Adresse : 0x%p\n", array2[0], &array2[0]);
-        kprintf("array2[1] : %c | Adresse : 0x%p\n", array2[1], &array2[1]);
-        kprintf("array2[2] : %c | Adresse : 0x%p\n\n", array2[2], &array2[2]);
+            char * array2 = kmalloc(sizeof(int) * 5);
+            array2[0] = 's'; array2[1] = 'a'; array2[2] = 'l';
 
-        mmemory_show(kget_memory());
+            kprintf("### 2 array : type -char- :\n");
+
+            for(int k = 0; k < 5; k++)
+                kprintf("[%d] : %d | Adresse : 0x%p\n", k, array2[k], &array2[k]);
+
+            mmemory_show(kget_memory());
+
+            /* unsigned int  array */
+            kprintf("\n");
+
+            char * array3 = kmalloc(sizeof(int) * 1500);
+
+            for(int k = 0; k < 1500; k++)
+                array3[k] = rand_1_50(k * 30);
+
+            kprintf("### 3 array : type -unsigned int- :\n");
+            for(int k = 0; k < 1500; k++)
+                kprintf("[%d] : %d | Adresse : 0x%p\n", k, array3[k], &array3[k]);
+
+            mmemory_show(kget_memory());
+            kprintf("\n");
+
+        /* Test of free functions */
+            kprintf("------------------------------------------------------ \n\n");
+            kprintf("[Tests] ######### FREE tests\n\n");
     #endif
 }

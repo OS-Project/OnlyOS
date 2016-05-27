@@ -4,9 +4,6 @@
     #include <utils/libbool.h>
     #include <utils/libtypes.h>
 
-    /*
-     * For 1Mb of memory reserved for memory mapper : 16 384 allocations max
-     */
     /* General configuration */
     #define PAGE_SIZE (unsigned int)(8192) /* 8kB */
 
@@ -14,14 +11,8 @@
     extern char _sheap;
     extern char _eheap;
 
-    extern char _sstack;
-    extern char _estack;
-
     #define HEAP_START _sheap
     #define HEAP_END _eheap
-
-    #define STACK_START _sstack
-    #define STACK_END _estack
 
     typedef struct {
         unsigned int start_adress;
@@ -29,7 +20,6 @@
         unsigned int size;
         unsigned int nb_page;
         unsigned int total_size;
-        //unsigned int number;
     } MEMORY_BLOCK;
 
     typedef struct {
@@ -53,22 +43,27 @@
         MEMORY_MAPPER *mapper;
     } MEMORY;
 
-    /* Functions */
+    /* Memory functions */
     int minit();
-
-
-    caddr_t mmalloc(unsigned int size, MEMORY* memory);
     MEMORY * mget_memory(unsigned int heap_start);
-    unsigned int mfind_free_block(unsigned int size, MEMORY* memory);
 
-    MEMORY_BLOCK* madd_block(unsigned int size, unsigned int start_adress, MEMORY *memory);
+    void mmemory_show(MEMORY * memory);
+
+    /* Malloc functions */
+    caddr_t mmalloc(size_t size, MEMORY* memory);
+    caddr_t mcalloc(size_t num, size_t elt_size, MEMORY* memory);
+    caddr_t mrealloc(void* ptr, size_t size, MEMORY* memory);
+
+    /* Free functions */
+    void mfree(void *ptr, MEMORY* memory);
     void mfree_block(MEMORY_BLOCK * block, MEMORY * memory);
-    void mcopy_block(MEMORY_BLOCK * destination_block, MEMORY_BLOCK * source_block);
+
+    /* Miscellaneous functions */
+    unsigned int mfind_free_area(unsigned int size, MEMORY* memory);
+    MEMORY_BLOCK* madd_block(unsigned int size, unsigned int start_adress, MEMORY *memory);
+    MEMORY_BLOCK* mcopy_block(MEMORY_BLOCK * destination_block, MEMORY_BLOCK * source_block);
+    MEMORY_BLOCK * mfind_block(unsigned int ptr, MEMORY* memory);
 
     MEMORY_BLOCK * mget_block(unsigned int nb, MEMORY * memory);
     MEMORY_BLOCK * mget_last_block(MEMORY * memory);
-    void * kmemcpy(void * destination, const void * source, size_t num);
-
-    void mmemory_show(MEMORY * memory);
-    unsigned int mget_free_space(MEMORY * memory);
 #endif
