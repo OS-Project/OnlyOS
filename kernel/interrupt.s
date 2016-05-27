@@ -48,13 +48,18 @@ irq_handler:
 
 svc_handler:
 	// Save context
-	stmfd sp!, {r4,lr}
-	
+	stmfd sp!, {r4-r12,lr}
+	mrs r4, spsr
+	stmfd sp!, {r4}
+
+	// Call the handler
 	ldr pc,=INT_SVC_handler
 
 	// Restore context
-	ldmfd sp!, {r4,lr}
-	mrs r0, spsr
+	ldmfd sp!, {r0}
+	msr spsr, r0
+	ldmfd sp!, {r4-r12,lr}
+	mov r0, lr
 	msr cpsr, r0
         movs pc,lr
 
