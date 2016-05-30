@@ -20,9 +20,9 @@ SECTIONS
     .text :
     {
         _stext = .;
-	*(.text.boot) 
+	*(.text.vector_table) 
 	*(.text.interrupt_handler)
-        
+	*(.text.boot)
 	*(.text)
         _etext = .;
     } > CODE
