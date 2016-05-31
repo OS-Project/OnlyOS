@@ -8,9 +8,12 @@ extern "C" {
 
 #ifndef ONLYOS_FILES_REFERENCES_H
 #define ONLYOS_FILES_REFERENCES_H
-
     #include <utils/libbool.h>
+    #include <utils/libtypes.h>
+
     /* Config */
+    #define DEBUG 1
+    #define DEBUG_MEMORY 1
 
     /* Paths */
     #define DRIVER_UART_PATH "drivers/uart/uart.h"
