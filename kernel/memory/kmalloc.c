@@ -24,12 +24,16 @@ caddr_t kmalloc(unsigned int size)
     return (caddr_t)(mmalloc(size, kget_memory()));
 }
 
-/*
 caddr_t kcalloc(size_t num, size_t size)
 {
-
+    return mcalloc(num, size, kget_memory());
 }
-*/
+
+void free(void* ptr)
+{
+    mfree(ptr, kget_memory());
+}
+
 MEMORY * kget_memory()
 {
     #ifdef DEBUG
@@ -53,6 +57,7 @@ void memory_tests()
         kprintf("The HEAP block : 0x%p - 0x%p\n", &_sheap, &_eheap);
         kprintf("The STACK block : 0x%p - 0x%p\n", &_sstack, &_estack);
 
+        kprintf("Sizeof -char- : %d, sizeof -int- : %d\n", sizeof(char), sizeof(int));
         kprintf("\n\n[TESTS] ### Begin STACK tests\n\n");
 
         kprintf("DATA test : ui variable : 0x%p\n", &ui);
@@ -78,7 +83,7 @@ void memory_tests()
             array[0] = 2; array[1] = 5225; array[2] = 454455;
             mmemory_show(kget_memory());
 
-            kprintf("### 1 array : type -int- :\n");
+            kprintf("\n### 1 array : type -int- :\n");
 
             for(int k = 0; k < 3; k++)
                 kprintf("[%d] : %d | Adresse : 0x%p\n", k, array[k], &array[k]);
@@ -89,30 +94,36 @@ void memory_tests()
             char * array2 = kmalloc(sizeof(int) * 5);
             array2[0] = 's'; array2[1] = 'a'; array2[2] = 'l';
 
-            kprintf("### 2 array : type -char- :\n");
+            kprintf("\n### 2 array : type -char- :\n");
 
             for(int k = 0; k < 5; k++)
-                kprintf("[%d] : %d | Adresse : 0x%p\n", k, array2[k], &array2[k]);
+                kprintf("[%d] : %c | Adresse : 0x%p\n", k, array2[k], &array2[k]);
 
             mmemory_show(kget_memory());
 
             /* unsigned int  array */
             kprintf("\n");
 
-            char * array3 = kmalloc(sizeof(int) * 1500);
+            int * array3 = kmalloc(sizeof(int) * 4000);
 
-            for(int k = 0; k < 1500; k++)
+            for(int k = 0; k < 4000; k++)
                 array3[k] = rand_1_50(k * 30);
 
-            kprintf("### 3 array : type -unsigned int- :\n");
-            for(int k = 0; k < 1500; k++)
-                kprintf("[%d] : %d | Adresse : 0x%p\n", k, array3[k], &array3[k]);
-
+            kprintf("\n### 3 array : type -unsigned int- :\n");
+            /*
+            for(int k = 0; k < 4000; k++)
+                kprintf("[%d] : %d | ", k, array3[k], &array3[k]);
+            */
             mmemory_show(kget_memory());
             kprintf("\n");
 
         /* Test of free functions */
             kprintf("------------------------------------------------------ \n\n");
             kprintf("[Tests] ######### FREE tests\n\n");
+
+            mfree(array2, kget_memory());
+
+            mmemory_show(kget_memory());
+            mfree(array3, kget_memory());
     #endif
 }

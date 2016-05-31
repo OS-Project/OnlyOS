@@ -60,10 +60,13 @@
 
     /* Miscellaneous functions */
     unsigned int mfind_free_area(unsigned int size, MEMORY* memory);
+
     MEMORY_BLOCK* madd_block(unsigned int size, unsigned int start_adress, MEMORY *memory);
     MEMORY_BLOCK* mcopy_block(MEMORY_BLOCK * destination_block, MEMORY_BLOCK * source_block);
     MEMORY_BLOCK * mfind_block(unsigned int ptr, MEMORY* memory);
-
     MEMORY_BLOCK * mget_block(unsigned int nb, MEMORY * memory);
     MEMORY_BLOCK * mget_last_block(MEMORY * memory);
+
+    unsigned int mget_block_number(MEMORY_BLOCK * block, MEMORY * memory);
+    void merase_block(MEMORY_BLOCK * block, MEMORY * memory);
 #endif

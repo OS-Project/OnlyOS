@@ -46,6 +46,7 @@ unsigned int mfind_free_area(unsigned int size, MEMORY* memory)
             #ifdef DEBUG_MEMORY
                 kprintf("    [Function : mfind_free_block] case >2\n");
             #endif
+
             b1 = mget_block(0, memory)->end_adress; b2 = mget_block(1, memory)->end_adress;
             bool find = false;
 
@@ -59,11 +60,12 @@ unsigned int mfind_free_area(unsigned int size, MEMORY* memory)
                     b1 = b2;
             }
             /* If we haven't find, we look the last block */
-            if(find == false)
-            if(mapper->usable_heap_end - mget_last_block(memory)->end_adress > size)
-                adress = mget_last_block(memory)->end_adress;
-            else
-                adress = 0;
+            if(find == false) {
+                if (mapper->usable_heap_end - mget_last_block(memory)->end_adress > size)
+                    adress = mget_last_block(memory)->end_adress;
+                else
+                    adress = 0;
+            }
             else
                 adress = adress;
             break;
@@ -102,7 +104,6 @@ MEMORY_BLOCK* madd_block(unsigned int size, unsigned int start_adress, MEMORY *m
 
         /* Increment number of blocks */
         mapper->nb_blocks++;
-
     }
     else {
         #ifdef DEBUG_MEMORY
@@ -117,6 +118,9 @@ MEMORY_BLOCK* madd_block(unsigned int size, unsigned int start_adress, MEMORY *m
 
 MEMORY_BLOCK * mfind_block(unsigned int ptr, MEMORY* memory)
 {
+    #ifdef DEBUG_MEMORY
+        kprintf("    [Function : mfind_block] Starting\n");
+    #endif
     unsigned int k = 0;
 
     while(mget_block(k, memory)->start_adress != ptr && k < memory->mapper->nb_blocks)
@@ -130,6 +134,7 @@ MEMORY_BLOCK * mfind_block(unsigned int ptr, MEMORY* memory)
 
 MEMORY_BLOCK* mcopy_block(MEMORY_BLOCK * destination_block, MEMORY_BLOCK * source_block)
 {
+
     destination_block->start_adress = source_block->start_adress;
     destination_block->end_adress = source_block->end_adress;
     destination_block->size = source_block->size;
@@ -156,4 +161,38 @@ MEMORY_BLOCK * mget_last_block(MEMORY * memory)
         return mget_block(memory->mapper->nb_blocks - 1, memory);
     else
         return (MEMORY_BLOCK *)0x0; /* Error */
+}
+
+unsigned int mget_block_number(MEMORY_BLOCK * block, MEMORY * memory)
+{
+    unsigned int k = 0;
+
+    /*
+    while (mget_block(k, memory)->start_adress != block->start_adress && k < mapper->nb_blocks)
+        k++;
+    */
+
+    k = ((unsigned int)block - memory->mapper->start_blocks_adress) / sizeof(MEMORY_BLOCK);
+    return k;
+}
+
+void merase_block(MEMORY_BLOCK * block, MEMORY * memory)
+{
+    #ifdef DEBUG_MEMORY
+        kprintf("    [Function : merase_block] Starting erasing 0x%p block\n", (unsigned int)(block));
+    #endif
+    unsigned int i;
+    char * byte;
+
+    for (i = 0; i < sizeof(MEMORY_BLOCK); i++) {
+        byte = (char *)((unsigned int)(block) + i);
+        *byte = 0x0;
+        #ifdef DEBUG_MEMORY
+            kprintf("        [Function : merase_block] 0x%p erased\n", (unsigned int)byte);
+        #endif
+    }
+
+    #ifdef DEBUG_MEMORY
+        kprintf("    [Function : merase_block] Finished\n");
+    #endif
 }

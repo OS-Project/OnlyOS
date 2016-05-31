@@ -10,6 +10,10 @@
     #include <kernel/memory/memory.h>
 
     caddr_t kmalloc(unsigned int size);
+
+    caddr_t kcalloc(size_t num, size_t size);
+    void free(void* ptr);
+
     MEMORY * kget_memory();
     void memory_tests();
 #endif //ONLYOS_KERNEL_KMALLOC_H
