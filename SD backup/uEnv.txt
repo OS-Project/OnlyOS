@@ -4,7 +4,7 @@
 loadaddr=0x80000000
 
 # Kernel configuration
-kernel_file=/bin/boot.bin
+kernel_file=boot.bin
 entry_point=0x80000000
 
 # Commands

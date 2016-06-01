@@ -7,9 +7,10 @@ The operating system
 
 
 # Boot
+- [x] Disable fiq, enable irq.
 - [x] Check flags values for processor modes in the doc.
 - [x] Check flags values for irq and fiq in the doc.
-- [ ] Stack implementation: FA, FD, EA, ED?
+- [x] Stack implementation: FA, FD, EA, ED? Currently ED.
 - [x] Init stacks for all modes. Stack sizes in boot.s must match the linker script.
 - [x] Clear .bss section.
 - [x] Call main function: do not use branch. Address may be out of range.
@@ -21,6 +22,7 @@ The operating system
 # Interrupts/Exceptions handling
 - [ ] Interruption table: copied at boot.
 - [ ] Table format: .sections shows correct address (fiq_handler=0x1C + 4 = 0x20)
+- [ ] Svc call.
 - [ ] Svc handler
 - [ ] Abort handler
 - [ ] Undefined instruction handler
@@ -28,7 +30,8 @@ The operating system
 - [ ] Fiq handler
 
 |    Value   | r0 Code       |     r1                     |   r2                   | return (r0)            |  
-| ---------- |: -----------: |: ---------------------- -: | ---------------------: | ---------------------: |  
+| ---------- | ------------- | -------------------------- | ---------------------- | ---------------------- |  
+| error      | 0x00000       |  Error number              | Undefined              | 0 if success, else 1   |  
 | UART_putc  | 0x00100       |  the char to push          | Null                   | 0 if success, else 1   |  
 | minit      | 0x00200       |  process heap_start adress | Null                   | 0 if success, else 1   |  
 | kmalloc    | 0x00201       |  process heap_start adress | Null                   | adress of memory block |  

@@ -3,23 +3,23 @@
 */
 #include <kernel/config.h>
 #include <kernel/kernel.h>
+
 #include <kernel/drivers/drivers.h>
+#include <drivers/uart/uart.h>
+
 /* Memory management */
 #include <kernel/memory/memory.h>
 #include <kernel/memory/kmalloc.h>
 
-#include <drivers/uart/uart.h>
-
 /* Libs */
 #include <utils/libbool.h>
-#include <kernel/coprocessor.h>
+
+/* Interrupts */
+#include <kernel/interrupt/interrupt.h>
 
 int kmain()
 {
     kinit();
-    minit();
-    memory_tests();
-
     while(1);
     return EXIT_SUCCESS;
 }
@@ -40,7 +40,7 @@ void kinit_vector_table()
             0xE59FF010,    /* Opcode for loading PC with the contents of [PC + 0x10] */
             (unsigned int)kmain,
             (unsigned int)kexit,
-            (unsigned int)interrupt_SVC_handler,
+            (unsigned int)svc_handler,
             (unsigned int)kexit,
             (unsigned int)kexit,
             (unsigned int)kexit
@@ -66,12 +66,6 @@ int kinit()
     return EXIT_SUCCESS;
 }
 
-void interrupt_SVC_handler()
-{
-    #ifdef DEBUG
-        kprintf("\nSVC interrupt detected\n");
-    #endif
-}
 
 void kexit(int err_num)
 {

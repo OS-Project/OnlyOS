@@ -1,4 +1,3 @@
-OUTPUT_FORMAT("elf32-littlearm", "elf32-bigarm", "elf32-littlearm")
 OUTPUT_ARCH(arm)
 ENTRY(_start)	/* Entry point of the program */
 
@@ -21,8 +20,9 @@ SECTIONS
     .text :
     {
         _stext = .;
-        *(.text.boot)
+        *(.text.vector_table)
         *(.text.interrupt_handler)
+        *(.text.boot)
         *(.text)
         _etext = .;
     } > CODE
