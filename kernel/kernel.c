@@ -3,20 +3,23 @@
 */
 #include <kernel/config.h>
 #include <kernel/kernel.h>
-#include <kernel/interrupt.h>
+
 #include <kernel/drivers/drivers.h>
 #include <drivers/uart/uart.h>
 
+/* Memory management */
+#include <kernel/memory/memory.h>
+#include <kernel/memory/kmalloc.h>
+
 /* Libs */
 #include <utils/libbool.h>
-#define DEBUG 1
+
+/* Interrupts */
+#include <kernel/interrupt/interrupt.h>
 
 int kmain()
 {
     kinit();
-	kprintf("Kernel mode printf before svc call\n");
-    INT_SVC_call(0,1,2,3);
-	kprintf("Kernel mode printf after svc call\n");	
     while(1);
     return EXIT_SUCCESS;
 }

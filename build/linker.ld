@@ -9,20 +9,21 @@ IRQ_STACK_SIZE = 1024;
 MEMORY
 {
     CODE (rwx) : ORIGIN = 0x80000000, LENGTH = 50M
-    HEAP (rwx) : ORIGIN = 0x83200000, LENGTH = 100M
-    STACK (rwx) : ORIGIN = 0x89600000, LENGTH = 50M
+    HEAP (rw) : ORIGIN = ORIGIN(CODE) + LENGTH(CODE), LENGTH = 100M
+    STACK (rw) : ORIGIN = ORIGIN(HEAP) + LENGTH(HEAP), LENGTH = 50M
 }
+
 
 SECTIONS
 {
-    . = 0x80000000;
+    . = ORIGIN(CODE);
     .text :
     {
         _stext = .;
-	*(.text.vector_table) 
-	*(.text.interrupt_handler)
-	*(.text.boot)
-	*(.text)
+        *(.text.vector_table)
+        *(.text.interrupt_handler)
+        *(.text.boot)
+        *(.text)
         _etext = .;
     } > CODE
 
@@ -50,12 +51,14 @@ SECTIONS
     .heap :
     {
         _sheap = .;
+        . += LENGTH(HEAP);
         _eheap = .;
     } > HEAP
 
     .stack :
     {
         _sstack = .;
+        . += LENGTH(STACK);
         _estack = .;
     } > STACK
 }

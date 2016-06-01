@@ -1,44 +1,26 @@
-#ifndef ONLYOS_KERNEL_KMALLOC_H
-#define ONLYOS_KERNEL_KMALLOC_H
+#ifndef ONLYOS_KERNEL_MEMORY_H
+#define ONLYOS_KERNEL_MEMORY_H
     #include <kernel/config.h>
     #include <utils/libbool.h>
+    #include <utils/libtypes.h>
 
-    /*
-     * For 1Mb of memory reserved for memory mapper : 16 384 allocations max
-     */
     /* General configuration */
-    #define PAGE_SIZE = 8192; /* 8kB */
+    #define PAGE_SIZE (unsigned int)(8192) /* 8kB */
 
     /* Define */
-    #define FREE_BLOCK ((unsigned char)0x10)
-    #define TAKEN_BLOCK ((unsigned char)0x20)
-
-    extern char _bheap;
     extern char _sheap;
-    extern char _theap;
     extern char _eheap;
 
-    extern char _sstack;
-    extern char _estack;
-
-    #define HEAP_BASE &_bheap;
-    #define HEAP_TOP &_theap;
-    #define HEAP_START &_sheap
-    #define HEAP_END &_eheap;
-
-    #define STACK_START &_sstack
-    #define STACK_END &_estack
+    #define HEAP_START _sheap
+    #define HEAP_END _eheap
 
     typedef struct {
         unsigned int start_adress;
         unsigned int end_adress;
         unsigned int size;
-
-        unsigned int usable_heap_start;
-        unsigned int usable_heap_end;
-
-        MEMORY_MAPPER mapper;
-    } MEMORY;
+        unsigned int nb_page;
+        unsigned int total_size;
+    } MEMORY_BLOCK;
 
     typedef struct {
         unsigned int size;
@@ -47,20 +29,44 @@
         unsigned int nb_blocks;
         unsigned int nb_blocks_max;
 
-        MEMORY_ENTRY** blocks;
+        unsigned int usable_heap_start;
+        unsigned int usable_heap_end;
+
+        unsigned int start_blocks_adress;
     } MEMORY_MAPPER;
 
     typedef struct {
         unsigned int start_adress;
         unsigned int end_adress;
         unsigned int size;
-        unsigned char type;
-    } MEMORY_BLOCK;
 
-    /* Functions */
-    void minit(MEMORY *memory, bool console_);
-    unsigned int mcreate_block(MEMORY *memory, unsigned int start_adress, unsigned int size);
-    unsigned int mremove_block(MEMORY *memory, MEMORY_BLOCK* entry);
+        MEMORY_MAPPER *mapper;
+    } MEMORY;
 
-    MEMORY_BLOCK mfind_freeBlock(MEMORY *memory, unsigned int size);
+    /* Memory functions */
+    int minit();
+    MEMORY * mget_memory(unsigned int heap_start);
+
+    void mmemory_show(MEMORY * memory);
+
+    /* Malloc functions */
+    caddr_t mmalloc(size_t size, MEMORY* memory);
+    caddr_t mcalloc(size_t num, size_t elt_size, MEMORY* memory);
+    caddr_t mrealloc(void* ptr, size_t size, MEMORY* memory);
+
+    /* Free functions */
+    void mfree(void *ptr, MEMORY* memory);
+    void mfree_block(MEMORY_BLOCK * block, MEMORY * memory);
+
+    /* Miscellaneous functions */
+    unsigned int mfind_free_area(unsigned int size, MEMORY* memory);
+
+    MEMORY_BLOCK* madd_block(unsigned int size, unsigned int start_adress, MEMORY *memory);
+    MEMORY_BLOCK* mcopy_block(MEMORY_BLOCK * destination_block, MEMORY_BLOCK * source_block);
+    MEMORY_BLOCK * mfind_block(unsigned int ptr, MEMORY* memory);
+    MEMORY_BLOCK * mget_block(unsigned int nb, MEMORY * memory);
+    MEMORY_BLOCK * mget_last_block(MEMORY * memory);
+
+    unsigned int mget_block_number(MEMORY_BLOCK * block, MEMORY * memory);
+    void merase_block(MEMORY_BLOCK * block, MEMORY * memory);
 #endif
