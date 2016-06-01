@@ -48,8 +48,7 @@ _start:
 			bne write_zero
 
 	// Disable fiq. Enable irq
-	//cpsie i
-	cpsid i
+	cpsie i
 	cpsid f
 
 	call_main:

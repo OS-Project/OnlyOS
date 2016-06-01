@@ -7,10 +7,10 @@ The operating system
 
 
 # Boot
-- [x] Disble fiq, enable irq.
+- [x] Disable fiq, enable irq.
 - [x] Check flags values for processor modes in the doc.
 - [x] Check flags values for irq and fiq in the doc.
-- [ ] Stack implementation: FA, FD, EA, ED? Currently ED.
+- [x] Stack implementation: FA, FD, EA, ED? Currently ED.
 - [x] Init stacks for all modes. Stack sizes in boot.s must match the linker script.
 - [x] Clear .bss section.
 - [x] Call main function: do not use branch. Address may be out of range.

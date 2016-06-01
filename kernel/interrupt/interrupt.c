@@ -48,7 +48,6 @@ void INT_IRQ_handler()
 	{
 		default:
 			kprintf("Unknown IRQ identifier! \n");
-			break;
 	}
 }
 
