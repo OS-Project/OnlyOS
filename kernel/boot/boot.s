@@ -49,7 +49,8 @@ _start:
 
 	// Disable fiq. Enable irq
 	//cpsie i
-	//cpsid f
+	cpsid i
+	cpsid f
 
 	call_main:
 		ldr pc,=kmain
