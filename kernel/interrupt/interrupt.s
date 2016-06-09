@@ -46,12 +46,12 @@ svc_handler:
 	// Call the handler
 	bl INT_SVC_handler
 
-	// Restore context
-	ldmfd sp!, {r0}
-	msr spsr, r0
+	// Restore context. Return argument is in r0.
+	ldmfd sp!, {r1}
+	msr spsr, r1
 	ldmfd sp!, {r4-r12,lr}
-	mov r0, lr
-	msr cpsr, r0
+	mov r1, lr
+	msr cpsr, r1
         movs pc,lr
 
 svc_asm_call:	
