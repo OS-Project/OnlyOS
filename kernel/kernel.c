@@ -20,6 +20,9 @@
 int kmain()
 {
     kinit();
+    kprintf("Before SVC\n");
+	INT_SVC_call(0,1,2,3);
+    kprintf("After SVC\n");
     while(1);
     return EXIT_SUCCESS;
 }
