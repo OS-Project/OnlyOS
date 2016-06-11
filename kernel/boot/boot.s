@@ -3,6 +3,8 @@
 
 .include "kernel/boot/boot_header.h"
 .include "kernel/interrupt/interrupt.s"
+.equ VECTOR_TABLE_ADDR, 0x4030FC00
+
 
 .section ".text.boot"
 _start:	
@@ -50,6 +52,14 @@ _start:
 	// Disable fiq. Enable irq
 	cpsie i
 	cpsid f
+
+	// Vector table relocation
+	ldr r0,=VECTOR_TABLE_ADDR
+	mcr p15, #0, r0, c12, c0, #0
+	
+	ldr r1,=vector_table
+	ldmia r1!, {r2-r9}
+	stmia r0!, {r2-r9}
 
 	call_main:
 		ldr pc,=kmain

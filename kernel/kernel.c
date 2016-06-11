@@ -61,7 +61,7 @@ int kinit()
     kprintf("[INIT] ### Drivers initialisation done\n");
     kprintf("[INIT] ### Start memory initilisation\n");
     kprintf("[INIT] Move interrupt vector table\n");
-    kinit_vector_table();
+    //kinit_vector_table();
     kprintf("[INIT] Interrupt vector table moved\n");
     return EXIT_SUCCESS;
 }
