@@ -22,7 +22,6 @@ extern "C" {
 
     int kmain();
     int kinit();
-extern void set_vectorBaseAddr(unsigned int addr);
 	extern void svc_handler();
     void kexit(int errnum);
 #endif //ONLYOS_KERNEL_H

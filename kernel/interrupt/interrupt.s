@@ -4,19 +4,17 @@ vector_table:
 	b _start
 	b error // Undefined instruction
 	b svc_handler
-	b error // Prefetch abort
-	b error // Data abort
+	b prefetch_handler // Prefetch abort
+	b data_handler // Data abort
 	nop
 	b irq_handler
 	nop // FIQ
 
 .section ".text.interrupt_handler"
-.global svc_handler
 .global svc_asm_call
-.global irq_handler
 
 fiq_handler:
-	mov r0, #7
+	mov r0, #77
 	b error
 
 irq_handler:
@@ -41,6 +39,18 @@ irq_handler:
         ldmfd sp!, {r0-r12, lr} // Restore the saved registers from the stack
         subs pc, lr, #4
         // Done auto: cpsr = spsr; pc=lr. Ref: p458
+
+prefetch_handler:
+	mov r0, #33
+	b error
+
+data_handler:
+	mov r0, #44
+	b error
+
+undefined_handler:
+	mov r0, #11
+	b error
 
 svc_handler:
 	// Save context

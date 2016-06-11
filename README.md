@@ -26,7 +26,7 @@ The operating system
 - [ ] Abort handler
 - [ ] Undefined instruction handler
 - [ ] Irq handler
-- [ ] Fiq handler: print message.
+- [x] Fiq handler: print message.
 
 |    Value   | r0 Code       |     r1                     |   r2                   | return (r0)            |  
 | ---------- | ------------- | -------------------------- | ---------------------- | ---------------------- |  

@@ -19,12 +19,10 @@
 
 int kmain()
 {
-    kinit();
-    kprintf("B SVC\n");
+   	kinit();
 	INT_SVC_call(0,1,2,3);
-    kprintf("%d\n", EXIT_SUCCESS);
-    while(1);
-    return EXIT_SUCCESS;
+    	while(1);
+    	return EXIT_SUCCESS;
 }
 
 
@@ -44,8 +42,23 @@ void kexit(int err_num)
 		case EXIT_SUCCESS:
 			kprintf("Kernel exited without error\n");
 			break;
-		case 7:
+
+		case 11:
+			kprintf("Undefined instruction exception happened but it is not implemented\n");
+			break;
+
+		case 33:
+			kprintf("Prefetch bort exception happened but it is not implemented\n");
+			break;
+
+		case 44:
+			kprintf("Data abort exception happened but it is not implemented\n");
+			break;
+
+		case 77:
 			kprintf("FIQ happened but it is not implemented\n");
+			break;
+
 		default:
 			kprintf("Kernel exited with error : %d\n", err_num);
 	}
