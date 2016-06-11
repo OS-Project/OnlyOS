@@ -51,35 +51,12 @@ _start:
 		ldr r0,=vector_table
 		mcr p15, #0, r0, c12, c0, #0
 
+		add r1, r0, #4 // Points to undefined_handler call in the vector table
+
 		ldr r0,=0x4030CE24 // p4913
-		ldr r1,=vector_table
-		add r1, r1, #4 // Reset handler not included
-
-		str r1, [r0]
-		add r0, r0, #4
-		add r1, r1, #4
-		str r1, [r0]
-		add r0, r0, #4
-		add r1, r1, #4
-		str r1, [r0]
-		add r0, r0, #4
-		add r1, r1, #4
-		str r1, [r0]
-		add r0, r0, #4
-		add r1, r1, #4
-		str r1, [r0]
-		add r0, r0, #4
-		add r1, r1, #4
-		str r1, [r0]
-		add r0, r0, #4
-		add r1, r1, #4
-		str r1, [r0]
-		add r0, r0, #4
-		add r1, r1, #4
-
-
-		//ldmia r1!, {r2-r8}
-		//stmia r0!, {r2-r8}
+		
+		ldmia r1!, {r2-r8}
+		stmia r0!, {r2-r8}
 
 	// Disable fiq. Enable irq
 	cpsie i
@@ -95,10 +72,4 @@ error:
 	mov r0, #1
 	b kexit
 
-.global set_vectorBaseAddr 
-set_vectorBaseAddr:
-	MCR     p15, #0, r0, c12, c0, #0
-	DSB
-	BX      lr
-.end
     
