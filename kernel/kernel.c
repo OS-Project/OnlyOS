@@ -22,7 +22,7 @@ int kmain()
     kinit();
     kprintf("B SVC\n");
 	INT_SVC_call(0,1,2,3);
-    kprintf("A SVC\n");
+    kprintf("%d\n", EXIT_SUCCESS);
     while(1);
     return EXIT_SUCCESS;
 }
@@ -39,7 +39,15 @@ int kinit()
 
 void kexit(int err_num)
 {
-    if (err_num) kprintf("Kernel exited with error : %d\n", err_num);
-    else kprintf("Kernel exited without error\n");
-    while(1);
+	switch (err_num)
+	{
+		case EXIT_SUCCESS:
+			kprintf("Kernel exited without error\n");
+			break;
+		case 7:
+			kprintf("FIQ happened but it is not implemented\n");
+		default:
+			kprintf("Kernel exited with error : %d\n", err_num);
+	}
+	while(1);
 }

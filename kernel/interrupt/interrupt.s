@@ -2,18 +2,22 @@
 .global vector_table
 vector_table:
 	b _start
-	ldr pc,=error // Undefined instruction
-	ldr pc,=svc_handler
-	ldr pc,=error // Prefetch abort
-	ldr pc,=error // Data abort
+	b error // Undefined instruction
+	b svc_handler
+	b error // Prefetch abort
+	b error // Data abort
 	nop
-	ldr pc,=irq_handler
-	ldr pc,=error // FIQ
+	b irq_handler
+	nop // FIQ
 
 .section ".text.interrupt_handler"
 .global svc_handler
 .global svc_asm_call
 .global irq_handler
+
+fiq_handler:
+	mov r0, #7
+	b error
 
 irq_handler:
         // Done auto: spsr = cpsr. Ref: p456

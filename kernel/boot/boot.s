@@ -69,7 +69,6 @@ _start:
 
 error:
 	cpsid i
-	mov r0, #1
 	b kexit
 
     
