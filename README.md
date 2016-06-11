@@ -3,7 +3,7 @@ The operating system
 
 # Kernel
 - [ ] kexit() or call to _exit() syscall ?
-- [ ] Disable interrupts in exit function
+- [x] Disable interrupts in exit function
 
 
 # Boot
@@ -20,14 +20,13 @@ The operating system
 
 
 # Interrupts/Exceptions handling
-- [ ] Interruption table: copied at boot.
-- [ ] Table format: .sections shows correct address (fiq_handler=0x1C + 4 = 0x20)
+- [x] Interruption table.
 - [x] Svc call.
 - [x] Svc handler
-- [ ] Abort handler
-- [ ] Undefined instruction handler
+- [x] Abort handler
+- [x] Undefined instruction handler
 - [ ] Irq handler
-- [ ] Fiq handler
+- [x] Fiq handler: print message.
 
 |    Value   | r0 Code       |     r1                     |   r2                   | return (r0)            |  
 | ---------- | ------------- | -------------------------- | ---------------------- | ---------------------- |  

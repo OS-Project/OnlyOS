@@ -34,12 +34,12 @@ _start:
         	mov sp, r0    
                  
 	bss_init:
-        	ldr	r0, =_sbss
-        	ldr	r1, =_ebss
+        	ldr r0, =_sbss
+        	ldr r1, =_ebss
         	cmp r0,r1
 
-        	beq call_main
-        	mov	r4, #0
+        	beq vector_init
+        	mov r4, #0
 
 		write_zero:
         		strb r4, [r0]
@@ -47,24 +47,21 @@ _start:
         		cmp r0, r1
 			bne write_zero
 
+	vector_init:
+		ldr r0,=vector_table
+		mcr p15, #0, r0, c12, c0, #0
+
+		add r1, r0, #4 // Points to undefined_handler call in the vector table
+
+		ldr r0,=0x4030CE24 // p4913
+		
+		ldmia r1!, {r2-r8}
+		stmia r0!, {r2-r8}
+
 	// Disable fiq. Enable irq
 	cpsie i
 	cpsid f
 
 	call_main:
 		ldr pc,=kmain
-		
-	// If kmain returns, exit with error
 
-error:
-	cpsid i
-	mov r0, #1
-	b kexit
-
-.global set_vectorBaseAddr 
-set_vectorBaseAddr:
-	MCR     p15, #0, r0, c12, c0, #0
-	DSB
-	BX      lr
-.end
-    
