@@ -20,9 +20,7 @@
 int kmain()
 {
    	kinit();
-	INT_SVC_call(0,1,2,3);
-    	while(1);
-    	return EXIT_SUCCESS;
+    	kexit(EXIT_SUCCESS);
 }
 
 
@@ -37,6 +35,8 @@ int kinit()
 
 void kexit(int err_num)
 {
+	// Disable irq
+	__asm__("cpsid i");
 	switch (err_num)
 	{
 		case EXIT_SUCCESS:
@@ -48,7 +48,7 @@ void kexit(int err_num)
 			break;
 
 		case 33:
-			kprintf("Prefetch bort exception happened but it is not implemented\n");
+			kprintf("Prefetch abort exception happened but it is not implemented\n");
 			break;
 
 		case 44:

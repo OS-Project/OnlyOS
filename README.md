@@ -3,7 +3,7 @@ The operating system
 
 # Kernel
 - [ ] kexit() or call to _exit() syscall ?
-- [ ] Disable interrupts in exit function
+- [x] Disable interrupts in exit function
 
 
 # Boot
@@ -23,8 +23,8 @@ The operating system
 - [x] Interruption table.
 - [x] Svc call.
 - [x] Svc handler
-- [ ] Abort handler
-- [ ] Undefined instruction handler
+- [x] Abort handler
+- [x] Undefined instruction handler
 - [ ] Irq handler
 - [x] Fiq handler: print message.
 

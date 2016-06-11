@@ -2,7 +2,7 @@
 .global vector_table
 vector_table:
 	b _start
-	b error // Undefined instruction
+	b undefined_handler // Undefined instruction
 	b svc_handler
 	b prefetch_handler // Prefetch abort
 	b data_handler // Data abort
@@ -15,7 +15,7 @@ vector_table:
 
 fiq_handler:
 	mov r0, #77
-	b error
+	b kexit
 
 irq_handler:
         // Done auto: spsr = cpsr. Ref: p456
@@ -42,15 +42,15 @@ irq_handler:
 
 prefetch_handler:
 	mov r0, #33
-	b error
+	b kexit
 
 data_handler:
 	mov r0, #44
-	b error
+	b kexit
 
 undefined_handler:
 	mov r0, #11
-	b error
+	b kexit
 
 svc_handler:
 	// Save context

@@ -64,11 +64,4 @@ _start:
 
 	call_main:
 		ldr pc,=kmain
-		
-	// If kmain returns, exit with error
 
-error:
-	cpsid i
-	b kexit
-
-    
