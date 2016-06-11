@@ -1,6 +1,7 @@
 .section ".text.vector_table"
+.global vector_table
 vector_table:
-	ldr pc,=_start
+	b _start
 	ldr pc,=error // Undefined instruction
 	ldr pc,=svc_handler
 	ldr pc,=error // Prefetch abort
