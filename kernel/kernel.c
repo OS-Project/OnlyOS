@@ -20,6 +20,9 @@
 int kmain()
 {
     kinit();
+    kprintf("B SVC\n");
+	INT_SVC_call(0,1,2,3);
+    kprintf("A SVC\n");
     while(1);
     return EXIT_SUCCESS;
 }
