@@ -1,13 +1,13 @@
 .section ".text.vector_table"
 vector_table:
 	ldr pc,=_start
-	b error // Undefined instruction
-	b svc_handler
-	b error // Prefetch abort
-	b error // Data abort
+	ldr pc,=error // Undefined instruction
+	ldr pc,=svc_handler
+	ldr pc,=error // Prefetch abort
+	ldr pc,=error // Data abort
 	nop
-	b irq_handler
-	b error // FIQ
+	ldr pc,=irq_handler
+	ldr pc,=error // FIQ
 
 .section ".text.interrupt_handler"
 .global svc_handler

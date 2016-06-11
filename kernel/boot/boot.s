@@ -3,8 +3,6 @@
 
 .include "kernel/boot/boot_header.h"
 .include "kernel/interrupt/interrupt.s"
-.equ VECTOR_TABLE_ADDR, 0x4030FC00
-
 
 .section ".text.boot"
 _start:	
@@ -54,12 +52,13 @@ _start:
 	cpsid f
 
 	// Vector table relocation
-	ldr r0,=VECTOR_TABLE_ADDR
+	ldr r0,=0x4030CE00 // p4913
 	mcr p15, #0, r0, c12, c0, #0
 	
 	ldr r1,=vector_table
-	ldmia r1!, {r2-r9}
-	stmia r0!, {r2-r9}
+	add r1, r1, #4 // Reset handler not included
+	ldmia r1!, {r2-r8}
+	stmia r0!, {r2-r8}
 
 	call_main:
 		ldr pc,=kmain
