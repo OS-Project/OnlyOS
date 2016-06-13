@@ -3,17 +3,14 @@
 #include "kernel/interrupt/interrupt.h"
 #include <kernel/kernel.h>
 
-
 /* Memory management */
 #include <kernel/memory/memory.h>
-/**
- *
- */
-void INT_SVC_handler(int r0, int r1, int r2, int r3)
+
+void INT_SVC_handler(unsigned int r0, unsigned int r1, unsigned int r2, unsigned int r3)
 {
     #ifdef DEBUG
         kprintf("SVC interrupt detected\n");
-	kprintf("SVC arguments: r0=%x, r1=%x, r2=%x, r3=%x\n", r0, r1, r2, r3);
+		kprintf("SVC arguments: r0=%x, r1=%x, r2=%x, r3=%x\n", r0, r1, r2, r3);
     #endif
 
 	switch (r0)
@@ -23,7 +20,7 @@ void INT_SVC_handler(int r0, int r1, int r2, int r3)
 			{
 				case 0x0:
 					kprintf("\nFatal Error : System aborted");
-					kexit();
+					kexit(0x00);
 					break;
 				default:
 					kprintf("Error exception: error number unknown.\n");
@@ -37,12 +34,20 @@ void INT_SVC_handler(int r0, int r1, int r2, int r3)
 			break;
 
 		case 0x00200:
-			/* minit */
+			minit(r1, r2);
 			break;
 
 		case 0x00201:
 			mmalloc(r1, mget_memory(r2));
+			break;
 
+		case 0x00202:
+			mcalloc(r1, r2, mget_memory(r3));
+			break;
+
+		case 0x00204:
+			mfree((void *)r1, mget_memory(r2));
+			break;
 
 		default:
 			kprintf("Unknown SVC call\n");

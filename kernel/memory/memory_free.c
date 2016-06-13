@@ -32,7 +32,7 @@ void mfree_block(MEMORY_BLOCK * block, MEMORY * memory)
             break;
         case 1:
             /* Erase the block */
-            merase_block(block, memory);
+            merase_block(block);
             mapper->nb_blocks--;
             break;
         default:
@@ -48,7 +48,7 @@ void mfree_block(MEMORY_BLOCK * block, MEMORY * memory)
                 kprintf("[Function : mfree] Blocks copied\n");
             #endif
 
-            merase_block(mget_last_block(memory), memory);
+            merase_block(mget_last_block(memory));
 
             #ifdef DEBUG_MEMORY
                 kprintf("[Function : mfree] Block erased\n");

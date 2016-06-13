@@ -16,6 +16,11 @@
 #include <utils/libbool.h>
 #include <utils/libtypes.h>
 
+int kmemory_init()
+{
+    return minit((unsigned int)&HEAP_START, (unsigned int)&HEAP_END);
+}
+
 caddr_t kmalloc(unsigned int size)
 {
     #ifdef DEBUG

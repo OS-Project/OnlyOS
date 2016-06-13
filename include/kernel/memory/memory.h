@@ -7,13 +7,6 @@
     /* General configuration */
     #define PAGE_SIZE (unsigned int)(8192) /* 8kB */
 
-    /* Define */
-    extern char _sheap;
-    extern char _eheap;
-
-    #define HEAP_START _sheap
-    #define HEAP_END _eheap
-
     typedef struct {
         unsigned int start_adress;
         unsigned int end_adress;
@@ -44,7 +37,7 @@
     } MEMORY;
 
     /* Memory functions */
-    int minit();
+    int minit(unsigned int _heap_start, unsigned int _heap_end);
     MEMORY * mget_memory(unsigned int heap_start);
 
     void mmemory_show(MEMORY * memory);
@@ -68,5 +61,5 @@
     MEMORY_BLOCK * mget_last_block(MEMORY * memory);
 
     unsigned int mget_block_number(MEMORY_BLOCK * block, MEMORY * memory);
-    void merase_block(MEMORY_BLOCK * block, MEMORY * memory);
+    void merase_block(MEMORY_BLOCK * block);
 #endif

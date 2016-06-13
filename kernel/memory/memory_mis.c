@@ -5,6 +5,7 @@
 
 /* Console */
 #include DRIVER_UART_PATH
+#include "../../include/kernel/memory/memory.h"
 
 /* Libs */
 #include <utils/libbool.h>
@@ -134,7 +135,6 @@ MEMORY_BLOCK * mfind_block(unsigned int ptr, MEMORY* memory)
 
 MEMORY_BLOCK* mcopy_block(MEMORY_BLOCK * destination_block, MEMORY_BLOCK * source_block)
 {
-
     destination_block->start_adress = source_block->start_adress;
     destination_block->end_adress = source_block->end_adress;
     destination_block->size = source_block->size;
@@ -165,18 +165,10 @@ MEMORY_BLOCK * mget_last_block(MEMORY * memory)
 
 unsigned int mget_block_number(MEMORY_BLOCK * block, MEMORY * memory)
 {
-    unsigned int k = 0;
-
-    /*
-    while (mget_block(k, memory)->start_adress != block->start_adress && k < mapper->nb_blocks)
-        k++;
-    */
-
-    k = ((unsigned int)block - memory->mapper->start_blocks_adress) / sizeof(MEMORY_BLOCK);
-    return k;
+    return ((unsigned int)block - memory->mapper->start_blocks_adress) / sizeof(MEMORY_BLOCK);
 }
 
-void merase_block(MEMORY_BLOCK * block, MEMORY * memory)
+void merase_block(MEMORY_BLOCK * block)
 {
     #ifdef DEBUG_MEMORY
         kprintf("    [Function : merase_block] Starting erasing 0x%p block\n", (unsigned int)(block));
@@ -184,6 +176,7 @@ void merase_block(MEMORY_BLOCK * block, MEMORY * memory)
     unsigned int i;
     char * byte;
 
+    /* Erase the block */
     for (i = 0; i < sizeof(MEMORY_BLOCK); i++) {
         byte = (char *)((unsigned int)(block) + i);
         *byte = 0x0;
@@ -193,6 +186,6 @@ void merase_block(MEMORY_BLOCK * block, MEMORY * memory)
     }
 
     #ifdef DEBUG_MEMORY
-        kprintf("    [Function : merase_block] Finished\n");
+        kprintf("        [Function : merase_block] Finished on memory\n");
     #endif
 }

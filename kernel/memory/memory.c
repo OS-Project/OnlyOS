@@ -9,13 +9,13 @@
 #include <utils/libbool.h>
 #include <utils/libtypes.h>
 
-int minit()
+int minit(unsigned int _heap_start, unsigned int _heap_end)
 {
-    #ifdef DEBUG_MEMORY
-        kprintf("[Memory] ### Start memory initialisation\n");
+    #if defined(DEBUG_MEMORY) || defined(DEBUG)
+        kprintf("[Memory] ### Start memory initialisation on 0x%p - 0x%p\n", _heap_start, _heap_end);
     #endif
 
-    unsigned int memory_size = (unsigned int)(&HEAP_END - &HEAP_START);
+    unsigned int memory_size = (unsigned int)(_heap_end - _heap_start);
 
     #ifdef DEBUG_MEMORY
         kprintf("[Memory] HEAP size : %d\n", memory_size);
@@ -34,16 +34,16 @@ int minit()
         kprintf("[Memory] Total block size : %d bytes\n\n", total_blocks_size);
     #endif
 
-    MEMORY *memory = (MEMORY *)(&HEAP_START);
-    MEMORY_MAPPER *memory_mapper = (MEMORY_MAPPER *)(&HEAP_START + sizeof(MEMORY));
+    MEMORY *memory = (MEMORY *)(_heap_start);
+    MEMORY_MAPPER *memory_mapper = (MEMORY_MAPPER *)(_heap_start + sizeof(MEMORY));
 
     /* MEMORY Configuration */
-    memory->start_adress = (unsigned int)(&HEAP_START);
-    memory->end_adress = (unsigned int)(&HEAP_END);
+    memory->start_adress = (unsigned int)(_heap_start);
+    memory->end_adress = (unsigned int)(_heap_end);
     memory->size = memory_size;
 
     /* MAPPER Configuration */
-    memory_mapper->start_adress = (unsigned int)(&HEAP_START) + sizeof(MEMORY);
+    memory_mapper->start_adress = (unsigned int)(_heap_start) + sizeof(MEMORY);
     memory_mapper->end_adress = memory_mapper->start_adress + sizeof(MEMORY_MAPPER) + total_blocks_size;
     memory_mapper->size = (unsigned int)(memory_mapper->end_adress) - (unsigned int)(memory_mapper->start_adress);
     memory_mapper->nb_blocks = (unsigned int)0;

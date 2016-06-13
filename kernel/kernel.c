@@ -16,6 +16,10 @@
 
 /* Interrupts */
 #include <kernel/interrupt/interrupt.h>
+#include "../include/kernel/memory/memory.h"
+
+MEMORY * _memory;
+MEMORY_MAPPER * _mapper;
 
 int kmain()
 {
@@ -63,9 +67,23 @@ int kinit()
     kprintf("[INIT] Move interrupt vector table\n");
     kinit_vector_table();
     kprintf("[INIT] Interrupt vector table moved\n");
+
+    kprintf("[INIT] Init memory\n");
+    _memory = kget_memory();
+    _mapper = _memory->mapper;
+
+    kmemory_init();
+    kprintf("[INIT] Kernel memory initialized \n");
+
+    kprintf("\n\n[Test] Scanf test\n");
+
+    int age=0;
+    kprintf("Quel age as-tu sale indien de merde ? ");
+    kscanf("%d", age);
+    kprintf("\n\nJe vois que tu as %d ans sale indien");
+
     return EXIT_SUCCESS;
 }
-
 
 void kexit(int err_num)
 {

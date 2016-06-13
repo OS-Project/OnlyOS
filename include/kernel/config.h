@@ -13,7 +13,7 @@ extern "C" {
 
     /* Config */
     #define DEBUG 1
-    #define DEBUG_MEMORY 1
+    //#define DEBUG_MEMORY 1
 
     /* Paths */
     #define DRIVER_UART_PATH "drivers/uart/uart.h"
@@ -23,6 +23,7 @@ extern "C" {
     #define EXIT_FAILURE (int)1
 
     #define kprintf UART_printf
+    #define kscanf UART_scanf
 #endif //ONLYOS_FILES_REFERENCES_H
 
 #ifdef __cplusplus
