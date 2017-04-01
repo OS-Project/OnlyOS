@@ -1,4 +1,0 @@
-boot/boot.o
-interrupt/interrupt.c
-kernel.c
-drivers/drivers.c
