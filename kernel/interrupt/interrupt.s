@@ -69,6 +69,6 @@ svc_handler:
 	msr cpsr, r1
         movs pc,lr
 
-svc_asm_call:	
+svc_asm_call:
 	svc #0
 	mov pc, lr

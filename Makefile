@@ -1,25 +1,30 @@
-# Created by Thibault PIANA
-# Creation : 19/12/2015
+#ROOT=.
+FILE_NAME = boot
+SUBDIRS = kernel
+LDFLAGS = -T build/linker.ld
+#include ${ROOT}/build/makedefs
 
-ROOT=.
-FILE_NAME = kernel
-include ${ROOT}/build/makedefs
+#SRC = ${shell python scripts/create_src_list.py}
+#OBJ = $(SRC:.c=.o)
 
-SRC = ${shell python scripts/create_src_list.py}
-OBJ = $(SRC:.c=.o)
-
-all: INIT_MAKE ${OBJ}
+all: $(SUBDIRS)
 	@echo "\n### Linkage des sources"
-	$(LD) -T ${LINKER_PATH} ${LDFLAGS} ${OBJ} -o ${FILE_NAME}.elf -lgcc
-	$(PREFIX)-objdump -D ${FILE_NAME}.elf > ${FILE_NAME}.list
-	$(PREFIX)-objcopy ${FILE_NAME}.elf -O srec ${FILE_NAME}.srec
-	$(PREFIX)-nm ${FILE_NAME}.elf -n > ${FILE_NAME}.sections
-	$(PREFIX)-objcopy ${FILE_NAME}.elf -O binary ${FILE_NAME}.bin
-	mv ${FILE_NAME}.bin boot.bin
+	#$(LD) -T ${LINKER_PATH} ${LDFLAGS} ${OBJ} -o ${FILE_NAME}.elf -lgcc
+	arm-none-eabi-ld $(LDFLAGS) kernel.out -o ${FILE_NAME}.elf
+	#arm-none-eabi-ld $(LDFLAGS) $(OBJS) -o ${FILE_NAME}.elf
+	arm-none-eabi-nm ${FILE_NAME}.elf -n > ${FILE_NAME}.sections
+	arm-none-eabi-objdump -D ${FILE_NAME}.elf > ${FILE_NAME}.list
+	arm-none-eabi-objcopy ${FILE_NAME}.elf -O srec ${FILE_NAME}.srec
+	arm-none-eabi-objcopy ${FILE_NAME}.elf -O binary ${FILE_NAME}.bin
 
-	@make clean
+
+# For each sub directory, call the makefile inside it.
+$(SUBDIRS):
+	$(MAKE) -C $@
 
 clean:
-	@rm -rf ${OBJ}
+	@rm ${FILE_NAME}.* *.out
 
-include ${ROOT}/build/makefuncs
+.PHONY: $(SUBDIRS)
+
+#include ${ROOT}/build/makefuncs

@@ -1,6 +1,16 @@
 # OnlyOS
 The operating system
 
+
+# Compilation instruction
+Each part of the os is a directory. The root Makefile call each subdir's Makefile, and then link everything together.
+
+
+# Todo
+Comment Makefiles.
+https://stackoverflow.com/questions/14880419/share-variables-between-makefiles  
+https://stackoverflow.com/questions/12697012/passing-variables-from-include-directive-to-sub-make
+
 # Kernel
 - [ ] kexit() or call to _exit() syscall ?
 - [x] Disable interrupts in exit function
@@ -28,12 +38,12 @@ The operating system
 - [ ] Irq handler
 - [x] Fiq handler: print message.
 
-|    Value   | r0 Code       |     r1                     |   r2                   | return (r0)            |  
-| ---------- | ------------- | -------------------------- | ---------------------- | ---------------------- |  
-| error      | 0x00000       |  Error number              | Undefined              | 0 if success, else 1   |  
-| UART_putc  | 0x00100       |  the char to push          | Null                   | 0 if success, else 1   |  
-| minit      | 0x00200       |  process heap_start adress | Null                   | 0 if success, else 1   |  
-| kmalloc    | 0x00201       |  process heap_start adress | Null                   | adress of memory block |  
+|    Value   | r0 Code       |     r1                     |   r2                   | return (r0)            |
+| ---------- | ------------- | -------------------------- | ---------------------- | ---------------------- |
+| error      | 0x00000       |  Error number              | Undefined              | 0 if success, else 1   |
+| UART_putc  | 0x00100       |  the char to push          | Null                   | 0 if success, else 1   |
+| minit      | 0x00200       |  process heap_start adress | Null                   | 0 if success, else 1   |
+| kmalloc    | 0x00201       |  process heap_start adress | Null                   | adress of memory block |
 
 
 # Filesystem driver
@@ -53,10 +63,10 @@ The operating system
 # Misc
 How to compile a new source ?
 -----------------------------
-Create a file "makesrc" in the directory of the source(s) file(s) and add the name of the sources inside.  
-The script will automaticaly reconize the files and compile them.  
+Create a file "makesrc" in the directory of the source(s) file(s) and add the name of the sources inside.
+The script will automaticaly reconize the files and compile them.
 
-Bugs for asm source files.  
+Bugs for asm source files.
 
 Questions
 ---------
@@ -71,4 +81,3 @@ How to compile newlib ?
 
 sources : https://gcc.gnu.org/ml/gcc-help/2012-08/msg00190.html
 ./configure --target=arm-none-eabi --enable-interwork --enable-multilib --with-newlib --disable-nls --disable-shared --disable-threads --with-gnu-ld --with-gnu-as --disable-libssp --disable-libmudflap --disable-libgomp --with-dwarf2 -v --disable-werror --with-cpu=cortex-a8 --with-mode=thumb --enable-target-optspace --with-fpu=fpv4-sp-d16 --with-float=soft --enable-languages=c,c++ --disable-newlib-multithread
-

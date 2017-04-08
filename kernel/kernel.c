@@ -20,15 +20,15 @@
 int kmain()
 {
    	kinit();
-    	kexit(EXIT_SUCCESS);
+    kexit(EXIT_SUCCESS);
 }
 
 
 int kinit()
 {
-    dinit(true);
+    //dinit(true);
     kprintf("[INIT] ### Drivers initialisation done\n");
-    kprintf("[INIT] ### Start memory initilisation\n");
+    //kprintf("[INIT] ### Start memory initilisation\n");
     return EXIT_SUCCESS;
 }
 
@@ -36,7 +36,7 @@ int kinit()
 void kexit(int err_num)
 {
 	// Disable irq
-	__asm__("cpsid i");
+	//__asm__("cpsid i");
 	switch (err_num)
 	{
 		case EXIT_SUCCESS:

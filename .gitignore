@@ -11,3 +11,4 @@ Compiled files
 *.sections
 *.srec
 *.swp
+*.out
