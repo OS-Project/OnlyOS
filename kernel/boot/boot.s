@@ -28,7 +28,7 @@
 .global error
 .global svc_asm_call
 
-.include "../interrupt/interrupt.s"
+.include "interrupt.s"
 
 .section ".text.boot"
 _start:

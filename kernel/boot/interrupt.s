@@ -12,6 +12,7 @@ vector_table:
 
 .section ".text.interrupt_handler"
 .global svc_asm_call
+.extern INT_IRQ_handler
 
 fiq_handler:
 	mov r0, #77
@@ -27,7 +28,7 @@ irq_handler:
         and r0, r0, #0b1111111 // Ref: p475
 
         // Branch table
-	ldr pc,=INT_IRQ_handler
+	    ldr pc,=INT_IRQ_handler
 
         // Interrupt has been taken care of. Enable new interrupts
         mov r0, #0x1
@@ -59,6 +60,7 @@ svc_handler:
 	stmfd sp!, {r4}
 
 	// Call the handler
+    // FIXME: use ldr?
 	bl INT_SVC_handler
 
 	// Restore context. Return argument is in r0.
