@@ -27,7 +27,7 @@ int kmain()
 int kinit()
 {
     //dinit(true);
-    kprintf("[INIT] ### Drivers initialisation done\n");
+    //kprintf("[INIT] ### Drivers initialisation done\n");
     //kprintf("[INIT] ### Start memory initilisation\n");
     return EXIT_SUCCESS;
 }
@@ -37,6 +37,7 @@ void kexit(int err_num)
 {
 	// Disable irq
 	//__asm__("cpsid i");
+    /*
 	switch (err_num)
 	{
 		case EXIT_SUCCESS:
@@ -63,4 +64,5 @@ void kexit(int err_num)
 			kprintf("Kernel exited with error : %d\n", err_num);
 	}
 	while(1);
+    */
 }

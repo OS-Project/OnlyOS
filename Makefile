@@ -9,9 +9,7 @@ LDFLAGS = -T build/linker.ld
 
 all: $(SUBDIRS)
 	@echo "\n### Linkage des sources"
-	#$(LD) -T ${LINKER_PATH} ${LDFLAGS} ${OBJ} -o ${FILE_NAME}.elf -lgcc
 	arm-none-eabi-ld $(LDFLAGS) kernel.out -o ${FILE_NAME}.elf
-	#arm-none-eabi-ld $(LDFLAGS) $(OBJS) -o ${FILE_NAME}.elf
 	arm-none-eabi-nm ${FILE_NAME}.elf -n > ${FILE_NAME}.sections
 	arm-none-eabi-objdump -D ${FILE_NAME}.elf > ${FILE_NAME}.list
 	arm-none-eabi-objcopy ${FILE_NAME}.elf -O srec ${FILE_NAME}.srec
