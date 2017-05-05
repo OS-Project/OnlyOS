@@ -7,6 +7,8 @@ Each part of the os is a directory. The root Makefile call each subdir's Makefil
 
 
 # Todo
+Remove arch dir.  
+Remove syscalls dir.  
 Comment Makefiles.
 https://stackoverflow.com/questions/14880419/share-variables-between-makefiles  
 https://stackoverflow.com/questions/12697012/passing-variables-from-include-directive-to-sub-make
