@@ -1,14 +1,11 @@
 # OnlyOS
 The operating system
 
-
 # Compilation instruction
 Each part of the os is a directory. The root Makefile call each subdir's Makefile, and then link everything together.
 
 
 # Todo
-Remove arch dir.  
-Remove syscalls dir.  
 Comment Makefiles.
 https://stackoverflow.com/questions/14880419/share-variables-between-makefiles  
 https://stackoverflow.com/questions/12697012/passing-variables-from-include-directive-to-sub-make
@@ -26,9 +23,14 @@ https://stackoverflow.com/questions/12697012/passing-variables-from-include-dire
 - [x] Init stacks for all modes. Stack sizes in boot.s must match the linker script.
 - [x] Clear .bss section.
 - [x] Call main function: do not use branch. Address may be out of range.
-- [x] Linker script.
 - [ ] Prefetch abort and data abort modes differences?
 - [ ] Branch prediction p59 Cortex Guide.
+
+# Linker script
+- [ ] Output arch options in linker script
+- [ ] Program entry-point details: is it a symbol?
+- [ ] Stack sizes justification.  
+- [ ] 
 
 
 # Interrupts/Exceptions handling

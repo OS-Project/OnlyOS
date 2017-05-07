@@ -1,4 +1,4 @@
-CFLAGS=-I ../include -c
+CFLAGS=-I ../include -c -nodefaultlibs -nostdlib -nostartfiles -ffreestanding -mcpu=cortex-a8 -march=armv7-a -pedantic -Wextra -std=c99 -O0
 SUBDIRS = boot interrupt
 FILE_NAME = kernel
 

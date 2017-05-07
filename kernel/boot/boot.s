@@ -88,5 +88,9 @@ _start:
 	cpsie i
 	cpsid f
 
+    mov r1, #'!'
+    ldr r0, =0x44e09000
+    strb r1, [r0]
+
 	call_main:
 		ldr pc,=kmain

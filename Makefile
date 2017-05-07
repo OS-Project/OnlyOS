@@ -1,7 +1,7 @@
 #ROOT=.
 FILE_NAME = boot
 SUBDIRS = kernel
-LDFLAGS = -T build/linker.ld
+LDFLAGS = -T linker.ld -nodefaultlibs -nostdlib -nostartfiles
 #include ${ROOT}/build/makedefs
 
 #SRC = ${shell python scripts/create_src_list.py}
