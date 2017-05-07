@@ -30,7 +30,7 @@ https://stackoverflow.com/questions/12697012/passing-variables-from-include-dire
 - [ ] Output arch options in linker script
 - [ ] Program entry-point details: is it a symbol?
 - [ ] Stack sizes justification.  
-- [ ] 
+- [ ]
 
 
 # Interrupts/Exceptions handling

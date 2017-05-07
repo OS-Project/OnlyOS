@@ -88,6 +88,7 @@ _start:
 	cpsie i
 	cpsid f
 
+    // Sign of life.
     mov r1, #'!'
     ldr r0, =0x44e09000
     strb r1, [r0]
